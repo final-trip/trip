@@ -28,7 +28,7 @@ public class MountainServiceImpl implements MountainService {
 	@Override
 	public void addmountain(MountainDto mountainDto) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		mountainMapper.addmountain(mountainDto);
 	}
 
 	@Override
