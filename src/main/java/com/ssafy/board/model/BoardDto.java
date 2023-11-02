@@ -19,21 +19,27 @@ import lombok.ToString;
 @ApiModel(value = "BoardDto (게시판정보)", description = "게시판 내용을 가진   Domain Class")
 
 public class BoardDto {
+	
 	@ApiModelProperty(value = "게시판 번호")
 	private int articleNo;
+	
 	@ApiModelProperty(value = "유저 번호")
 	private String userId;
-	@ApiModelProperty(value = "게시판 번호")
+	
+	@ApiModelProperty(value = "유저 이름")
 	private String userName;
-	@ApiModelProperty(value = "게시판 번호")
+
+	@ApiModelProperty(value = "게시판 제목")
 	private String subject;
-	@ApiModelProperty(value = "게시판 번호")
+	
+	@ApiModelProperty(value = "게시판 내용")
 	private String content;
-	@ApiModelProperty(value = "게시판 번호")
-	private int hit;
+	
 	@ApiModelProperty(value = "게시판 번호")
 	private String registerTime;
-	@ApiModelProperty(value = "게시판 번호")
+	
+
+	@ApiModelProperty(value = "게시판 파일")
 	private List<FileInfoDto> fileInfos;
 
 }
