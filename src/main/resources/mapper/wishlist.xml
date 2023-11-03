@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ssafy.wishlist.model.mapper.WishListMapper">
+
+	<resultMap type="wishListDto" id="wishlist">
+
+		<result column="wish_list_id" property="wish_list_id" />
+		<result column="userId" property="userId" />
+	</resultMap>
+
+
+	<insert id="addwishlist" parameterType="String">
+		insert into
+		wish_list(wish_list_id
+		,userId)
+		values(#{wish_list_id},#{userId})
+	</insert>
+
+	<insert id="addwishlistmountain" parameterType="String">
+		insert into
+		wish_list_mountains(wish_list_id
+		,mntilistno)
+		values(#{wish_list_id},#{mntilistno})
+	</insert>
+
+</mapper>
