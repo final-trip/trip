@@ -51,7 +51,7 @@
 		WHERE mntilistno
 		NOT IN (
 		SELECT mm.mntilistno FROM membermountain mm
-		WHERE mm.memberid
+		WHERE mm.member_id
 		= #{memberid}
 		)
 		ORDER BY mntihigh ASC
@@ -63,7 +63,7 @@
 		WHERE mntilistno NOT IN (
 		SELECT
 		mm.mntilistno FROM membermountain mm
-		WHERE mm.memberid = #{memberid}
+		WHERE mm.member_id = #{memberid}
 		)
 		ORDER BY
 		DISTANCE_TO_MEMBER_FUNCTION(mntilistno, #{memberid})
