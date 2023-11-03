@@ -5,23 +5,31 @@
 <mapper namespace="com.ssafy.board.model.mapper.BoardMapper">
 
 	<resultMap type="boardDto" id="article">
-		<result column="article_no" property="articleNo"/>
-		<result column="user_id" property="userId"/>
-		<result column="user_name" property="userName"/>
-		<result column="subject" property="subject"/>
-		<result column="content" property="content"/>
-		<result column="hit" property="hit"/>
-		<result column="register_time" property="registerTime"/>
+
+
+		<result column="articleNo" property="articleNo" />
+		<result column="userId" property="userId" />
+		<result column="userName" property="userName" />
+		<result column="subject" property="subject" />
+		<result column="content" property="content" />
+		<result column="registerTime" property="registerTime" />
+	
+
 	</resultMap>
 	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
-		<collection property="fileInfos" column="article_no" javaType="list" ofType="fileInfoDto" select="fileInfoList"/>
+
+		<collection property="fileInfos" ofType="fileInfoDto"
+			javaType="list" select="fileInfoList"  column="board_id" />
+
 	</resultMap>
 	
 	<resultMap type="fileInfoDto" id="file">
-		<result column="save_folder" property="saveFolder"/>
-		<result column="original_file" property="originalFile"/>
-		<result column="save_file" property="saveFile"/>
+
+		<result column="save_folder" property="save_folder" />
+		<result column="original_file" property="original_file" />
+		<result column="save_file" property="save_file" />
+
 	</resultMap>
 
 	<insert id="writeArticle" parameterType="boardDto">
@@ -33,12 +41,22 @@
 	</insert>
 	
 	<insert id="registerFile" parameterType="boardDto">
-		insert into file_info (article_no, save_folder, original_file, save_file)
+		insert into file_info (file_info_id, board_id, save_folder,
+		original_file, save_file)
 		values
-		<foreach collection="fileInfos" item="fileinfo" separator=" , ">
-			(#{articleNo}, #{fileinfo.saveFolder}, #{fileinfo.originalFile}, #{fileinfo.saveFile})
+
+		<foreach collection="fileInfos" item="fileinfo" separator=",">
+			(#{fileinfo.file_info_id}, #{fileinfo.board_id},
+			#{fileinfo.save_folder}, #{fileinfo.original_file},
+			#{fileinfo.save_file})
 		</foreach>
 	</insert>
+
+
+	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
+		( file_info_id , board_id , save_folder, original_file , save_file ) values 
+		<foreach collection="fileInfos" item="fileinfo" separator=" , "> (#{fileinfo.file_info_id}, 
+		#{fileinfo.board_id}, #{fileinfo.type} ) </foreach> </insert> -->
 
 	<sql id="search">
 		<if test="word != null and word != ''">
@@ -67,18 +85,21 @@
 			<include refid="search"></include>
 		</where>
 	</select>
-	
-	<select id="getArticle" parameterType="int" resultMap="viewArticle">
-		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, m.user_name 
+	<select id="getArticle" parameterType="int"
+		resultMap="viewArticle">
+		select b.article_no, b.userId, b.subject, b.content, b.hit,
+		b.register_time, m.user_name
 		from board b, members m
-		where b.user_id = m.user_id
-		and b.article_no = #{articleNo}
+		where b.userId =
+		m.userId
+		and b.article_no =
+		#{articleNo}
 	</select>
 	
 	<select id="fileInfoList" resultMap="file">
 		select save_folder, original_file, save_file
 		from file_info
-		where article_no = #{articleNo}
+		where board_id = #{board_id}
 	</select>
 	
 	<update id="updateHit" parameterType="int">

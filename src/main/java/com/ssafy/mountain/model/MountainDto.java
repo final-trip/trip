@@ -16,6 +16,9 @@ public class MountainDto {
 	@ApiModelProperty(value = "산 일련 번호")
 	private int mntilistno;
 
+	@ApiModelProperty(value = "산정복한 사람")
+	private String memberid;
+	
 	@ApiModelProperty(value = "산 이름")
 	private String mntiname;
 
@@ -36,4 +39,7 @@ public class MountainDto {
 
 	@ApiModelProperty(value = "산 이미지 URL")
 	private String mntiimg;
+
+	@ApiModelProperty(value = "산 정복한숫자")
+	private int memberconquerednum;
 }

@@ -16,8 +16,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@ApiModel(value = "BoardDto (게시판정보)", description = "게시판 내용을 가진   Domain Class")
 
+@ApiModel(value = "BoardDto (게시판정보)", description = "게시판 내용을 가진 Domain Class")
 public class BoardDto {
 	
 	@ApiModelProperty(value = "게시판 번호")
