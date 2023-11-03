@@ -11,10 +11,10 @@ import com.ssafy.member.model.mapper.MemberMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-	
+
 //	@Autowired
 //	private SqlSession sqlSession;
-	
+
 	private MemberMapper memberMapper;
 
 	@Autowired
@@ -40,11 +40,11 @@ public class MemberServiceImpl implements MemberService {
 //		return sqlSession.getMapper(MemberMapper.class).loginMember(map);
 		return memberMapper.loginMember(map);
 	}
-	
+
 	/* ADMIN */
 	@Override
-	public List<MemberDto> listMember(Map<String, Object> map) throws Exception {
-		return memberMapper.listMember(map);
+	public List<MemberDto> listMember() throws Exception {
+		return memberMapper.listMember();
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public void deleteMember(String userId) throws Exception {
-		memberMapper.deleteMember(userId);		
+		memberMapper.deleteMember(userId);
 	}
 
 }

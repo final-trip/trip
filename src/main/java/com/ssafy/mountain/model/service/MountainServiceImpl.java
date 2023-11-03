@@ -28,27 +28,31 @@ public class MountainServiceImpl implements MountainService {
 	@Override
 	public void addmountain(MountainDto mountainDto) throws SQLException {
 		// TODO Auto-generated method stub
-		mountainMapper.addmountain(mountainDto);
+		mountainMapper.AddMountain(mountainDto);
 	}
 
 	@Override
-	public List<MountainDto> getUnconqueredMountains(MemberDto memberDto) throws SQLException {
+	public List<MountainDto> getUnconqueredMountains(int memberid) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return 	mountainMapper.getUnconqueredMountains(memberid);
 	}
 
 	@Override
-	public List<MountainDto> getUnconqueredMountainsAscendingByHeight(MemberDto memberDto) throws SQLException {
+	public List<MountainDto> getUnconqueredMountainsAscendingByHeight(int memberid) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return mountainMapper.getUnconqueredMountainsAscendingByHeight(memberid);
 	}
 
 	@Override
-	public List<MountainDto> getNearestUnconqueredMountains(MemberDto memberDto) throws SQLException {
+	public List<MountainDto> getNearestUnconqueredMountains(int memberid) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return mountainMapper.getNearestUnconqueredMountains(memberid);
 	}
-	
-	
+
+	@Override
+	public List<MountainDto> allmountains() throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getAllMountains();
+	}
 
 }

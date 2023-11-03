@@ -32,8 +32,9 @@ public class SwaggerConfiguration {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).consumes(getConsumeContentTypes())
 				.produces(getProduceContentTypes()).apiInfo(apiInfo()).groupName(version).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ssafy.admin.controller"),
-						 RequestHandlerSelectors.basePackage("com.ssafy.board.controller") )
+				.apis(RequestHandlerSelectors.basePackage("com.ssafy.admin.controller")
+//						 RequestHandlerSelectors.basePackage("com.ssafy.board.controller")
+						 )
 				.paths(regex("/admin/.*")
 				).build().useDefaultResponseMessages(false);
 	}
