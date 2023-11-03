@@ -24,8 +24,7 @@ public class MountainServiceImpl implements MountainService {
 		super();
 		this.mountainMapper = mountainMapper;
 	}
-	
-	
+
 	@Override
 	public void addmountain(MountainDto mountainDto) throws SQLException {
 		// TODO Auto-generated method stub
@@ -68,11 +67,17 @@ public class MountainServiceImpl implements MountainService {
 		mountainMapper.Updateconquerednum(mntilistno);
 	}
 
-
 	@Override
 	public int IsconqueredMountain(String memberid, int mntilistno) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.IsconqueredMountain(memberid, mntilistno);
+	}
+
+	@Override
+	public void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException {
+		// TODO Auto-generated method stub
+		mountainMapper.Updateconquerednumofmountain(memberId, mntilistno);
+
 	}
 
 }

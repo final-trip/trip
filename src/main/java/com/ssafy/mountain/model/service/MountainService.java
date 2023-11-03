@@ -29,4 +29,6 @@ public interface MountainService {
 
 	int IsconqueredMountain(String memberid,int mntilistno) throws SQLException;
 
+	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
+
 }

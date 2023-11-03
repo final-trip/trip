@@ -35,6 +35,9 @@
 		VALUES (
 		#{memberid}, #{mntilistno},1)
 	</insert>
+	 
+
+
 
 	<select id="getUnconqueredMountains" parameterType="int"
 		resultMap="mountainResultMap">
@@ -74,18 +77,26 @@
 	<select id="getAllMountains" resultMap="mountainResultMap">
 		SELECT * FROM mountain
 	</select>
-	
-	<select id="IsconqueredMountain" resultType="int" parameterType="com.ssafy.mountain.model.MountainDto">
-		 select count(*) 
-		 from membermountain mm
-		 where mm.userId=#{memberid} and mm.mntilistno=#{mntilistno}
+
+	<select id="IsconqueredMountain" resultType="int"
+		parameterType="com.ssafy.mountain.model.MountainDto">
+		select count(*)
+		from membermountain mm
+		where
+		mm.userId=#{memberid} and mm.mntilistno=#{mntilistno}
 	</select>
-	
+
 	<update id="Updateconquerednum">
 		update mountain set
 		mnticonquerednum=mnticonquerednum+1 where
 		mntilistno=#{mntilistno}
 	</update>
 
+	<update id="Updateconquerednumofmountain">
+		update membermountain set  
+		memberconquerednum=memberconquerednum+1 where
+		mntilistno=#{mntilistno} and
+		userId=#{memberid}
+	</update>
 
 </mapper>
