@@ -38,6 +38,17 @@ public class Mountaincontroller {
 		}
 	}
 
+	@PostMapping("/add/conqueredMountain")
+	public ResponseEntity<String> AddconqueredMountain(@RequestParam("memberId") int memberId,
+			@RequestParam("mntilistno") int mntilistno) {
+		try {
+			mountainservice.AddConqueredMountain(memberId, mntilistno);
+			return ResponseEntity.status(HttpStatus.CREATED).body("Mountain added successfully");
+		} catch (SQLException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add mountain");
+		}
+	}
+
 	@GetMapping("/unconquered")
 	public ResponseEntity<List<MountainDto>> getUnconqueredMountains(@RequestParam("memberId") int memberId) {
 		try {

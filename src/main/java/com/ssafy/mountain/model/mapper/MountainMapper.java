@@ -26,4 +26,6 @@ public interface MountainMapper {
 
 	List<MountainDto> getAllMountains() throws SQLException;
 
+	void AddConqueredMountain(int memberid, int mntilistno);
+
 }
