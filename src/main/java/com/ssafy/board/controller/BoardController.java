@@ -16,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,13 +38,13 @@ public class BoardController {
 
 	private final Logger logger = LoggerFactory.getLogger(BoardController.class);
 //	private final String UPLOAD_PATH = "/upload";
-
+	
 	@Value("${file.path}")
 	private String uploadPath;
-
+	
 	@Value("${file.path.upload-images}")
 	private String uploadImagePath;
-
+	
 	@Value("${file.path.upload-files}")
 	private String uploadFilePath;
 
@@ -60,16 +58,25 @@ public class BoardController {
 		this.boardService = boardService;
 	}
 
+	@GetMapping("/write")
+	public String write(@RequestParam Map<String, String> map, Model model) {
+		logger.debug("write call parameter {}", map);
+		model.addAttribute("pgno", map.get("pgno"));
+		model.addAttribute("key", map.get("key"));
+		model.addAttribute("word", map.get("word"));
+		return "board/write";
+	}
+
 	@PostMapping("/write")
-	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,
-			HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+	public String write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files, HttpSession session,
+			RedirectAttributes redirectAttributes) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
 		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
-		boardDto.setMember_id(memberDto.getUserId());
+		boardDto.setUserId(memberDto.getUserId());
 
+		
 //		FileUpload 관련 설정.
-		logger.debug("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath,
-				uploadFilePath);
+		logger.debug("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath, uploadFilePath);
 		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
 		if (!files[0].isEmpty()) {
 //			String realPath = servletContext.getRealPath(UPLOAD_PATH);
@@ -84,15 +91,12 @@ public class BoardController {
 			for (MultipartFile mfile : files) {
 				FileInfoDto fileInfoDto = new FileInfoDto();
 				String originalFileName = mfile.getOriginalFilename();
-				String file_path = mfile.getOriginalFilename();
-
 				if (!originalFileName.isEmpty()) {
 					String saveFileName = UUID.randomUUID().toString()
 							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-//					fileInfoDto.setSaveFolder(today);
-//					fileInfoDto.setOriginalFile(originalFileName);
-//					fileInfoDto.setSaveFile(saveFileName);
-					fileInfoDto.setFile_path(saveFileName);
+					fileInfoDto.setSaveFolder(today);
+					fileInfoDto.setOriginalFile(originalFileName);
+					fileInfoDto.setSaveFile(saveFileName);
 					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
 					mfile.transferTo(new File(folder, saveFileName));
 				}
@@ -105,8 +109,7 @@ public class BoardController {
 		redirectAttributes.addAttribute("pgno", "1");
 		redirectAttributes.addAttribute("key", "");
 		redirectAttributes.addAttribute("word", "");
-		return ResponseEntity.status(HttpStatus.CREATED).body("record added successfully");
-		
+		return "redirect:/article/list";
 	}
 
 	@GetMapping("/list")

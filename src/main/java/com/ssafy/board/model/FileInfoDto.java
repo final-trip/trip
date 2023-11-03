@@ -1,16 +1,33 @@
 package com.ssafy.board.model;
 
-import lombok.Data;
-import lombok.Getter;
-
-@Data
 public class FileInfoDto {
-	private int file_info_id;
-	private int board_id;
-	private String type;
-	private String file_path;
-	private String save_folder;
-	private String original_file;
-	private String save_file;
+
+	private String saveFolder;
+	private String originalFile;
+	private String saveFile;
+
+	public String getSaveFolder() {
+		return saveFolder;
+	}
+
+	public void setSaveFolder(String saveFolder) {
+		this.saveFolder = saveFolder;
+	}
+
+	public String getOriginalFile() {
+		return originalFile;
+	}
+
+	public void setOriginalFile(String originalFile) {
+		this.originalFile = originalFile;
+	}
+
+	public String getSaveFile() {
+		return saveFile;
+	}
+
+	public void setSaveFile(String saveFile) {
+		this.saveFile = saveFile;
+	}
 
 }

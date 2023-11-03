@@ -35,7 +35,7 @@
 		VALUES (
 		#{memberid}, #{mntilistno},1)
 	</insert>
-	 
+
 
 
 
@@ -44,7 +44,7 @@
 		SELECT * FROM mountain
 		WHERE mntilistno NOT IN (
 		SELECT
-		mm.mntilistno FROM membermountain mm
+		mm.mntilistno FROM member_mountains mm
 		WHERE mm.memberid = #{memberid}
 		)
 	</select>
@@ -68,7 +68,8 @@
 		WHERE mntilistno NOT IN (
 		SELECT
 		mm.mntilistno FROM membermountain mm
-		WHERE mm.userId = #{memberid}
+		WHERE
+		mm.userId = #{memberid}
 		)
 		ORDER BY
 		DISTANCE_TO_MEMBER_FUNCTION(mntilistno, #{memberid})
@@ -78,6 +79,7 @@
 		SELECT * FROM mountain
 	</select>
 
+
 	<select id="IsconqueredMountain" resultType="int"
 		parameterType="com.ssafy.mountain.model.MountainDto">
 		select count(*)
@@ -86,6 +88,16 @@
 		mm.userId=#{memberid} and mm.mntilistno=#{mntilistno}
 	</select>
 
+
+	<select id="getSearchResult" parameterType="String"
+		resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE mntiname LIKE CONCAT('%',
+		#{word}, '%')
+	</select>
+
+
+
 	<update id="Updateconquerednum">
 		update mountain set
 		mnticonquerednum=mnticonquerednum+1 where
@@ -93,10 +105,12 @@
 	</update>
 
 	<update id="Updateconquerednumofmountain">
-		update membermountain set  
+		update membermountain set
 		memberconquerednum=memberconquerednum+1 where
-		mntilistno=#{mntilistno} and
+		mntilistno=#{mntilistno}
+		and
 		userId=#{memberid}
 	</update>
+
 
 </mapper>
