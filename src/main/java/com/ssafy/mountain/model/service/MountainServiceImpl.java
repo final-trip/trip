@@ -34,7 +34,7 @@ public class MountainServiceImpl implements MountainService {
 	@Override
 	public List<MountainDto> getUnconqueredMountains(int memberid) throws SQLException {
 		// TODO Auto-generated method stub
-		return mountainMapper.getUnconqueredMountains(memberid);
+		return 	mountainMapper.getUnconqueredMountains(memberid);
 	}
 
 	@Override
@@ -56,9 +56,9 @@ public class MountainServiceImpl implements MountainService {
 	}
 
 	@Override
-	public void AddConqueredMountain(int memberid, int mntilistno) throws SQLException {
+	public List<MountainDto> getSearchResult(String word) throws SQLException {
 		// TODO Auto-generated method stub
-		mountainMapper.AddConqueredMountain(memberid, mntilistno);
+		return mountainMapper.getSearchResult(word);
 	}
 
 }

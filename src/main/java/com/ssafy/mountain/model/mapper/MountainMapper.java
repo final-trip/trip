@@ -25,7 +25,6 @@ public interface MountainMapper {
 	List<MountainDto> getNearestUnconqueredMountains(int memberid) throws SQLException;
 
 	List<MountainDto> getAllMountains() throws SQLException;
-
-	void AddConqueredMountain(int memberid, int mntilistno);
-
+	
+	List<MountainDto> getSearchResult(String word) throws SQLException;
 }
