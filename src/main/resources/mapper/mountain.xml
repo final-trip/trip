@@ -30,9 +30,10 @@
 
 	<insert id="AddConqueredMountain"
 		parameterType="com.ssafy.mountain.model.MountainDto">
-		INSERT INTO membermountain ( member_id ,
-		mntilistno)
-		VALUES ( #{memberid}, #{mntilistno})
+		INSERT INTO membermountain ( userId ,
+		mntilistno,memberconquerednum)
+		VALUES (
+		#{memberid}, #{mntilistno},1)
 	</insert>
 
 	<select id="getUnconqueredMountains" parameterType="int"
@@ -51,8 +52,9 @@
 		WHERE mntilistno
 		NOT IN (
 		SELECT mm.mntilistno FROM membermountain mm
-		WHERE mm.member_id
-		= #{memberid}
+		WHERE mm.userId
+		=
+		#{memberid}
 		)
 		ORDER BY mntihigh ASC
 	</select>
@@ -63,7 +65,7 @@
 		WHERE mntilistno NOT IN (
 		SELECT
 		mm.mntilistno FROM membermountain mm
-		WHERE mm.member_id = #{memberid}
+		WHERE mm.userId = #{memberid}
 		)
 		ORDER BY
 		DISTANCE_TO_MEMBER_FUNCTION(mntilistno, #{memberid})
@@ -72,5 +74,18 @@
 	<select id="getAllMountains" resultMap="mountainResultMap">
 		SELECT * FROM mountain
 	</select>
+	
+	<select id="IsconqueredMountain" resultType="int" parameterType="com.ssafy.mountain.model.MountainDto">
+		 select count(*) 
+		 from membermountain mm
+		 where mm.userId=#{memberid} and mm.mntilistno=#{mntilistno}
+	</select>
+	
+	<update id="Updateconquerednum">
+		update mountain set
+		mnticonquerednum=mnticonquerednum+1 where
+		mntilistno=#{mntilistno}
+	</update>
+
 
 </mapper>

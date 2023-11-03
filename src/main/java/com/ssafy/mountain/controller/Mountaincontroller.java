@@ -1,6 +1,5 @@
 package com.ssafy.mountain.controller;
 
- 
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -55,10 +54,18 @@ public class Mountaincontroller {
 			@ApiResponse(code = 404, message = "Failed to add mountain"),
 			@ApiResponse(code = 500, message = "서버에러!!") })
 	@PostMapping("/add/conqueredMountain")
-	public ResponseEntity<String> AddconqueredMountain(@RequestParam("memberId") int memberId,
+	public ResponseEntity<String> AddconqueredMountain(@RequestParam("memberId") String memberId,
 			@RequestParam("mntilistno") int mntilistno) {
 		try {
-			mountainservice.AddConqueredMountain(memberId, mntilistno);
+
+			if (mountainservice.IsconqueredMountain(memberId, mntilistno) == 1) {
+				mountainservice.Updateconquerednum(mntilistno);
+
+			} else {
+
+				mountainservice.AddConqueredMountain(memberId, mntilistno);
+			}
+
 			return ResponseEntity.status(HttpStatus.CREATED).body("Mountain added successfully");
 		} catch (SQLException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add mountain");
@@ -68,7 +75,7 @@ public class Mountaincontroller {
 	@ApiOperation(value = "아직 정복하지 않은 산 목록 가져오기", notes = "회원이 아직 정복하지 않은 산 목록을 가져온다.")
 
 	@GetMapping("/unconquered")
-	public ResponseEntity<List<MountainDto>> getUnconqueredMountains(@RequestParam("memberId") int memberId) {
+	public ResponseEntity<List<MountainDto>> getUnconqueredMountains(@RequestParam("memberId") String memberId) {
 		try {
 			List<MountainDto> unconqueredMountains = mountainservice.getUnconqueredMountains(memberId);
 			return ResponseEntity.ok(unconqueredMountains);
@@ -89,7 +96,7 @@ public class Mountaincontroller {
 
 	@GetMapping("/unconquered/ascending")
 	public ResponseEntity<List<MountainDto>> getUnconqueredMountainsAscendingByHeight(
-			@RequestParam("memberId") int memberId) {
+			@RequestParam("memberId") String memberId) {
 		try {
 			List<MountainDto> unconqueredMountainsAscending = mountainservice
 					.getUnconqueredMountainsAscendingByHeight(memberId);
@@ -102,7 +109,7 @@ public class Mountaincontroller {
 	@ApiOperation(value = "아직 정복하지 않은 산 중 가장 가까운 산 목록 가져오기", notes = "회원이 아직 정복하지 않은 산 중에서 가장 가까운 산 목록을 가져온다.")
 
 	@GetMapping("/unconquered/nearest")
-	public ResponseEntity<List<MountainDto>> getNearestUnconqueredMountains(@RequestParam("memberId") int memberId) {
+	public ResponseEntity<List<MountainDto>> getNearestUnconqueredMountains(@RequestParam("memberId") String memberId) {
 		try {
 			List<MountainDto> nearestUnconqueredMountains = mountainservice.getNearestUnconqueredMountains(memberId);
 			return ResponseEntity.ok(nearestUnconqueredMountains);

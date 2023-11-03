@@ -24,7 +24,8 @@ public class MountainServiceImpl implements MountainService {
 		super();
 		this.mountainMapper = mountainMapper;
 	}
-
+	
+	
 	@Override
 	public void addmountain(MountainDto mountainDto) throws SQLException {
 		// TODO Auto-generated method stub
@@ -32,19 +33,19 @@ public class MountainServiceImpl implements MountainService {
 	}
 
 	@Override
-	public List<MountainDto> getUnconqueredMountains(int memberid) throws SQLException {
+	public List<MountainDto> getUnconqueredMountains(String memberid) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getUnconqueredMountains(memberid);
 	}
 
 	@Override
-	public List<MountainDto> getUnconqueredMountainsAscendingByHeight(int memberid) throws SQLException {
+	public List<MountainDto> getUnconqueredMountainsAscendingByHeight(String memberid) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getUnconqueredMountainsAscendingByHeight(memberid);
 	}
 
 	@Override
-	public List<MountainDto> getNearestUnconqueredMountains(int memberid) throws SQLException {
+	public List<MountainDto> getNearestUnconqueredMountains(String memberid) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getNearestUnconqueredMountains(memberid);
 	}
@@ -56,9 +57,22 @@ public class MountainServiceImpl implements MountainService {
 	}
 
 	@Override
-	public void AddConqueredMountain(int memberid, int mntilistno) throws SQLException {
+	public void AddConqueredMountain(String userId, int mntilistno) throws SQLException {
 		// TODO Auto-generated method stub
-		mountainMapper.AddConqueredMountain(memberid, mntilistno);
+		mountainMapper.AddConqueredMountain(userId, mntilistno);
+	}
+
+	@Override
+	public void Updateconquerednum(int mntilistno) throws SQLException {
+		// TODO Auto-generated method stub
+		mountainMapper.Updateconquerednum(mntilistno);
+	}
+
+
+	@Override
+	public int IsconqueredMountain(String memberid, int mntilistno) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.IsconqueredMountain(memberid, mntilistno);
 	}
 
 }
