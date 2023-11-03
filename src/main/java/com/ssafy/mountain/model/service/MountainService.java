@@ -33,9 +33,7 @@ public interface MountainService {
 
 	int IsconqueredMountain(String memberid,int mntilistno) throws SQLException;
 
-<<<<<<< HEAD
-	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
-=======
->>>>>>> 20e22dbbf1e627307f74c608082ebaab61906728
+ 	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
+ 
 
 }

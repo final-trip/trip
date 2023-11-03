@@ -67,7 +67,7 @@ public class Mountaincontroller {
 				System.out.println("addd" + mntilistno);
 				mountainservice.AddConqueredMountain(memberId, mntilistno);
 				mountainservice.Updateconquerednum(mntilistno);
-				
+
 			}
 
 			return ResponseEntity.status(HttpStatus.CREATED).body("Mountain added successfully");
@@ -122,6 +122,15 @@ public class Mountaincontroller {
 		}
 	}
 
+	@GetMapping("/search")
+	public ResponseEntity<List<MountainDto>> getSearchResult(@RequestParam("word") String word) {
+		try {
+			List<MountainDto> SearchResult = mountainservice.getSearchResult(word);
+			return ResponseEntity.ok(SearchResult);
+		} catch (SQLException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+		}
+	}
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {

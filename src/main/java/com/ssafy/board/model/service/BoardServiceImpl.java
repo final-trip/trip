@@ -108,7 +108,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteArticle(articleNo);
 		for (FileInfoDto fileInfoDto : fileList) {
 			File file = new File(
-					path + File.separator + fileInfoDto.getSave_folder() + File.separator + fileInfoDto.getSave_file());
+					path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
 			file.delete();
 		}
 	}
