@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.service.MemberService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class MemberController {
 
 	private final Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -58,47 +61,36 @@ public class MemberController {
 //			model.addAttribute("msg", "회원 가입 중 문제 발생!!!");
 //			return "error/error";
 //		}
-		
+
 		try {
 			memberService.joinMember(memberDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Member registered successfully");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register member");
 		}
-		
+
 	}
 
 	@PostMapping("/login")
-	public String login(@RequestParam Map<String, String> map,
-			@RequestParam(name = "saveid", required = false) String saveid, Model model, HttpSession session,
+	public ResponseEntity<?> login(@RequestBody Map<String, String> map,
+			@RequestParam(name = "saveid", required = false) String saveid, HttpSession session,
 			HttpServletResponse response) {
-		System.out.println("login gogogogo");
-		logger.debug("login map : {}", map);
-
 		try {
+			log.debug("idddd {}",map.toString());
 			MemberDto memberDto = memberService.loginMember(map);
+			log.debug("loggggg {}",memberDto.toString());
 			if (memberDto != null) {
 				session.setAttribute("userinfo", memberDto);
 
-				Cookie cookie = new Cookie("ssafy_id", map.get("userid"));
-				cookie.setPath("/board");
-				if ("ok".equals(saveid)) {
-					cookie.setMaxAge(60 * 60 * 24 * 365 * 40);
-				} else {
-					cookie.setMaxAge(0);
-				}
-				response.addCookie(cookie);
-				return "redirect:/";
+				// 세션에 사용자 정보를 저장
+				return ResponseEntity.ok("로그인 성공");
 			} else {
-				model.addAttribute("msg", "아이디 또는 비밀번호 확인 후 다시 로그인하세요!");
-				return "user/login";
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호 확인 후 다시 로그인하세요!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg", "로그인 중 문제 발생!!!");
-			return "error/error";
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("로그인 중 문제 발생!!!");
 		}
-
 	}
 
 	@GetMapping("/logout")
