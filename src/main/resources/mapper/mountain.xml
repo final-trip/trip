@@ -19,8 +19,7 @@
 
 	<insert id="addMountain"
 		parameterType="com.ssafy.mountain.model.MountainDto">
-		INSERT INTO mountain (mntiname, mntidetails, mntiadd,
-		mntihigh,
+		INSERT INTO mountain  (mntiname, mntidetails, mntiadd, mntihigh,
 		sido_code, gugun_code, mntiimg)
 		VALUES (#{mntiname},
 		#{mntidetails}, #{mntiadd}, #{mntihigh}, #{sido_code},
@@ -38,10 +37,9 @@
 
 	<select id="getUnconqueredMountains" parameterType="int"
 		resultMap="mountainResultMap">
-		SELECT * FROM mountain
+		SELECT * FROM mountain 
 		WHERE mntilistno NOT IN (
-		SELECT
-		mm.mntilistno FROM membermountain mm
+		SELECT mm.mntilistno FROM member_mountains mm
 		WHERE mm.memberid = #{memberid}
 		)
 	</select>
@@ -61,20 +59,27 @@
 
 	<select id="getNearestUnconqueredMountains" parameterType="int"
 		resultMap="mountainResultMap">
-		SELECT * FROM mountain
+		SELECT * FROM mountain 
 		WHERE mntilistno NOT IN (
 		SELECT
 		mm.mntilistno FROM membermountain mm
 		WHERE mm.userId = #{memberid}
 		)
-		ORDER BY
-		DISTANCE_TO_MEMBER_FUNCTION(mntilistno, #{memberid})
+		ORDER BY DISTANCE_TO_MEMBER_FUNCTION(mntilistno, #{memberid})
 	</select>
 
 	<select id="getAllMountains" resultMap="mountainResultMap">
-		SELECT * FROM mountain
+		SELECT * FROM mountain 
 	</select>
 	
+
+	<select id="getSearchResult" parameterType="String" resultMap="mountainResultMap">
+    SELECT * FROM mountain 
+    WHERE mntiname LIKE CONCAT('%', #{word}, '%')
+	</select>
+	
+	
+
 	<select id="IsconqueredMountain" resultType="int" parameterType="com.ssafy.mountain.model.MountainDto">
 		 select count(*) 
 		 from membermountain mm
@@ -86,6 +91,7 @@
 		mnticonquerednum=mnticonquerednum+1 where
 		mntilistno=#{mntilistno}
 	</update>
+
 
 
 </mapper>

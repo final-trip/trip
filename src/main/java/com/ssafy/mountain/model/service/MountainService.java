@@ -15,6 +15,7 @@ public interface MountainService {
 	List<MountainDto> getUnconqueredMountains(String memberid) throws SQLException;
 
 	// 정복하지않은산 높이로 오름차순
+
 	List<MountainDto> getUnconqueredMountainsAscendingByHeight(String memberid) throws SQLException;
 
 	// 정복하지않은산 가까운 순
@@ -22,11 +23,15 @@ public interface MountainService {
 
 	List<MountainDto> allmountains() throws SQLException;
 
+
+	List<MountainDto> getSearchResult(String word) throws SQLException;
+
 	// 정복한 산 추가
 	void AddConqueredMountain(String memberid, int mntilistno) throws SQLException;
 
 	void Updateconquerednum(int mntilistno) throws SQLException;
 
 	int IsconqueredMountain(String memberid,int mntilistno) throws SQLException;
+
 
 }
