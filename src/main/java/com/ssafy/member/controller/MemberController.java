@@ -42,10 +42,12 @@ public class MemberController {
 	}
 
 	@GetMapping("/{userid}")
-	public String idCheck(@PathVariable("userid") String userId) throws Exception {
+	public ResponseEntity<Integer> idCheck(@PathVariable("userid") String userId) throws Exception {
 		logger.debug("idCheck userid : {}", userId);
 		int cnt = memberService.idCheck(userId);
-		return cnt + "";
+//		return cnt + "";
+		return ResponseEntity.ok(cnt);
+
 	}
 
 	@PostMapping("/join")
@@ -76,9 +78,10 @@ public class MemberController {
 			@RequestParam(name = "saveid", required = false) String saveid, HttpSession session,
 			HttpServletResponse response) {
 		try {
-			log.debug("idddd {}",map.toString());
+			log.debug("idddd {}", map.toString());
 			MemberDto memberDto = memberService.loginMember(map);
-			log.debug("loggggg {}",memberDto.toString());
+			log.debug("loggggg {}", memberDto.toString());
+
 			if (memberDto != null) {
 				session.setAttribute("userinfo", memberDto);
 

@@ -5,8 +5,8 @@
 <mapper namespace="com.ssafy.member.model.mapper.MemberMapper">
 
 	<resultMap type="memberDto" id="member">
-		<result column="user_id" property="userId"/>
-		<result column="user_name" property="userName"/>
+		<result column="userId" property="userId"/>
+		<result column="userName" property="userName"/>
 	</resultMap>
 	
 	<!-- ADMIN -->
@@ -18,9 +18,9 @@
 	</resultMap>
 
 	<select id="idCheck" parameterType="String" resultType="int">
-		select count(user_id)
+		select count(userId)
 		from member
-		where user_id = #{userid}
+		where userId = #{userid}
 	</select>
 
 	<insert id="joinMember" parameterType="memberDto">
