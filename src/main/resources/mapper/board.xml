@@ -12,7 +12,9 @@
 		<result column="subject" property="subject" />
 		<result column="content" property="content" />
 		<result column="registerTime" property="registerTime" />
-		
+		<collection property="fileInfos" ofType="fileInfoDto"
+			javaType="list" select="fileInfoList" />
+
 	</resultMap>
 
 
@@ -40,17 +42,22 @@
 
 
 	<insert id="registerFile" parameterType="boardDto">
-		insert into file_info ( file_info_id ,
-		board_id ,
-		type ,
-		file_path )
+		insert into file_info (file_info_id, board_id, save_folder,
+		original_file, save_file)
 		values
-		<foreach collection="fileInfos" item="fileinfo"
-			separator=" , ">
+
+		<foreach collection="fileInfos" item="fileinfo" separator=",">
 			(#{fileinfo.file_info_id}, #{fileinfo.board_id},
-			#{fileinfo.type}, #{fileinfo.file_path})
+			#{fileinfo.save_folder}, #{fileinfo.original_file},
+			#{fileinfo.save_file})
 		</foreach>
 	</insert>
+
+
+	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
+		( file_info_id , board_id , save_folder, original_file , save_file ) values 
+		<foreach collection="fileInfos" item="fileinfo" separator=" , "> (#{fileinfo.file_info_id}, 
+		#{fileinfo.board_id}, #{fileinfo.type} ) </foreach> </insert> -->
 
 	<sql id="search">
 		<if test="word != null and word != ''">
@@ -85,11 +92,11 @@
 
 	<select id="getArticle" parameterType="int"
 		resultMap="viewArticle">
-		select b.article_no, b.user_id, b.subject, b.content, b.hit,
+		select b.article_no, b.userId, b.subject, b.content, b.hit,
 		b.register_time, m.user_name
 		from board b, members m
-		where b.user_id =
-		m.user_id
+		where b.userId =
+		m.userId
 		and b.article_no =
 		#{articleNo}
 	</select>
@@ -98,7 +105,7 @@
 		select save_folder,
 		original_file, save_file
 		from file_info
-		where article_no = #{articleNo}
+		where board_id = #{board_id}
 	</select>
 
 	<update id="modifyArticle" parameterType="boardDto">

@@ -19,8 +19,8 @@ import java.util.List;
 
 @ApiModel(value = "BoardDto (게시판정보)", description = "게시판 내용을 가진 Domain Class")
 public class BoardDto {
-    @ApiModelProperty(value = "게시판 번호")
-    private int board_id; // board_id 필드 추가
+//    @ApiModelProperty(value = "게시판 번호")
+//    private int board_id; // board_id 필드 추가
 
     @ApiModelProperty(value = "게시판 번호")
     private int articleNo;
