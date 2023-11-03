@@ -24,7 +24,7 @@
 	</select>
 
 	<insert id="joinMember" parameterType="memberDto">
-		insert into member (user_name, user_id, user_password, email_id, email_domain, join_date)
+		insert into member (user_name, userId, user_password, email_id, email_domain, join_date)
 		values (#{userName}, #{userId}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 	</insert>
 
@@ -36,15 +36,15 @@
 	
 	<!-- ADMIN -->
 	<select id="listMember" resultMap="memberAll">
-		select user_name, user_id, user_password, email_id, email_domain, join_date
+		select user_name, userId, user_password, email_id, email_domain, join_date
 		from member
 		order by join_date
 	</select>
 	
-	<select id="getMember" parameterType="string" resultMap="memberAll">
-		select user_id, user_name, user_password, email_id, email_domain, join_date
+	<select id="getMember" parameterType="string" resultMap="member">
+		select *
 		from member
-		where user_id = #{userId}
+		where userId = #{userId}
 	</select>
 	
 	<update id="updateMember" parameterType="memberDto">
@@ -54,12 +54,12 @@
 			<if test="emailId != null">email_id = #{emailId},</if>
 			<if test="emailDomain != null">email_domain = #{emailDomain},</if>
 		</trim>
-		where user_id = #{userId}
+		where userId = #{userId}
 	</update>
 	
 	<delete id="deleteMember" parameterType="String">
 		delete from member
-		where user_id = #{userId}
+		where userId = #{userId}
 	</delete>
 	
 </mapper>
