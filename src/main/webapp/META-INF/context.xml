@@ -3,6 +3,10 @@
 	<Resource name="jdbc/ssafy" auth="Container" type="javax.sql.DataSource" 
 			maxTotal="100" maxIdle="30" maxWaitMillis="10000" 
 			username="ssafy" password="ssafy" driverClassName="com.mysql.cj.jdbc.Driver" 	
+<<<<<<< HEAD
 			url="jdbc:mysql://localhost:3306/ssafyweb?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"/> 
+=======
+			url="jdbc:mysql://localhost:3306/finaltrip?serverTimezone=UTC&amp;useUniCode=yes&amp;characterEncoding=UTF-8"/> 
+>>>>>>> c87f9bb282a2f048f241a0723f18f9a205e04f9b
     <WatchedResource>WEB-INF/web.xml</WatchedResource>
 </Context>

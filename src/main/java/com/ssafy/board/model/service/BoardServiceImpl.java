@@ -17,7 +17,7 @@ import com.ssafy.util.SizeConstant;
 
 @Service
 public class BoardServiceImpl implements BoardService {
-	
+
 	private BoardMapper boardMapper;
 
 	@Autowired
@@ -42,7 +42,7 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardDto> listArticle(Map<String, String> map) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
 		String key = map.get("key");
-		if("userid".equals(key))
+		if ("userid".equals(key))
 			key = "b.user_id";
 		param.put("key", key == null ? "" : key);
 		param.put("word", map.get("word") == null ? "" : map.get("word"));
@@ -53,7 +53,7 @@ public class BoardServiceImpl implements BoardService {
 
 		return boardMapper.listArticle(param);
 	}
-	
+
 	@Override
 	public PageNavigation makePageNavigation(Map<String, String> map) throws Exception {
 		PageNavigation pageNavigation = new PageNavigation();
@@ -106,8 +106,9 @@ public class BoardServiceImpl implements BoardService {
 		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
 		boardMapper.deleteFile(articleNo);
 		boardMapper.deleteArticle(articleNo);
-		for(FileInfoDto fileInfoDto : fileList) {
-			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
+		for (FileInfoDto fileInfoDto : fileList) {
+			File file = new File(
+					path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
 			file.delete();
 		}
 	}

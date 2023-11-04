@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
 //@Controller
 @RequestMapping("/admin")
 @CrossOrigin("*")
-@Api(tags = {"어드민 컨트롤러  API V1"})
+@Api(tags = { "어드민 컨트롤러  API V1" })
 public class AdminUserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminUserController.class);
@@ -86,8 +86,8 @@ public class AdminUserController {
 	public ResponseEntity<?> userList() {
 		logger.debug("userList call");
 		try {
-			List<MemberDto> list = memberService.listMember(null);
-			if(list != null && !list.isEmpty()) {
+			List<MemberDto> list = memberService.listMember();
+			if (list != null && !list.isEmpty()) {
 				return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
 //				return new ResponseEntity<List<MemberDto>>(HttpStatus.NOT_FOUND);
 			} else {
@@ -96,24 +96,24 @@ public class AdminUserController {
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
-		
+
 	}
-	
+
 	@ApiOperation(value = "회원등록", notes = "회원의 정보를 받아 처리.")
 	@PostMapping(value = "/user")
 	public ResponseEntity<?> userRegister(@RequestBody MemberDto memberDto) {
 		logger.debug("userRegister memberDto : {}", memberDto);
 		try {
 			memberService.joinMember(memberDto);
-			List<MemberDto> list = memberService.listMember(null);
+			List<MemberDto> list = memberService.listMember();
 			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
 //			return new ResponseEntity<Integer>(cnt, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
-		
+
 	}
-	
+
 	@ApiOperation(value = "회원정보", notes = "회원한명에 대한 정보.")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "userid", value = "아이디", required = true, dataType = "String", paramType = "path")
@@ -125,7 +125,7 @@ public class AdminUserController {
 		logger.debug("userInfo userid : {}", userId);
 		try {
 			MemberDto memberDto = memberService.getMember(userId);
-			if(memberDto != null)
+			if (memberDto != null)
 				return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -133,27 +133,27 @@ public class AdminUserController {
 			return exceptionHandling(e);
 		}
 	}
-	
+
 	@ApiOperation(value = "회원정보수정", notes = "회원정보를 수정합니다.")
 	@PutMapping(value = "/user")
 	public ResponseEntity<?> userModify(@RequestBody MemberDto memberDto) {
 		logger.debug("userModify memberDto : {}", memberDto);
 		try {
 			memberService.updateMember(memberDto);
-			List<MemberDto> list = memberService.listMember(null);
+			List<MemberDto> list = memberService.listMember();
 			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
-	
+
 	@ApiOperation(value = "회원정보삭제", notes = "회원정보를 삭제합니다.")
 	@DeleteMapping(value = "/user/{userid}")
 	public ResponseEntity<?> userDelete(@PathVariable("userid") String userId) {
 		logger.debug("userDelete userid : {}", userId);
 		try {
 			memberService.deleteMember(userId);
-			List<MemberDto> list = memberService.listMember(null);
+			List<MemberDto> list = memberService.listMember();
 			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
