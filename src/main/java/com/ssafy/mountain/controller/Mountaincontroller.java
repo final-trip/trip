@@ -121,7 +121,7 @@ public class Mountaincontroller {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
 		}
 	}
-
+	@ApiOperation(value = "검색기능으로 산을 검색했을 때", notes = "키워드가 포함된 산 정보를 가져온다.")
 	@GetMapping("/search")
 	public ResponseEntity<List<MountainDto>> getSearchResult(@RequestParam("word") String word) {
 		try {

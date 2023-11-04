@@ -3,6 +3,7 @@ package com.ssafy.wishlist.model.service;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ import io.swagger.annotations.ApiResponses;
 public interface WishListService {
 	void addwishlist(WishListDto wishListDto) throws SQLException;
 
-	WishListDto getwishlist(String memberid) throws SQLException;
+	List<WishListDto> getwishlist(String userId) throws SQLException;
 
-	void deletewishlist() throws SQLException;
+	void deletewishlist(Map<String, String> map) throws SQLException;
 
 }

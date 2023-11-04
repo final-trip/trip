@@ -6,24 +6,26 @@
 	namespace="com.ssafy.wishlist.model.mapper.WishListMapper">
 
 	<resultMap type="wishListDto" id="wishlist">
-
 		<result column="wish_list_id" property="wish_list_id" />
 		<result column="userId" property="userId" />
+		<result column="mntilistno" property="mntilistno"/>
 	</resultMap>
 
 
-	<insert id="addwishlist" parameterType="String">
+	<insert id="addwishlist" parameterType="wishListDto">
 		insert into
-		wish_list(wish_list_id
-		,userId)
-		values(#{wish_list_id},#{userId})
+		wish_list(wish_list_id,userId, mntilistno)
+		values(#{wish_list_id},#{userId}, #{mntilistno})
 	</insert>
 
-	<insert id="addwishlistmountain" parameterType="String">
-		insert into
-		wish_list_mountains(wish_list_id
-		,mntilistno)
-		values(#{wish_list_id},#{mntilistno})
-	</insert>
+	<select id="getwishlist" parameterType="String" resultMap="wishlist">
+		select wish_list_id, mntilistno
+		from wish_list
+		where userId = #{userId}
+	</select>
+
+	<delete id="deletewishlist" parameterType="map">
+		delete from wish_list where userId=#{userId} and mntilistno=#{mntilistno}
+	</delete>
 
 </mapper>

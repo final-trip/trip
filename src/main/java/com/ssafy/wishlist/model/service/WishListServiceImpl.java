@@ -3,6 +3,7 @@ package com.ssafy.wishlist.model.service;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,20 +39,20 @@ public class WishListServiceImpl implements WishListService {
 	@Override
 	public void addwishlist(WishListDto wishListDto) throws SQLException {
 		// TODO Auto-generated method stub	
-		wishmapper.
+		wishmapper.addwishlist(wishListDto);
 
 	}
 
 	@Override
-	public WishListDto getwishlist(String memberid) throws SQLException {
+	public List<WishListDto> getwishlist(String userId) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		return wishmapper.getwishlist(userId);
 	}
 
 	@Override
-	public void deletewishlist() throws SQLException {
+	public void deletewishlist(Map<String, String> map) throws SQLException {
 		// TODO Auto-generated method stub
-
+		wishmapper.deletewishlist(map);
 	}
 
 }
