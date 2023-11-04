@@ -41,7 +41,7 @@ public class MemberController {
 		this.memberService = memberService;
 	}
 
-	@GetMapping("/{userid}")
+	@GetMapping("/checkid/{userid}")
 	public ResponseEntity<Integer> idCheck(@PathVariable("userid") String userId) throws Exception {
 		logger.debug("idCheck userid : {}", userId);
 		int cnt = memberService.idCheck(userId);

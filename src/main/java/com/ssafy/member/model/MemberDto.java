@@ -23,13 +23,10 @@ public class MemberDto {
 	@ApiModelProperty(value = "회원비밀번호")
 	private String userPwd;
 	
-//	@ApiModelProperty(value = "이메일아이디")
-//	private String emailId;
-	
-//	@ApiModelProperty(value = "이메일도메인")
-//	private String emailDomain;
-	
 	@ApiModelProperty(value = "가입일")
 	private String joinDate;
+	
+	@ApiModelProperty(value = "가입일")
+	private String address;
  
 }

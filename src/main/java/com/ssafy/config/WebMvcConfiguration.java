@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
-import com.ssafy.interceptor.ConfirmInterceptor;
+//import com.ssafy.interceptor.ConfirmInterceptor;
 
 @Configuration
 @EnableAspectJAutoProxy
@@ -30,8 +30,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	private final List<String> patterns = Arrays.asList("/board/*", "/admin", "/user/list");
 
-	@Autowired
-	private ConfirmInterceptor confirmInterceptor;
+	//준원아 이것도 나중에쓰자!
+//	@Autowired
+//	private ConfirmInterceptor confirmInterceptor;
 
 	private final String uploadFilePath;
 
@@ -51,10 +52,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 				.maxAge(1800); // 1800초 동안 preflight 결과를 캐시에 저장
 	}
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(confirmInterceptor).addPathPatterns(patterns);
-	}
+	//이거도!!
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(confirmInterceptor).addPathPatterns(patterns);
+//	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
