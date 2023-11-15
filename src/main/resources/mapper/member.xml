@@ -17,36 +17,36 @@
 
 	<select id="idCheck" parameterType="String" resultType="int">
 		select count(userId)
-		from member
+		from members
 		where userId = #{userId}
 	</select>
 
 	<insert id="joinMember" parameterType="memberDto">
-		insert into member (userName, userId, userPwd, address)
+		insert into members (userName, userId, userPwd, address)
 		values (#{userName}, #{userId}, #{userPwd}, #{address})
 	</insert>
 
 	<select id="loginMember" parameterType="map" resultMap="member">
 		select userId, userName
-		from member
+		from members
 		where userId = #{userId} and userPwd = #{userPwd}
 	</select>
 	
 	<!-- ADMIN -->
 	<select id="listMember" resultMap="memberAll">
 		select userName, userId, userPwd, joinDate, address
-		from member
+		from members
 		order by joinDate
 	</select>
 	
 	<select id="getMember" parameterType="string" resultMap="member">
 		select *
-		from member
+		from members
 		where userId = #{userId}
 	</select>
 	
 	<update id="updateMember" parameterType="memberDto">
-		update member
+		update members
 		<trim prefix="set" suffixOverrides=",">
 			<if test="userPwd != null">userPwd = #{userPwd},</if>
 		</trim>
@@ -54,7 +54,7 @@
 	</update>
 	
 	<delete id="deleteMember" parameterType="String">
-		delete from member
+		delete from members
 		where userId = #{userId}
 	</delete>
 	

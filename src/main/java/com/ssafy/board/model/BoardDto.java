@@ -30,7 +30,7 @@ public class BoardDto {
 	private String userName;
 
 	@ApiModelProperty(value = "게시판 제목")
-	private String subject;
+	private String subjects;
 	
 	@ApiModelProperty(value = "게시판 내용")
 	private String content;

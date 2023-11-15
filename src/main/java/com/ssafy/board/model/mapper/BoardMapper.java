@@ -16,9 +16,11 @@ public interface BoardMapper {
 
 	void registerFile(BoardDto boardDto) throws Exception;
 
-	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
+//	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
+	List<BoardDto> listArticle( ) throws SQLException;
 
 	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
+//	int getTotalArticleCount( ) throws SQLException;
 
 	BoardDto getArticle(int articleNo) throws SQLException;
 
