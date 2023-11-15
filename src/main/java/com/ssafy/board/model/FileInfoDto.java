@@ -1,33 +1,22 @@
 package com.ssafy.board.model;
 
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileInfoDto {
 
-	private String saveFolder;
-	private String originalFile;
-	private String saveFile;
-
-	public String getSaveFolder() {
-		return saveFolder;
-	}
-
-	public void setSaveFolder(String saveFolder) {
-		this.saveFolder = saveFolder;
-	}
-
-	public String getOriginalFile() {
-		return originalFile;
-	}
-
-	public void setOriginalFile(String originalFile) {
-		this.originalFile = originalFile;
-	}
-
-	public String getSaveFile() {
-		return saveFile;
-	}
-
-	public void setSaveFile(String saveFile) {
-		this.saveFile = saveFile;
-	}
+	private String save_folder;
+	private String original_file;
+	private String save_file;
 
 }

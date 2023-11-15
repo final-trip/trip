@@ -20,8 +20,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +54,7 @@ public class BoardController {
 	@Value("${file.path.upload-files}")
 	private String uploadFilePath;
 
+	
 //	@Autowired
 //	private ServletContext servletContext;
 
@@ -63,8 +66,9 @@ public class BoardController {
 	}
 
 	@PostMapping("/write")
+//	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
 	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,
-			HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+			HttpSession session) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
 		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
 		boardDto.setUserId(memberDto.getUserId());
@@ -82,6 +86,7 @@ public class BoardController {
 			File folder = new File(saveFolder);
 			if (!folder.exists())
 				folder.mkdirs();
+
 			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
 			for (MultipartFile mfile : files) {
 				FileInfoDto fileInfoDto = new FileInfoDto();
@@ -91,9 +96,9 @@ public class BoardController {
 				if (!originalFileName.isEmpty()) {
 					String saveFileName = UUID.randomUUID().toString()
 							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-					fileInfoDto.setSaveFolder(today);
-					fileInfoDto.setOriginalFile(originalFileName);
-					fileInfoDto.setSaveFile(saveFileName);
+					fileInfoDto.setSave_folder(today);
+					fileInfoDto.setOriginal_file(originalFileName);
+					fileInfoDto.setSave_file(saveFileName);
 					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
 					mfile.transferTo(new File(folder, saveFileName));
 				}
@@ -103,9 +108,9 @@ public class BoardController {
 		}
 
 		boardService.writeArticle(boardDto);
-		redirectAttributes.addAttribute("pgno", "1");
-		redirectAttributes.addAttribute("key", "");
-		redirectAttributes.addAttribute("word", "");
+//		redirectAttributes.addAttribute("pgno", "1");
+//		redirectAttributes.addAttribute("key", "");
+//		redirectAttributes.addAttribute("word", "");
 		return ResponseEntity.status(HttpStatus.CREATED).body("record added successfully");
 
 	}
@@ -130,7 +135,7 @@ public class BoardController {
 		return ResponseEntity.ok(boardDto);
 	}
 
-	@PostMapping("/modify")
+	@PutMapping("/modify")
 //	public String modify(BoardDto boardDto, @RequestParam Map<String, String> map,RedirectAttributes redirectAttributes) throws Exception {
 	public ResponseEntity<String> modify(@RequestBody BoardDto boardDto) throws Exception {
 		logger.debug("modify boardDto : {}", boardDto);
@@ -143,7 +148,7 @@ public class BoardController {
 		return ResponseEntity.ok("successfuly modified");
 	}
 
-	@PostMapping("/delete")
+	@DeleteMapping("/delete")
 	public ResponseEntity<String> delete(@RequestParam("articleno") int articleNo,
 			@RequestParam Map<String, String> map, RedirectAttributes redirectAttributes) throws Exception {
 		logger.debug("delete articleNo : {}", articleNo);

@@ -93,7 +93,7 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDto getArticle(int articleNo) throws Exception {
 		return boardMapper.getArticle(articleNo);
 	}
-	
+
 //
 //	@Override
 //	public void updateHit(int articleNo) throws Exception {
@@ -106,6 +106,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.modifyArticle(boardDto);
 	}
 
+	
 	@Override
 	@Transactional
 	public void deleteArticle(int articleNo, String path) throws Exception {
@@ -115,9 +116,10 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.deleteArticle(articleNo);
 		for (FileInfoDto fileInfoDto : fileList) {
 			File file = new File(
-					path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
+					path + File.separator + fileInfoDto.getSave_folder() + File.separator + fileInfoDto.getSave_file());
 			file.delete();
 		}
+
 	}
 
 }
