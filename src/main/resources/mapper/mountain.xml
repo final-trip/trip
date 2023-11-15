@@ -102,7 +102,8 @@
 	<select id="getrandom2"  
 		resultMap="mountainResultMap">
 		SELECT * FROM mountain
-		 order by mntiname, RAND() limit 2
+		 where mntiimg is not null
+		 order by mntiname, RAND() limit 3
 	</select>
 
 
