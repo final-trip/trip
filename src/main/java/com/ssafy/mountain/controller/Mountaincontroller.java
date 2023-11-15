@@ -112,6 +112,16 @@ public class Mountaincontroller {
 		}
 	}
 
+	@GetMapping("/random2")
+	public ResponseEntity<List<MountainDto>> getrandom2() {
+		try {
+			List<MountainDto> random2 = mountainservice.getrandom2();
+			return ResponseEntity.ok(random2);
+		} catch (SQLException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+		}
+	}
+
 	@ApiOperation(value = "아직 정복하지 않은 산 중 가장 가까운 산 목록 가져오기", notes = "회원이 아직 정복하지 않은 산 중에서 가장 가까운 산 목록을 가져온다.")
 
 	@GetMapping("/unconquered/nearest")
@@ -123,6 +133,7 @@ public class Mountaincontroller {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
 		}
 	}
+
 	@ApiOperation(value = "검색기능으로 산을 검색했을 때", notes = "키워드가 포함된 산 정보를 가져온다.")
 	@GetMapping("/search")
 	public ResponseEntity<List<MountainDto>> getSearchResult(@RequestParam("word") String word) {

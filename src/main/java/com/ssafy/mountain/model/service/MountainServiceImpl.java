@@ -85,4 +85,11 @@ public class MountainServiceImpl implements MountainService {
 
 	}
 
+	@Override
+	public List<MountainDto> getrandom2() throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getrandom2();
+
+	}
+
 }

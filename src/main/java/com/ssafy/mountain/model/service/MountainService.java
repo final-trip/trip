@@ -23,17 +23,17 @@ public interface MountainService {
 
 	List<MountainDto> allmountains() throws SQLException;
 
-
 	List<MountainDto> getSearchResult(String word) throws SQLException;
+	//random 한 2개 추출.
+	List<MountainDto> getrandom2() throws SQLException;
 
 	// 정복한 산 추가
 	void AddConqueredMountain(String memberid, int mntilistno) throws SQLException;
 
 	void Updateconquerednum(int mntilistno) throws SQLException;
 
-	int IsconqueredMountain(String memberid,int mntilistno) throws SQLException;
+	int IsconqueredMountain(String memberid, int mntilistno) throws SQLException;
 
- 	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
- 
+	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
 
 }

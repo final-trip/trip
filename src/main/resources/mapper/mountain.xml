@@ -52,27 +52,30 @@
 	<select id="getUnconqueredMountainsAscendingByHeight"
 		parameterType="String" resultMap="mountainResultMap">
 		SELECT * FROM mountain
-		WHERE mntilistno
+		WHERE
+		mntilistno
 		NOT IN (
 		SELECT mm.mntilistno FROM membermountain mm
-		WHERE mm.userId
+		WHERE
+		mm.userId
 		=
 		#{memberid}
 		)
 		ORDER BY mntihigh ASC
 	</select>
 
-	<select id="getNearestUnconqueredMountains" parameterType="String"
-		resultMap="mountainResultMap">
+	<select id="getNearestUnconqueredMountains"
+		parameterType="String" resultMap="mountainResultMap">
 		SELECT * FROM mountain
-		WHERE mntilistno NOT IN (
+		WHERE
+		mntilistno NOT IN (
 		SELECT
 		mm.mntilistno FROM membermountain mm
 		WHERE
 		mm.userId = #{memberid}
 		)
 		ORDER BY
-		 desc //이부분 추가수정필요..
+		desc //이부분 추가수정필요..
 	</select>
 
 	<select id="getAllMountains" resultMap="mountainResultMap">
@@ -96,6 +99,11 @@
 		#{word}, '%')
 	</select>
 
+	<select id="getrandom2"  
+		resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		 order by mntiname, RAND() limit 2
+	</select>
 
 
 	<update id="Updateconquerednum">

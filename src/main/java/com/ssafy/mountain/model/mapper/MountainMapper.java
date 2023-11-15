@@ -26,14 +26,15 @@ public interface MountainMapper {
 
 	List<MountainDto> getAllMountains() throws SQLException;
 
-	
+	List<MountainDto> getrandom2() throws SQLException;
+
 	List<MountainDto> getSearchResult(String word) throws SQLException;
 
 	void AddConqueredMountain(String memberid, int mntilistno);
 
 	void Updateconquerednum(int mntilistno) throws SQLException;
-	
-	void Updateconquerednumofmountain(String memberid,int mntilistno) throws SQLException;
+
+	void Updateconquerednumofmountain(String memberid, int mntilistno) throws SQLException;
 
 	int IsconqueredMountain(String memberid, int mntilistno) throws SQLException;
 
