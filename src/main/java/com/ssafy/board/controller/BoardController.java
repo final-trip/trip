@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,7 +55,6 @@ public class BoardController {
 	@Value("${file.path.upload-files}")
 	private String uploadFilePath;
 
-	
 //	@Autowired
 //	private ServletContext servletContext;
 
@@ -67,7 +67,7 @@ public class BoardController {
 
 	@PostMapping("/write")
 //	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
-	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,
+	public ResponseEntity<String> write(@RequestBody BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,
 			HttpSession session) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
 		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
@@ -77,11 +77,13 @@ public class BoardController {
 		logger.debug("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath,
 				uploadFilePath);
 		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
+
 		if (!files[0].isEmpty()) {
 //			String realPath = servletContext.getRealPath(UPLOAD_PATH);
 //			String realPath = servletContext.getRealPath("/resources/img");
 			String today = new SimpleDateFormat("yyMMdd").format(new Date());
 			String saveFolder = uploadPath + File.separator + today;
+
 			logger.debug("저장 폴더 : {}", saveFolder);
 			File folder = new File(saveFolder);
 			if (!folder.exists())
