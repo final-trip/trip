@@ -12,14 +12,12 @@
 		<result column="subjects" property="subjects" />
 		<result column="content" property="content" />
 		<result column="registerTime" property="registerTime" />
-
 	</resultMap>
 	
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 
 		<collection property="fileInfos" ofType="fileInfoDto"
 			javaType="list" select="fileInfoList"  column="board_id" />
-
 	</resultMap>
 	
 	<resultMap type="fileInfoDto" id="file">
@@ -69,14 +67,22 @@
 
 <!-- 	<select id="listArticle" parameterType="map" resultMap="article"> -->
 	<select id="listArticle"   resultMap="article">
-		select b.articleNo, b.userId, b.subject, b.content, b.registerTime, m.userName
-		from board b, member m 
+		select b.articleNo, b.userId, b.subjects, b.content, b.registerTime, m.userName
+		from board b, members m 
 		
 		where b.userId = m.userId
 		<include refid="search"></include>
-		order by b.articleNo desc
+		order by b.articleNo  
 		<!-- limit #{start}, #{listsize} -->
+	</select>
+	
+	<select id="alllistArticle"   resultMap="article">
+		select b.articleNo, b.userId, b.subjects, b.content, b.registerTime, m.userName
+		from board b, members m 
 		
+		where b.userId = m.userId
+ 		order by b.articleNo  
+		<!-- limit #{start}, #{listsize} -->
 	</select>
 	
 	<select id="getTotalArticleCount" parameterType="map" resultType="int">

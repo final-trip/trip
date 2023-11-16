@@ -17,13 +17,12 @@ public interface BoardMapper {
 	void registerFile(BoardDto boardDto) throws Exception;
 
 //	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
-	List<BoardDto> listArticle( ) throws SQLException;
+	List<BoardDto> listArticle() throws SQLException;
 
 	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
 //	int getTotalArticleCount( ) throws SQLException;
 
 	BoardDto getArticle(int articleNo) throws SQLException;
-
 
 	void modifyArticle(BoardDto boardDto) throws SQLException;
 
@@ -32,5 +31,7 @@ public interface BoardMapper {
 	void deleteArticle(int articleNo) throws SQLException;
 
 	List<FileInfoDto> fileInfoList(int articleNo) throws Exception;
+
+	List<BoardDto> alllistArticle() throws Exception;
 
 }

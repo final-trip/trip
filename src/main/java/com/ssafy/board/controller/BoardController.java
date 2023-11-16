@@ -127,6 +127,16 @@ public class BoardController {
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 
+	@GetMapping("/alllist")
+	public ResponseEntity<List<BoardDto>> alllist() throws Exception {
+//		logger.debug("list parameter pgno : {}", map.get("pgno"));
+//		List<BoardDto> list = boardService.listArticle(map);
+		List<BoardDto> list = boardService.alllistArticle();
+//		PageNavigation pageNavigation = boardService.makePageNavigation(map);
+
+		return ResponseEntity.status(HttpStatus.OK).body(list);
+	}
+
 	@GetMapping("/view")
 	public ResponseEntity<BoardDto> view(@RequestParam("articleno") int articleNo,
 			@RequestParam Map<String, String> map, Model model) throws Exception {

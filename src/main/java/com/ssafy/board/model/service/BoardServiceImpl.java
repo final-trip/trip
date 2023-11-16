@@ -106,7 +106,6 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.modifyArticle(boardDto);
 	}
 
-	
 	@Override
 	@Transactional
 	public void deleteArticle(int articleNo, String path) throws Exception {
@@ -119,6 +118,13 @@ public class BoardServiceImpl implements BoardService {
 					path + File.separator + fileInfoDto.getSave_folder() + File.separator + fileInfoDto.getSave_file());
 			file.delete();
 		}
+
+	}
+
+	@Override
+	public List<BoardDto> alllistArticle() throws Exception {
+		// TODO Auto-generated method stub
+		return boardMapper.alllistArticle();
 
 	}
 
