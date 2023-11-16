@@ -34,4 +34,6 @@ public interface BoardMapper {
 
 	List<BoardDto> alllistArticle() throws Exception;
 
+	List<FileInfoDto> getfilelist(int articleNo) throws Exception;
+
 }
