@@ -17,7 +17,7 @@
 	<resultMap type="boardDto" id="viewArticle" extends="article">
 
 		<collection property="fileInfos" ofType="fileInfoDto"
-			javaType="list" select="fileInfoList" column="board_id" />
+			javaType="list" select="fileInfoList" column="articleNo" />
 	</resultMap>
 
 	<resultMap type="fileInfoDto" id="file">
@@ -39,12 +39,12 @@
 	</insert>
 
 	<insert id="registerFile" parameterType="boardDto">
-		insert into file_info (file_info_id, board_id, save_folder,
+		insert into file_info (file_info_id, articleNo, save_folder,
 		original_file, save_file)
 		values
 
 		<foreach collection="fileInfos" item="fileinfo" separator=",">
-			(#{fileinfo.file_info_id}, #{fileinfo.board_id},
+			(#{fileinfo.file_info_id}, #{fileinfo.articleNo},
 			#{fileinfo.save_folder}, #{fileinfo.original_file},
 			#{fileinfo.save_file})
 		</foreach>
@@ -52,9 +52,9 @@
 
 
 	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
-		( file_info_id , board_id , save_folder, original_file , save_file ) values 
+		( file_info_id , articleNo , save_folder, original_file , save_file ) values 
 		<foreach collection="fileInfos" item="fileinfo" separator=" , "> (#{fileinfo.file_info_id}, 
-		#{fileinfo.board_id}, #{fileinfo.type} ) </foreach> </insert> -->
+		#{fileinfo.articleNo}, #{fileinfo.type} ) </foreach> </insert> -->
 
 	<sql id="search">
 		<if test="word != null and word != ''">
@@ -93,8 +93,8 @@
 	<select id="getfilelist" parameterType="int" resultMap="file">
 		select f.save_folder,f.original_file,f.save_file
 		from board b, file_info f
-		where b.board_id = f.board_id
-		and b.board_id=#{articleNo};
+		where b.articleNo = f.articleNo
+		and b.articleNo=#{articleNo};
 		
 	</select>
 	
@@ -125,7 +125,7 @@
 		select save_folder,
 		original_file, save_file
 		from file_info
-		where board_id = #{board_id}
+		where articleNo = #{articleNo}
 	</select>
 
 	<!-- <update id="updateHit" parameterType="int"> update board set hit = 
@@ -141,7 +141,7 @@
 
 	<delete id="deleteFile" parameterType="int">
 		delete from file_info
-		where board_id = #{articleNo}
+		where articleNo = #{articleNo}
 	</delete>
 
 	<delete id="deleteArticle" parameterType="int">

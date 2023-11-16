@@ -33,6 +33,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.writeArticle(boardDto);
 		System.out.println("글입력 후 dto : " + boardDto);
 		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
+		
 		if (fileInfos != null && !fileInfos.isEmpty()) {
 			boardMapper.registerFile(boardDto);
 		}
