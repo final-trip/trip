@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ssafy.board.model.BoardDto;
+import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.util.PageNavigation;
 
 public interface BoardService {
@@ -22,4 +23,6 @@ public interface BoardService {
 	void deleteArticle(int articleNo, String path) throws Exception;
 
 	List<BoardDto> alllistArticle() throws Exception;
+
+	List<FileInfoDto> getfilelist(int articleNo) throws Exception;
 }
