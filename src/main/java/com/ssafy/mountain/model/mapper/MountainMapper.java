@@ -31,6 +31,8 @@ public interface MountainMapper {
 
 	List<MountainDto> getSearchResult(String word) throws SQLException;
 
+	List<MountainDto> getConqueredMountains(String userId) throws SQLException;
+
 	void AddConqueredMountain(String memberid, int mntilistno);
 
 	void Updateconquerednum(int mntilistno) throws SQLException;
@@ -42,4 +44,8 @@ public interface MountainMapper {
 	List<SidoGugunCodeDto> getSido() throws SQLException;
 	
 	List<SidoGugunCodeDto> getGugunInSido(String sido) throws SQLException;
+
+	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
+
+
 }

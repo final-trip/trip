@@ -102,4 +102,16 @@ public class MountainServiceImpl implements MountainService {
 	public List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception {
 		return mountainMapper.getGugunInSido(sido);
 	}
+
+	public List<MountainDto> getConqueredMountains(String userId) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getConqueredMountains(userId);
+	}
+
+	@Override
+	public MountainDto getSearchResultdetail(int mntilistno) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getSearchResultdetail(mntilistno);
+	}
+
 }

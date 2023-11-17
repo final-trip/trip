@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,22 @@ public class MemberController {
 
 	}
 
+	@GetMapping("/getinfo")
+	public ResponseEntity<MemberDto> getMember(@RequestParam("userId") String userId) throws Exception {
+		MemberDto memberDto = memberService.getMember(userId);
+//		return cnt + "";
+
+		return ResponseEntity.ok(memberDto);
+	}
+
+	@DeleteMapping("/delete")
+	public ResponseEntity<String> deleteMember(@RequestParam("userId") String userId) throws Exception {
+
+		logger.debug("idCheck userid : {}", userId);
+		memberService.deleteMember(userId);
+		return ResponseEntity.ok("member deleted ");
+	}
+
 	@PostMapping("/join")
 	public ResponseEntity<String> registerMember(@RequestBody MemberDto memberDto) {
 //	public String join(MemberDto memberDto, Model model) {
@@ -83,7 +100,7 @@ public class MemberController {
 			log.debug("loggggg {}", memberDto.toString());
 
 			if (memberDto != null) {
-				session.setAttribute("userinfo", memberDto);
+//				session.setAttribute("userinfo", memberDto);
 
 				// 세션에 사용자 정보를 저장
 				return ResponseEntity.ok("로그인 성공");
@@ -98,7 +115,7 @@ public class MemberController {
 
 	@GetMapping("/logout")
 	public ResponseEntity<String> logout(HttpSession session) {
-		session.invalidate();
+//		session.invalidate();
 		return ResponseEntity.ok("Logged out successfully");
 	}
 

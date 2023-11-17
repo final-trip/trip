@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -146,6 +147,7 @@ public class Mountaincontroller {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
 		}
 	}
+
 	
 	@ApiOperation(value = "시도 정보", notes = "전국의 시도를 반환한다.", response = List.class)
 	@GetMapping("/sido")
@@ -162,6 +164,31 @@ public class Mountaincontroller {
 		return new ResponseEntity<List<SidoGugunCodeDto>>(mountainservice.getGugunInSido(sido), HttpStatus.OK);
 	}
 	
+
+	@ApiOperation(value = "특정 산의 정보", notes = " 산 정보를 가져온다.")
+	@GetMapping("/getdetail/{mntilistno}")
+	public ResponseEntity<MountainDto> getSearchResultdetail(@PathVariable("mntilistno") int mntilistno)
+			throws SQLException {
+
+		MountainDto mountainDto = mountainservice.getSearchResultdetail(mntilistno);
+		return ResponseEntity.ok(mountainDto);
+
+	}
+
+	@ApiOperation(value = "내가 정복한 산 ", notes = "내가 정복한 산 정보를 가져온다.")
+	@GetMapping("/getConqueredMountains")
+	public ResponseEntity<List<MountainDto>> getConqueredMountains(@RequestParam("userId") String userId) {
+
+		try {
+			List<MountainDto> ConqueredMountains = mountainservice.getConqueredMountains(userId);
+			return ResponseEntity.ok(ConqueredMountains);
+
+		} catch (SQLException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+		}
+	}
+
+
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {

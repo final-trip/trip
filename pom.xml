@@ -83,6 +83,20 @@
 			<version>1.18.30</version> <!-- 사용 가능한 최신 버전 사용 -->
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.4</version> <!-- Spring Boot 2.7.17 버전에 맞는 commons-fileupload 버전 -->
+
+		</dependency>
+
+
 
 	</dependencies>
 

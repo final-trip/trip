@@ -25,7 +25,8 @@ public interface MountainService {
 	List<MountainDto> allmountains() throws SQLException;
 
 	List<MountainDto> getSearchResult(String word) throws SQLException;
-	//random 한 2개 추출.
+
+	// random 한 2개 추출.
 	List<MountainDto> getrandom2() throws SQLException;
 
 	// 정복한 산 추가
@@ -37,9 +38,15 @@ public interface MountainService {
 
 	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
 
+
 	//시/도, 구/군 가져오는 코드
 	List<SidoGugunCodeDto> getSido() throws Exception;
 	
 	List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception;
 	
+	List<MountainDto> getConqueredMountains(String userId) throws SQLException;
+
+	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
+
+
 }
