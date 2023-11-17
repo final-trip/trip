@@ -83,7 +83,7 @@ public class MemberController {
 			log.debug("loggggg {}", memberDto.toString());
 
 			if (memberDto != null) {
-				session.setAttribute("userinfo", memberDto);
+//				session.setAttribute("userinfo", memberDto);
 
 				// 세션에 사용자 정보를 저장
 				return ResponseEntity.ok("로그인 성공");
@@ -98,7 +98,7 @@ public class MemberController {
 
 	@GetMapping("/logout")
 	public ResponseEntity<String> logout(HttpSession session) {
-		session.invalidate();
+//		session.invalidate();
 		return ResponseEntity.ok("Logged out successfully");
 	}
 
