@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.mapper.MemberMapper;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.SidoGugunCodeDto;
 import com.ssafy.mountain.model.mapper.MountainMapper;
 
 @Service
@@ -91,8 +92,17 @@ public class MountainServiceImpl implements MountainService {
 		return mountainMapper.getrandom2();
 
 	}
+	
+	@Override
+	public List<SidoGugunCodeDto> getSido() throws Exception {
+		return mountainMapper.getSido();
+	}
 
 	@Override
+	public List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception {
+		return mountainMapper.getGugunInSido(sido);
+	}
+
 	public List<MountainDto> getConqueredMountains(String userId) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getConqueredMountains(userId);

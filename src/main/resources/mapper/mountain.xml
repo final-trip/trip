@@ -135,5 +135,17 @@
 		userId=#{memberid}
 	</update>
 
+	<select id="getSido" resultType="sidoGugunCodeDto">
+		select left(sido_code,2) sido_code, sido_name
+		from sido
+		order by sido_code
+	</select>
+	
+	<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
+		select left(gugun_code,5) gugun_code, gugun_name
+		from gugun
+		where left(sido_code,2) = #{sido}
+		order by gugun_code
+	</select>
 
 </mapper>
