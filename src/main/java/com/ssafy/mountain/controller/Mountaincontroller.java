@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.SidoGugunCodeDto;
 import com.ssafy.mountain.model.service.MountainService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -144,6 +146,22 @@ public class Mountaincontroller {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
 		}
 	}
+	
+	@ApiOperation(value = "시도 정보", notes = "전국의 시도를 반환한다.", response = List.class)
+	@GetMapping("/sido")
+	public ResponseEntity<List<SidoGugunCodeDto>> sido() throws Exception {
+		System.out.println("sido - 호출");
+		return new ResponseEntity<List<SidoGugunCodeDto>>(mountainservice.getSido(), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "구군 정보", notes = "시도에 속한 구군을 반환한다.", response = List.class)
+	@GetMapping("/gugun")
+	public ResponseEntity<List<SidoGugunCodeDto>> gugun(
+			@RequestParam("sido") @ApiParam(value = "시도코드.", required = true) String sido) throws Exception {
+		System.out.println("gugun - 호출");
+		return new ResponseEntity<List<SidoGugunCodeDto>>(mountainservice.getGugunInSido(sido), HttpStatus.OK);
+	}
+	
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {

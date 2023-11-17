@@ -111,7 +111,7 @@
 
 	<select id="getArticle" parameterType="int"
 		resultMap="viewArticle">
-		select b.articleNo, b.userId, b.subject, b.content,
+		select b.articleNo, b.userId, b.subjects, b.content,
 		b.registerTime, m.userName
 		from board b, members m
 		where b.userId =
