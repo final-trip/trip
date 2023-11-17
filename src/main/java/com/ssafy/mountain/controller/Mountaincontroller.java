@@ -50,7 +50,7 @@ public class Mountaincontroller {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add mountain");
 		}
 	}
-
+ 
 	@ApiOperation(value = "정복한 산 추가", notes = "회원이 정복한 산 정보를 추가한다.")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Mountain added successfully"),
 			@ApiResponse(code = 404, message = "Failed to add mountain"),
@@ -144,6 +144,20 @@ public class Mountaincontroller {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
 		}
 	}
+ 
+	@ApiOperation(value = "내가 정복한 산 ", notes = "내가 정복한 산 정보를 가져온다.")
+	@GetMapping("/getConqueredMountains")
+	public ResponseEntity<List<MountainDto>> getConqueredMountains(@RequestParam("userId") String userId) {
+
+		try {
+			List<MountainDto> ConqueredMountains = mountainservice.getConqueredMountains(userId);
+			return ResponseEntity.ok(ConqueredMountains);
+
+		} catch (SQLException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+		}
+	}
+
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {
