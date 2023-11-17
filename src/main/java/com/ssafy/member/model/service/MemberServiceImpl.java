@@ -56,4 +56,10 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.deleteMember(userId);
 	}
 
+//	@Override
+//	public MemberDto getmemberinfo(String userId) throws Exception {
+//		// TODO Auto-generated method stub
+//		return memberMapper.getmemberinfo(userId);
+//	}
+
 }

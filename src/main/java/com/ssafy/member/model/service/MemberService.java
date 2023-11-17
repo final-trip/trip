@@ -22,4 +22,6 @@ public interface MemberService {
 
 	void deleteMember(String userid) throws Exception;
 
+//	MemberDto getmemberinfo(String userId) throws Exception;
+
 }

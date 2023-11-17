@@ -51,6 +51,14 @@ public class MemberController {
 
 	}
 
+	@GetMapping("/getinfo")
+	public ResponseEntity<MemberDto> getMember(@RequestParam("userId") String userId) throws Exception {
+		MemberDto memberDto = memberService.getMember(userId);
+//		return cnt + "";
+
+		return ResponseEntity.ok(memberDto);
+	}
+
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteMember(@RequestParam("userId") String userId) throws Exception {
 
