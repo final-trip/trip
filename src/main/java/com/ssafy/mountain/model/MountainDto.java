@@ -1,5 +1,8 @@
 package com.ssafy.mountain.model;
 
+import java.sql.Date;
+import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,7 +21,7 @@ public class MountainDto {
 
 	@ApiModelProperty(value = "산정복한 사람")
 	private String memberid;
-	
+
 	@ApiModelProperty(value = "산 이름")
 	private String mntiname;
 
@@ -42,4 +45,8 @@ public class MountainDto {
 
 	@ApiModelProperty(value = "산 정복한숫자")
 	private int memberconquerednum;
+
+	@ApiModelProperty(value = "최근 산 정복한날짜")
+	private Date conquereddate;
+
 }

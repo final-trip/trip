@@ -114,4 +114,11 @@ public class MountainServiceImpl implements MountainService {
 		return mountainMapper.getSearchResultdetail(mntilistno);
 	}
 
+	@Override
+	public int gettotalconquerednum(String userId) {
+		// TODO Auto-generated method stub
+		return mountainMapper.gettotalconquerednum(userId);
+
+	}
+
 }

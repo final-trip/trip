@@ -49,6 +49,7 @@ public class Mountaincontroller {
 		try {
 			mountainservice.addmountain(mountainDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body("Mountain added successfully");
+
 		} catch (SQLException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add mountain");
 		}
@@ -62,7 +63,6 @@ public class Mountaincontroller {
 	public ResponseEntity<String> AddconqueredMountain(@RequestParam("memberId") String memberId,
 			@RequestParam("mntilistno") int mntilistno) {
 		try {
-
 			if (mountainservice.IsconqueredMountain(memberId, mntilistno) == 1) {
 				System.out.println("upppppp" + mntilistno);
 				mountainservice.Updateconquerednum(mntilistno);
@@ -72,7 +72,6 @@ public class Mountaincontroller {
 				System.out.println("addd" + mntilistno);
 				mountainservice.AddConqueredMountain(memberId, mntilistno);
 				mountainservice.Updateconquerednum(mntilistno);
-
 			}
 
 			return ResponseEntity.status(HttpStatus.CREATED).body("Mountain added successfully");
@@ -188,7 +187,15 @@ public class Mountaincontroller {
 		}
 	}
 
+ 
+	@ApiOperation(value = "내가 정복한 산 ", notes = "내가 정복한 산 정보를 가져온다.")
+	@GetMapping("/gettotalconquered")
+	public ResponseEntity<Integer> gettotalconquerednum(@RequestParam("userId") String userId) throws SQLException {
 
+		int cnt = mountainservice.gettotalconquerednum(userId);
+		return ResponseEntity.ok(cnt);
+	}
+ 
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {

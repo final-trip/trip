@@ -48,5 +48,6 @@ public interface MountainService {
 
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
-
+ 	int gettotalconquerednum(String userId) throws SQLException;
+ 
 }
