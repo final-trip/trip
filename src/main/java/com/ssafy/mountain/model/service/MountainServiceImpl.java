@@ -92,4 +92,10 @@ public class MountainServiceImpl implements MountainService {
 
 	}
 
+	@Override
+	public List<MountainDto> getConqueredMountains(String userId) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getConqueredMountains(userId);
+	}
+
 }

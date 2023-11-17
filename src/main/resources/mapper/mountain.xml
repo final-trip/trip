@@ -99,14 +99,21 @@
 		#{word}, '%')
 	</select>
 
-	<select id="getrandom2"  
+	<select id="getConqueredMountains" parameterType="String"
 		resultMap="mountainResultMap">
-		SELECT * FROM mountain
-		 where mntiimg is not null
-		 order by mntiname, RAND() limit 3
+		SELECT m.* FROM
+		membermountain mm , mountain m
+		where mm.mntilistno=m.mntilistno
+		and mm.userId=#{userId}
 	</select>
 
 
+	<select id="getrandom2" resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		where
+		mntiimg is not null
+		order by mntiname, RAND() limit 3
+	</select>
 	<update id="Updateconquerednum">
 		update mountain set
 		mnticonquerednum=mnticonquerednum+1 where
