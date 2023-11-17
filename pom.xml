@@ -89,12 +89,12 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.4</version> Spring Boot 2.7.17 버전에 맞는 commons-fileupload 버전
+			<version>1.4</version> <!-- Spring Boot 2.7.17 버전에 맞는 commons-fileupload 버전 -->
 
-		</dependency> -->
+		</dependency>
 
 
 
