@@ -30,6 +30,8 @@ public interface MountainMapper {
 
 	List<MountainDto> getSearchResult(String word) throws SQLException;
 
+	List<MountainDto> getConqueredMountains(String userId) throws SQLException;
+
 	void AddConqueredMountain(String memberid, int mntilistno);
 
 	void Updateconquerednum(int mntilistno) throws SQLException;
