@@ -168,6 +168,14 @@ public class Mountaincontroller {
 		}
 	}
 
+	@ApiOperation(value = "내가 정복한 산 ", notes = "내가 정복한 산 정보를 가져온다.")
+	@GetMapping("/gettotalconquered")
+	public ResponseEntity<Integer> gettotalconquerednum(@RequestParam("userId") String userId) throws SQLException {
+
+		int cnt = mountainservice.gettotalconquerednum(userId);
+		return ResponseEntity.ok(cnt);
+	}
+
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {

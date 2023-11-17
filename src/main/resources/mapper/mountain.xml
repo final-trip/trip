@@ -112,7 +112,8 @@
 		m.mntihigh, m.sido_code, m.gugun_code, m.mntiimg
 		,mm.memberconquerednum,mm.conquereddate
 		FROM
-		membermountain mm , mountain m
+		membermountain mm ,
+		mountain m
 		where
 		mm.mntilistno=m.mntilistno
 		and
@@ -125,6 +126,16 @@
 		where
 		mntiimg is not null
 		order by mntiname, RAND() limit 3
+	</select>
+
+
+	<select id="gettotalconquerednum" parameterType="String"
+		resultType="int">
+		SELECT SUM(mm.memberconquerednum)
+		FROM membermountain mm
+		INNER JOIN mountain m ON mm.mntilistno = m.mntilistno
+		WHERE mm.userId =
+		#{userId}
 	</select>
 
 	<update id="Updateconquerednum">

@@ -42,4 +42,6 @@ public interface MountainMapper {
 
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
+	int gettotalconquerednum(String userId);
+
 }
