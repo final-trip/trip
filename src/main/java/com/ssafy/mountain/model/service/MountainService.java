@@ -39,4 +39,6 @@ public interface MountainService {
 
 	List<MountainDto> getConqueredMountains(String userId) throws SQLException;
 
+	MountainDto getSearchResultdetail(String word) throws SQLException;
+
 }

@@ -99,11 +99,19 @@
 		#{word}, '%')
 	</select>
 
+	<select id="getSearchResultdetail" parameterType="String"
+		resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE mntiname LIKE CONCAT('%',
+		#{mntiname}, '%')	
+	</select>
+
 	<select id="getConqueredMountains" parameterType="String"
 		resultMap="mountainResultMap">
 		SELECT m.* FROM
 		membermountain mm , mountain m
-		where mm.mntilistno=m.mntilistno
+		where
+		mm.mntilistno=m.mntilistno
 		and mm.userId=#{userId}
 	</select>
 
