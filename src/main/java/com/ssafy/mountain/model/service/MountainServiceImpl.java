@@ -98,4 +98,10 @@ public class MountainServiceImpl implements MountainService {
 		return mountainMapper.getConqueredMountains(userId);
 	}
 
+	@Override
+	public MountainDto getSearchResultdetail(String mntiname) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getSearchResultdetail(mntiname);
+	}
+
 }
