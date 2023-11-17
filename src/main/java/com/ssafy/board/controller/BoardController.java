@@ -128,6 +128,17 @@ public class BoardController {
 		return ResponseEntity.status(HttpStatus.OK).body(list);
 	}
 
+	@GetMapping("/getboardfiles")
+	public ResponseEntity<List<FileInfoDto>> getfilelist(@RequestParam("articleNo") int articleNo) throws Exception {
+//		logger.debug("list parameter pgno : {}", map.get("pgno"));
+//		List<BoardDto> list = boardService.listArticle(map);
+
+		List<FileInfoDto> list = boardService.getfilelist(articleNo);
+//		PageNavigation pageNavigation = boardService.makePageNavigation(map);
+
+		return ResponseEntity.status(HttpStatus.OK).body(list);
+	}
+
 	@GetMapping("/alllist")
 	public ResponseEntity<List<BoardDto>> alllist() throws Exception {
 //		logger.debug("list parameter pgno : {}", map.get("pgno"));

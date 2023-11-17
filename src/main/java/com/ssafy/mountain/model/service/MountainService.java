@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.SidoGugunCodeDto;
 
 public interface MountainService {
 	// 산 추가
@@ -37,10 +38,16 @@ public interface MountainService {
 
 	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
 
+
+	//시/도, 구/군 가져오는 코드
+	List<SidoGugunCodeDto> getSido() throws Exception;
+	
+	List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception;
+	
 	List<MountainDto> getConqueredMountains(String userId) throws SQLException;
 
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
-	int gettotalconquerednum(String userId) throws SQLException;
-
+ 	int gettotalconquerednum(String userId) throws SQLException;
+ 
 }

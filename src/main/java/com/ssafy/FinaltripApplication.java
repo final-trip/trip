@@ -1,13 +1,13 @@
-package com.ssafy.board;
+package com.ssafy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FinalTripApplication {
+public class FinaltripApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FinalTripApplication.class, args);
+		SpringApplication.run(FinaltripApplication.class, args);
 	}
 
 }
