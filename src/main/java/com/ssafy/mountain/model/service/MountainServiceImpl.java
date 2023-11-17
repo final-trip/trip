@@ -99,9 +99,9 @@ public class MountainServiceImpl implements MountainService {
 	}
 
 	@Override
-	public MountainDto getSearchResultdetail(String mntiname) throws SQLException {
+	public MountainDto getSearchResultdetail(int mntilistno) throws SQLException {
 		// TODO Auto-generated method stub
-		return mountainMapper.getSearchResultdetail(mntiname);
+		return mountainMapper.getSearchResultdetail(mntilistno);
 	}
 
 }
