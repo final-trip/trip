@@ -147,11 +147,11 @@ public class Mountaincontroller {
 	}
 
 	@ApiOperation(value = "특정 산의 정보", notes = " 산 정보를 가져온다.")
-	@GetMapping("/getdetail/{mntiname}")
-	public ResponseEntity<MountainDto> getSearchResultdetail(@PathVariable("mntiname") String mntiname)
+	@GetMapping("/getdetail/{mntilistno}")
+	public ResponseEntity<MountainDto> getSearchResultdetail(@PathVariable("mntilistno") int mntilistno)
 			throws SQLException {
 
-		MountainDto mountainDto = mountainservice.getSearchResultdetail(mntiname);
+		MountainDto mountainDto = mountainservice.getSearchResultdetail(mntilistno);
 		return ResponseEntity.ok(mountainDto);
 
 	}

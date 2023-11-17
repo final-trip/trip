@@ -40,6 +40,6 @@ public interface MountainMapper {
 
 	int IsconqueredMountain(String memberid, int mntilistno) throws SQLException;
 
-	MountainDto getSearchResultdetail(String mntiname) throws SQLException;
+	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
 }
