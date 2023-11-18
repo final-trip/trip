@@ -121,4 +121,10 @@ public class MountainServiceImpl implements MountainService {
 
 	}
 
+	@Override
+	public List<MountainDto> getMountainList(SidoGugunCodeDto sidogugun) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getMountainList(sidogugun);
+	}
+
 }

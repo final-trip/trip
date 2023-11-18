@@ -195,6 +195,14 @@ public class Mountaincontroller {
 		int cnt = mountainservice.gettotalconquerednum(userId);
 		return ResponseEntity.ok(cnt);
 	}
+	
+	@ApiOperation(value = "시/도, 구/군으로 확인산 산들 ", notes = "select로 선택한 산들을 가져온다.")
+	@GetMapping("/getmountainlist")
+	public ResponseEntity<List<MountainDto>> getMountainList(@RequestParam("param")SidoGugunCodeDto sidogugun ) throws SQLException {
+
+		List<MountainDto> cnt = mountainservice.getMountainList(sidogugun);
+		return ResponseEntity.ok(cnt);
+	}
  
 //
 //	@PostMapping()
