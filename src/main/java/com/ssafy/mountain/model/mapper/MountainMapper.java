@@ -40,14 +40,14 @@ public interface MountainMapper {
 	void Updateconquerednumofmountain(String memberid, int mntilistno) throws SQLException;
 
 	int IsconqueredMountain(String memberid, int mntilistno) throws SQLException;
-	
+
 	List<SidoGugunCodeDto> getSido() throws SQLException;
-	
+
 	List<SidoGugunCodeDto> getGugunInSido(String sido) throws SQLException;
 
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
- 	int gettotalconquerednum(String userId);
- 
+	int gettotalconquerednum(String userId) throws SQLException;
 
+	int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException;
 }
