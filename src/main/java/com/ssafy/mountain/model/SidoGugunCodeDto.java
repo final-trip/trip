@@ -19,7 +19,7 @@ public class SidoGugunCodeDto {
 	@ApiModelProperty(value = "시도이름")
 	private String sido_name;
 	@ApiModelProperty(value = "구군코드")
-	private String gugun_node;
+	private String gugun_code;
 	@ApiModelProperty(value = "구군이름")
 	private String gugun_name;
 	

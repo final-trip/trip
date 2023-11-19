@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.board.model.mapper.BoardMapper">
+
+	<resultMap type="boardDto" id="article">
+
+		<result column="articleNo" property="articleNo" />
+		<result column="userId" property="userId" />
+		<result column="userName" property="userName" />
+		<result column="subjects" property="subjects" />
+		<result column="content" property="content" />
+		<result column="registerTime" property="registerTime" />
+	</resultMap>
+
+	<resultMap type="boardDto" id="viewArticle" extends="article">
+
+		<collection property="fileInfos" ofType="fileInfoDto"
+			javaType="list" select="fileInfoList" column="articleNo" />
+	</resultMap>
+
+	<resultMap type="fileInfoDto" id="file">
+
+		<result column="save_folder" property="save_folder" />
+		<result column="original_file" property="original_file" />
+		<result column="save_file" property="save_file" />
+
+	</resultMap>
+
+	<insert id="writeArticle" parameterType="boardDto">
+		insert into board (user_id, subject, content, registerTime)
+		values
+		(#{userId}, #{subject}, #{content}, now())
+		<selectKey resultType="int" keyProperty="articleNo"
+			order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
+	<insert id="registerFile" parameterType="boardDto">
+		insert into file_info (file_info_id, articleNo, save_folder,
+		original_file, save_file)
+		values
+
+		<foreach collection="fileInfos" item="fileinfo" separator=",">
+			(#{fileinfo.file_info_id}, #{fileinfo.articleNo},
+			#{fileinfo.save_folder}, #{fileinfo.original_file},
+			#{fileinfo.save_file})
+		</foreach>
+	</insert>
+
+
+	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
+		( file_info_id , articleNo , save_folder, original_file , save_file ) values 
+		<foreach collection="fileInfos" item="fileinfo" separator=" , "> (#{fileinfo.file_info_id}, 
+		#{fileinfo.articleNo}, #{fileinfo.type} ) </foreach> </insert> -->
+
+	<sql id="search">
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				and subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				and ${key} = #{word}
+			</if>
+		</if>
+	</sql>
+
+	<!-- <select id="listArticle" parameterType="map" resultMap="article"> -->
+	<select id="listArticle" resultMap="article">
+		select b.articleNo, b.userId, b.subjects, b.content, b.registerTime,
+		m.userName
+		from board b, members m
+
+		where b.userId = m.userId
+		<include refid="search"></include>
+		order by b.articleNo
+		<!-- limit #{start}, #{listsize} -->
+	</select>
+
+	<select id="alllistArticle" resultMap="article">
+		select b.articleNo, b.userId, b.subjects, b.content, b.registerTime,
+		m.userName
+		from board b, members m
+
+		where b.userId = m.userId
+		order by
+		b.articleNo
+		<!-- limit #{start}, #{listsize} -->
+	</select>
+
+	<select id="getfilelist" parameterType="int" resultMap="file">
+		select f.save_folder,f.original_file,f.save_file
+		from board b, file_info f
+		where b.articleNo = f.articleNo
+		and b.articleNo=#{articleNo};
+		
+	</select>
+	
+
+	<select id="getTotalArticleCount" parameterType="map"
+		resultType="int">
+		select count(articleNo)
+		from board
+		<where>
+			<include refid="search"></include>
+		</where>
+	</select>
+
+
+	<select id="getArticle" parameterType="int"
+		resultMap="viewArticle">
+		select b.articleNo, b.userId, b.subjects, b.content,
+		b.registerTime, m.userName
+		from board b, members m
+		where b.userId =
+		m.userId
+		and b.articleNo =
+		#{articleNo}
+
+	</select>
+
+	<select id="fileInfoList" resultMap="file">
+		select save_folder,
+		original_file, save_file
+		from file_info
+		where articleNo = #{articleNo}
+	</select>
+
+	<!-- <update id="updateHit" parameterType="int"> update board set hit = 
+		hit + 1 where articleNo = #{articleNo} </update> -->
+
+	<update id="modifyArticle" parameterType="boardDto">
+		update board
+		set
+		subjects = #{subjects}, content = #{content}
+		where articleNo =
+		#{articleNo}
+	</update>
+
+	<delete id="deleteFile" parameterType="int">
+		delete from file_info
+		where articleNo = #{articleNo}
+	</delete>
+
+	<delete id="deleteArticle" parameterType="int">
+		delete from board
+		where
+		articleNo = #{articleNo}
+	</delete>
+
+</mapper>

@@ -92,7 +92,7 @@ public class MountainServiceImpl implements MountainService {
 		return mountainMapper.getrandom2();
 
 	}
-	
+
 	@Override
 	public List<SidoGugunCodeDto> getSido() throws Exception {
 		return mountainMapper.getSido();
@@ -115,10 +115,20 @@ public class MountainServiceImpl implements MountainService {
 	}
 
 	@Override
-	public int gettotalconquerednum(String userId) {
+	public int gettotalconquerednum(String userId) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.gettotalconquerednum(userId);
 
+	}
+
+//	sido_code=#{sido_code} and
+//	gugun_code=#{gugun_code} and
+//	WHERE mntiname LIKE CONCAT('%',
+//	#{word},'%')
+	@Override
+	public int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getmountainnum(userId, sido_code, gugun_code, word);
 	}
 
 }
