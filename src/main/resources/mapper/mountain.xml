@@ -164,7 +164,7 @@
 		resultType="sidoGugunCodeDto">
 		select left(gugun_code,2) gugun_code, gugun_name
 		from gugun
-		where  sido_code = #{sido}
+		where left(sido_code,2) = #{sido}
 		order by gugun_code
 	</select>
 
