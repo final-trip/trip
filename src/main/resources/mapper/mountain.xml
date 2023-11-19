@@ -15,6 +15,8 @@
 		<result property="sido_code" column="sido_code" />
 		<result property="gugun_code" column="gugun_code" />
 		<result property="mntiimg" column="mntiimg" />
+		<result property="lat" column="lat" />
+		<result property="lng" column="lng" />
 	</resultMap>
 
 	<insert id="addMountain"
@@ -154,16 +156,21 @@
 	</update>
 
 	<select id="getSido" resultType="sidoGugunCodeDto">
-		select left(sido_code,2) sido_code, sido_name
+		select left(sido_code,2)
+		sido_code, sido_name
 		from sido
 		order by sido_code
 	</select>
-	
-	<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
+
+	<select id="getGugunInSido" parameterType="string"
+		resultType="sidoGugunCodeDto">
 		select left(gugun_code,5) gugun_code, gugun_name
 		from gugun
 		where left(sido_code,2) = #{sido}
 		order by gugun_code
 	</select>
+
+	
+
 
 </mapper>
