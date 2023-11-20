@@ -42,6 +42,6 @@ public class BoardDto {
 	@ApiModelProperty(value = "게시판 파일")
 	private List<FileInfoDto> fileInfos;
 	
-	private int like;
+	private int likes;
 
 }
