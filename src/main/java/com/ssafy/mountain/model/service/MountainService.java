@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.MountainrankingResponseDto;
 import com.ssafy.mountain.model.SidoGugunCodeDto;
 
 public interface MountainService {
@@ -47,12 +48,12 @@ public interface MountainService {
 
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
-   	
- 	List<MountainDto> getMountainList(SidoGugunCodeDto sidogugun) throws SQLException;
- 
- 
+	List<MountainDto> getMountainList(SidoGugunCodeDto sidogugun) throws SQLException;
+
 	int gettotalconquerednum(String userId) throws SQLException;
 
 	int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException;
 
- }
+	List<MountainrankingResponseDto> getrank3(int mntilistno) throws SQLException;
+
+}

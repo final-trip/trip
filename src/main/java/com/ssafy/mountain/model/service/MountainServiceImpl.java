@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.mapper.MemberMapper;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.MountainrankingResponseDto;
 import com.ssafy.mountain.model.SidoGugunCodeDto;
 import com.ssafy.mountain.model.mapper.MountainMapper;
 
@@ -131,6 +132,12 @@ public class MountainServiceImpl implements MountainService {
 	public int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getmountainnum(userId, sido_code, gugun_code, word);
+	}
+
+	@Override
+	public List<MountainrankingResponseDto> getrank3(int mntilistno) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getrank3(mntilistno);
 	}
 
 }
