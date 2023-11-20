@@ -47,8 +47,9 @@ public class WishListcontroller {
 	
 	
 	@PostMapping("/add")
-	public ResponseEntity<String> registerMember(@RequestBody WishListDto wishListDto) {
+	public ResponseEntity<String> addWishListr(@RequestBody WishListDto wishListDto) {
 		log.debug("wishListDto info : {}", wishListDto);
+		System.out.println(wishListDto);
 		try {
 			wishListService.addwishlist(wishListDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body("wishlist registered successfully");
@@ -63,10 +64,9 @@ public class WishListcontroller {
 	
 	@GetMapping("/getwishlist")
 	public ResponseEntity<List<WishListDto>> getMembers(@RequestParam("userId") String userid) throws Exception {
+		System.out.println(userid);
 		List<WishListDto> wishlist = wishListService.getwishlist(userid);
-		for(WishListDto wish : wishlist) {
-			System.out.println(wish);
-		}
+		
 		if (wishlist.isEmpty()) {
 			return ResponseEntity.noContent().build();
 			}

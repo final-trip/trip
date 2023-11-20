@@ -64,7 +64,8 @@
 		=
 		#{memberid}
 		)
-		ORDER BY mntihigh ASC
+		ORDER BY mntihigh DESC
+		limit 5
 	</select>
 
 	<select id="getNearestUnconqueredMountains"
@@ -78,7 +79,7 @@
 		mm.userId = #{memberid}
 		)
 		ORDER BY
-		desc //이부분 추가수정필요..
+		desc 
 	</select>
 
 	<select id="getAllMountains" resultMap="mountainResultMap">
