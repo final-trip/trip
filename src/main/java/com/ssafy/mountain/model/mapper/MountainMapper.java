@@ -38,7 +38,7 @@ public interface MountainMapper {
 	void Updateconquerednum(int mntilistno) throws SQLException;
 
 	void Updateconquerednumofmountain(String memberid, int mntilistno) throws SQLException;
-
+	
 	int IsconqueredMountain(String memberid, int mntilistno) throws SQLException;
 
 	List<SidoGugunCodeDto> getSido() throws SQLException;
