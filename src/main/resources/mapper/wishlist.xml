@@ -14,13 +14,13 @@
 
 	<insert id="addwishlist" parameterType="wishListDto">
 		insert into
-		wish_list(wish_list_id,userId, mntilistno)
-		values(#{wish_list_id},#{userId}, #{mntilistno})
+		wish_list(userId, mntilistno)
+		values(#{userId}, #{mntilistno})
 	</insert>
 
 	<select id="getwishlist" parameterType="String" resultMap="wishlist">
-		select wish_list_id, mntilistno
-		from wish_list
+		select w.userId, m.*
+		from wish_list w  left join mountain m on w.mntilistno = m.mntilistno
 		where userId = #{userId}
 	</select>
 

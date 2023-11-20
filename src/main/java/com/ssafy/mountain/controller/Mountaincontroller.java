@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -206,7 +207,16 @@ public class Mountaincontroller {
 		int cnt = mountainservice.gettotalconquerednum(userId);
 		return ResponseEntity.ok(cnt);
 	}
-
+ 	
+	@ApiOperation(value = "시/도, 구/군으로 확인산 산들 ", notes = "select로 선택한 산들을 가져온다.")
+	@GetMapping("/getmountainlist")
+	public ResponseEntity<List<MountainDto>> getMountainList(@ModelAttribute SidoGugunCodeDto sidogugun ) throws SQLException {
+		System.out.println(sidogugun);
+		List<MountainDto> mountainlist = mountainservice.getMountainList(sidogugun);
+		return ResponseEntity.ok(mountainlist);
+	}
+ 
+ 
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {
