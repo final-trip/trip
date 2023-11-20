@@ -36,4 +36,6 @@ public interface BoardMapper {
 
 	List<FileInfoDto> getfilelist(int articleNo) throws Exception;
 
+	void toggleLike(int articleNo) throws Exception;
+
 }
