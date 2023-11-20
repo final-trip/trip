@@ -10,8 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MountainRequestDto {
-	private int mntilistno;
- 	 
+	private String userId;
+	private String mntiname;
+	private int sido_code;
+	private int gugun_code;
 
 	// Getters and Setters
 }
