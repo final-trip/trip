@@ -164,7 +164,7 @@
 		resultType="sidoGugunCodeDto">
 		select left(gugun_code,2) gugun_code, gugun_name
 		from gugun
-		where  sido_code = #{sido}
+		where sido_code = #{sido}
 		order by gugun_code
 	</select>
 
@@ -175,7 +175,7 @@
 		where
 		sido_code=#{sido_code} and
 		gugun_code=#{gugun_code} and
-		  mntiname LIKE CONCAT('%',#{word},'%')
+		mntiname LIKE CONCAT('%',#{word},'%')
 	</select>
 
 </mapper>

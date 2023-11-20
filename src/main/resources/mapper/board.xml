@@ -112,11 +112,7 @@
 	<select id="getArticle" parameterType="int"
 		resultMap="viewArticle">
 		select b.articleNo, b.userId, b.subjects, b.content,
-<<<<<<< HEAD
-		b.registerTime, m.userName,b.like
-=======
-		b.registerTime, m.userName
->>>>>>> 8e5a0af423114d2afcdbca828417a6b3c078007b
+ 		b.registerTime, m.userName,b.like 
 		from board b, members m
 		where b.userId =
 		m.userId
