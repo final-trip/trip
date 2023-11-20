@@ -35,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ssafy.board.model.ArticleRequest;
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.board.model.service.BoardService;
@@ -69,10 +70,9 @@ public class BoardController {
 	}
 
 	@PostMapping("/likes")
-	public ResponseEntity<String> toggleLike(@RequestBody String articleNo) throws Exception {
-		boardService.toggleLike(articleNo);
+	public ResponseEntity<String> toggleLike(@RequestBody ArticleRequest articleRequest) throws Exception {
+		boardService.toggleLike(articleRequest.getArticleNo());
 		return ResponseEntity.ok("like increased");
-
 	}
 
 	@PostMapping("/write")

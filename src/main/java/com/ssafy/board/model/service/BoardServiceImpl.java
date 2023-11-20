@@ -136,11 +136,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void toggleLike(String articleNo2) throws Exception {
+	public void toggleLike(int articleNo) throws Exception {
 		// TODO Auto-generated method stub
-		int articleNo = Integer.parseInt(articleNo2);
+		System.out.println("articleNo" + articleNo);
 		boardMapper.toggleLike(articleNo);
-
 	}
 
 }
