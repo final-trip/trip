@@ -221,10 +221,8 @@ public class Mountaincontroller {
 
 	@ApiOperation(value = "특정산을 정복한 횟수가 많은 세명 ", notes = " 세명의 데이터 가져온다.")
 	@GetMapping("/getrank3")
-	public ResponseEntity<List<MountainrankingResponseDto>> getrank3(
-			@RequestBody MountainrankingRequestDto mountainrankingRequestDto) throws SQLException {
-		List<MountainrankingResponseDto> mountainlist = mountainservice
-				.getrank3(mountainrankingRequestDto.getMntilistno());
+	public ResponseEntity<List<MountainrankingResponseDto>> getrank3(@RequestParam int mntilistno) throws SQLException {
+		List<MountainrankingResponseDto> mountainlist = mountainservice.getrank3(mntilistno);
 		return ResponseEntity.ok(mountainlist);
 	}
 
