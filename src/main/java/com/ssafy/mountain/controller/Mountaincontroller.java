@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.MountainRequestDto;
+import com.ssafy.mountain.model.SidoGugunCodeDto;
 import com.ssafy.mountain.model.service.MountainService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -58,17 +61,30 @@ public class Mountaincontroller {
 			@ApiResponse(code = 404, message = "Failed to add mountain"),
 			@ApiResponse(code = 500, message = "서버에러!!") })
 	@PostMapping("/add/conqueredMountain")
-	public ResponseEntity<String> AddconqueredMountain(@RequestParam("memberId") String memberId,
-			@RequestParam("mntilistno") int mntilistno) {
+//	public ResponseEntity<String> AddconqueredMountain(@RequestParam("userId") String userId,
+//			@RequestParam("mntiname") String mntiname, @RequestParam("sido_code") String sido_code,
+//			@RequestParam("gugun_code") String gugun_code ) throws SQLException {
+	public ResponseEntity<String> AddconqueredMountain(@RequestBody MountainRequestDto mountainRequestDto)
+			throws SQLException {
+		String userId = mountainRequestDto.getUserId();
+		int sido_code = mountainRequestDto.getSido_code();
+		int gugun_code = mountainRequestDto.getGugun_code();
+		String mntiname = mountainRequestDto.getMntiname();
+
+//		public int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException {
+
+		int mntilistno = mountainservice.getmountainnum(userId, sido_code, gugun_code, mntiname);
+
 		try {
-			if (mountainservice.IsconqueredMountain(memberId, mntilistno) == 1) {
+
+			if (mountainservice.IsconqueredMountain(userId, mntilistno) == 1) {
 				System.out.println("upppppp" + mntilistno);
 				mountainservice.Updateconquerednum(mntilistno);
-				mountainservice.Updateconquerednumofmountain(memberId, mntilistno);
+				mountainservice.Updateconquerednumofmountain(userId, mntilistno);
 
 			} else {
 				System.out.println("addd" + mntilistno);
-				mountainservice.AddConqueredMountain(memberId, mntilistno);
+				mountainservice.AddConqueredMountain(userId, mntilistno);
 				mountainservice.Updateconquerednum(mntilistno);
 			}
 
@@ -143,6 +159,21 @@ public class Mountaincontroller {
 		} catch (SQLException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
 		}
+	}
+
+	@ApiOperation(value = "시도 정보", notes = "전국의 시도를 반환한다.", response = List.class)
+	@GetMapping("/sido")
+	public ResponseEntity<List<SidoGugunCodeDto>> sido() throws Exception {
+		System.out.println("sido - 호출");
+		return new ResponseEntity<List<SidoGugunCodeDto>>(mountainservice.getSido(), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "구군 정보", notes = "시도에 속한 구군을 반환한다.", response = List.class)
+	@GetMapping("/gugun")
+	public ResponseEntity<List<SidoGugunCodeDto>> gugun(
+			@RequestParam("sido") @ApiParam(value = "시도코드.", required = true) String sido) throws Exception {
+		System.out.println("gugun - 호출");
+		return new ResponseEntity<List<SidoGugunCodeDto>>(mountainservice.getGugunInSido(sido), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "특정 산의 정보", notes = " 산 정보를 가져온다.")

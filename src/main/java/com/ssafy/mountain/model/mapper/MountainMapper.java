@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.SidoGugunCodeDto;
 
 @Mapper
 public interface MountainMapper {
@@ -40,8 +41,13 @@ public interface MountainMapper {
 
 	int IsconqueredMountain(String memberid, int mntilistno) throws SQLException;
 
+	List<SidoGugunCodeDto> getSido() throws SQLException;
+
+	List<SidoGugunCodeDto> getGugunInSido(String sido) throws SQLException;
+
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
-	int gettotalconquerednum(String userId);
+	int gettotalconquerednum(String userId) throws SQLException;
 
+	int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException;
 }

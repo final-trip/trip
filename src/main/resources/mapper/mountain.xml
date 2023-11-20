@@ -153,5 +153,29 @@
 		userId=#{memberid}
 	</update>
 
+	<select id="getSido" resultType="sidoGugunCodeDto">
+		select left(sido_code,2)
+		sido_code, sido_name
+		from sido
+		order by sido_code
+	</select>
+
+	<select id="getGugunInSido" parameterType="string"
+		resultType="sidoGugunCodeDto">
+		select left(gugun_code,2) gugun_code, gugun_name
+		from gugun
+		where  sido_code = #{sido}
+		order by gugun_code
+	</select>
+
+	<select id="getmountainnum"
+		parameterType="com.ssafy.mountain.model.MountainDto" resultType="int">
+		select mntilistno
+		from mountain
+		where
+		sido_code=#{sido_code} and
+		gugun_code=#{gugun_code} and
+		  mntiname LIKE CONCAT('%',#{word},'%')
+	</select>
 
 </mapper>

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.mapper.MemberMapper;
 import com.ssafy.mountain.model.MountainDto;
+import com.ssafy.mountain.model.SidoGugunCodeDto;
 import com.ssafy.mountain.model.mapper.MountainMapper;
 
 @Service
@@ -93,6 +94,15 @@ public class MountainServiceImpl implements MountainService {
 	}
 
 	@Override
+	public List<SidoGugunCodeDto> getSido() throws Exception {
+		return mountainMapper.getSido();
+	}
+
+	@Override
+	public List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception {
+		return mountainMapper.getGugunInSido(sido);
+	}
+
 	public List<MountainDto> getConqueredMountains(String userId) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getConqueredMountains(userId);
@@ -105,10 +115,20 @@ public class MountainServiceImpl implements MountainService {
 	}
 
 	@Override
-	public int gettotalconquerednum(String userId) {
+	public int gettotalconquerednum(String userId) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.gettotalconquerednum(userId);
 
+	}
+
+//	sido_code=#{sido_code} and
+//	gugun_code=#{gugun_code} and
+//	WHERE mntiname LIKE CONCAT('%',
+//	#{word},'%')
+	@Override
+	public int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getmountainnum(userId, sido_code, gugun_code, word);
 	}
 
 }
