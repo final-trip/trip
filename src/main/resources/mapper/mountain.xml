@@ -15,6 +15,8 @@
 		<result property="sido_code" column="sido_code" />
 		<result property="gugun_code" column="gugun_code" />
 		<result property="mntiimg" column="mntiimg" />
+		<result property="lat" column="lat" />
+		<result property="lng" column="lng" />
 	</resultMap>
 
 	<insert id="addMountain"
@@ -62,7 +64,8 @@
 		=
 		#{memberid}
 		)
-		ORDER BY mntihigh ASC
+		ORDER BY mntihigh DESC
+		limit 5
 	</select>
 
 	<select id="getNearestUnconqueredMountains"
@@ -76,7 +79,7 @@
 		mm.userId = #{memberid}
 		)
 		ORDER BY
-		desc //이부분 추가수정필요..
+		desc 
 	</select>
 
 	<select id="getAllMountains" resultMap="mountainResultMap">
@@ -162,20 +165,27 @@
 
 	<select id="getGugunInSido" parameterType="string"
 		resultType="sidoGugunCodeDto">
-		select left(gugun_code,2) gugun_code, gugun_name
-		from gugun
-		where left(sido_code,2) = #{sido}
-		order by gugun_code
+ 		select left(gugun_code,5) gugun_code, gugun_name
+ 
+		from gugun 
+		where sido_code = #{sido}
+ 		order by gugun_code
 	</select>
 
-	<select id="getmountainnum"
+ 	<select id="getMountainList" parameterType="com.ssafy.mountain.model.SidoGugunCodeDto"
+	resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE sido_code=#{sido_code} and gugun_code=#{gugun_code}
+  	</select>
+
+ 	<select id="getmountainnum"
 		parameterType="com.ssafy.mountain.model.MountainDto" resultType="int">
 		select mntilistno
 		from mountain
 		where
 		sido_code=#{sido_code} and
 		gugun_code=#{gugun_code} and
-		  mntiname LIKE CONCAT('%',#{word},'%')
-	</select>
+		mntiname LIKE CONCAT('%',#{word},'%')
+ 	</select>
 
 </mapper>

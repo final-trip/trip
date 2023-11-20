@@ -48,5 +48,11 @@ public class MountainDto {
 
 	@ApiModelProperty(value = "최근 산 정복한날짜")
 	private Date conquereddate;
+	
+	@ApiModelProperty(value = "위도")
+	private double lat;
+	
+	@ApiModelProperty(value = "경도")
+	private double lng;
 
 }

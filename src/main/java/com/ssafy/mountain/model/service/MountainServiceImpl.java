@@ -121,10 +121,12 @@ public class MountainServiceImpl implements MountainService {
 
 	}
 
-//	sido_code=#{sido_code} and
-//	gugun_code=#{gugun_code} and
-//	WHERE mntiname LIKE CONCAT('%',
-//	#{word},'%')
+	@Override
+	public List<MountainDto> getMountainList(SidoGugunCodeDto sidogugun) throws SQLException {
+		// TODO Auto-generated method stub
+		return mountainMapper.getMountainList(sidogugun);
+	}
+
 	@Override
 	public int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException {
 		// TODO Auto-generated method stub

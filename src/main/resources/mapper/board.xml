@@ -91,13 +91,14 @@
 	</select>
 
 	<select id="getfilelist" parameterType="int" resultMap="file">
-		select f.save_folder,f.original_file,f.save_file
+		select
+		f.save_folder,f.original_file,f.save_file
 		from board b, file_info f
 		where b.articleNo = f.articleNo
 		and b.articleNo=#{articleNo};
-		
+
 	</select>
-	
+
 
 	<select id="getTotalArticleCount" parameterType="map"
 		resultType="int">
@@ -112,9 +113,10 @@
 	<select id="getArticle" parameterType="int"
 		resultMap="viewArticle">
 		select b.articleNo, b.userId, b.subjects, b.content,
-		b.registerTime, m.userName
+		b.registerTime, m.userName,b.likes
 		from board b, members m
-		where b.userId =
+		where b.userId
+		=
 		m.userId
 		and b.articleNo =
 		#{articleNo}
@@ -137,6 +139,10 @@
 		subjects = #{subjects}, content = #{content}
 		where articleNo =
 		#{articleNo}
+	</update>
+
+	<update id="toggleLike" parameterType="int">
+		update board set likes=likes+1 where articleNo =#{articleNo}
 	</update>
 
 	<delete id="deleteFile" parameterType="int">
