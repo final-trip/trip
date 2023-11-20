@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.ssafy.mountain.model.mapper.MountainMapper">
+
+	<resultMap id="mountainResultMap"
+		type="com.ssafy.mountain.model.MountainDto">
+		<id property="mntilistno" column="mntilistno" />
+		<result property="mntiname" column="mntiname" />
+		<result property="mntidetails" column="mntidetails" />
+		<result property="mntiadd" column="mntiadd" />
+		<result property="mntihigh" column="mntihigh" />
+		<result property="sido_code" column="sido_code" />
+		<result property="gugun_code" column="gugun_code" />
+		<result property="mntiimg" column="mntiimg" />
+	</resultMap>
+
+	<insert id="addMountain"
+		parameterType="com.ssafy.mountain.model.MountainDto">
+		INSERT INTO mountain (mntiname, mntidetails, mntiadd,
+		mntihigh,
+		sido_code, gugun_code, mntiimg)
+		VALUES (#{mntiname},
+		#{mntidetails}, #{mntiadd}, #{mntihigh}, #{sido_code},
+		#{gugun_code},
+		#{mntiimg})
+	</insert>
+
+	<insert id="AddConqueredMountain"
+		parameterType="com.ssafy.mountain.model.MountainDto">
+		INSERT INTO membermountain ( userId ,
+		mntilistno,memberconquerednum,conquereddate)
+		VALUES (
+		#{memberid},
+		#{mntilistno},1,now())
+	</insert>
+
+
+
+
+	<select id="getUnconqueredMountains" parameterType="String"
+		resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE mntilistno NOT IN (
+		SELECT
+		mm.mntilistno FROM membermountain mm
+		WHERE mm.userId = #{memberid}
+		)
+	</select>
+
+	<select id="getUnconqueredMountainsAscendingByHeight"
+		parameterType="String" resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE
+		mntilistno
+		NOT IN (
+		SELECT mm.mntilistno FROM membermountain mm
+		WHERE
+		mm.userId
+		=
+		#{memberid}
+		)
+		ORDER BY mntihigh ASC
+	</select>
+
+	<select id="getNearestUnconqueredMountains"
+		parameterType="String" resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE
+		mntilistno NOT IN (
+		SELECT
+		mm.mntilistno FROM membermountain mm
+		WHERE
+		mm.userId = #{memberid}
+		)
+		ORDER BY
+		desc //이부분 추가수정필요..
+	</select>
+
+	<select id="getAllMountains" resultMap="mountainResultMap">
+		SELECT * FROM mountain
+	</select>
+
+
+	<select id="IsconqueredMountain" resultType="int"
+		parameterType="com.ssafy.mountain.model.MountainDto">
+		select count(*)
+		from membermountain mm
+		where
+		mm.userId=#{memberid} and mm.mntilistno=#{mntilistno}
+	</select>
+
+
+	<select id="getSearchResult" parameterType="String"
+		resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE mntiname LIKE CONCAT('%',
+		#{word}, '%')
+	</select>
+
+	<select id="getSearchResultdetail" parameterType="int"
+		resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE mntilistno=#{mntilistno}
+	</select>
+
+	<select id="getConqueredMountains" parameterType="String"
+		resultMap="mountainResultMap">
+		SELECT m.mntilistno, m.mntiname, m.mntidetails, m.mntiadd,
+		m.mntihigh, m.sido_code, m.gugun_code, m.mntiimg
+		,mm.memberconquerednum,mm.conquereddate
+		FROM
+		membermountain mm ,
+		mountain m
+		where
+		mm.mntilistno=m.mntilistno
+		and
+		mm.userId=#{userId}
+	</select>
+
+
+	<select id="getrandom2" resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		where
+		mntiimg is not null
+		order by mntiname, RAND() limit 3
+	</select>
+
+
+	<select id="gettotalconquerednum" parameterType="String"
+		resultType="int">
+		SELECT SUM(mm.memberconquerednum)
+		FROM membermountain mm
+		INNER JOIN mountain m ON mm.mntilistno = m.mntilistno
+		WHERE mm.userId =
+		#{userId}
+	</select>
+
+	<update id="Updateconquerednum">
+		update mountain set
+		mnticonquerednum=mnticonquerednum+1 where
+		mntilistno=#{mntilistno}
+	</update>
+
+	<update id="Updateconquerednumofmountain">
+		update membermountain set
+		memberconquerednum=memberconquerednum+1 , conquereddate=now()
+		where
+		mntilistno=#{mntilistno}
+		and
+		userId=#{memberid}
+	</update>
+
+	<select id="getSido" resultType="sidoGugunCodeDto">
+		select left(sido_code,2) sido_code, sido_name
+		from sido
+		order by sido_code
+	</select>
+	
+	<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
+		select left(gugun_code,5) gugun_code, gugun_name
+		from gugun
+		where left(sido_code,2) = #{sido}
+		order by gugun_code
+	</select>
+
+</mapper>

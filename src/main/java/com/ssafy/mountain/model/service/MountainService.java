@@ -38,18 +38,21 @@ public interface MountainService {
 
 	void Updateconquerednumofmountain(String memberId, int mntilistno) throws SQLException;
 
-
-	//시/도, 구/군 가져오는 코드
+	// 시/도, 구/군 가져오는 코드
 	List<SidoGugunCodeDto> getSido() throws Exception;
-	
+
 	List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception;
-	
+
 	List<MountainDto> getConqueredMountains(String userId) throws SQLException;
 
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
- 	int gettotalconquerednum(String userId) throws SQLException;
- 	
+   	
  	List<MountainDto> getMountainList(SidoGugunCodeDto sidogugun) throws SQLException;
  
-}
+ 
+	int gettotalconquerednum(String userId) throws SQLException;
+
+	int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException;
+
+ }

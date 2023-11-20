@@ -38,17 +38,19 @@ public interface MountainMapper {
 	void Updateconquerednum(int mntilistno) throws SQLException;
 
 	void Updateconquerednumofmountain(String memberid, int mntilistno) throws SQLException;
-
+	
 	int IsconqueredMountain(String memberid, int mntilistno) throws SQLException;
-	
+
 	List<SidoGugunCodeDto> getSido() throws SQLException;
-	
+
 	List<SidoGugunCodeDto> getGugunInSido(String sido) throws SQLException;
 
 	MountainDto getSearchResultdetail(int mntilistno) throws SQLException;
 
- 	int gettotalconquerednum(String userId);
- 	
+   	
  	List<MountainDto> getMountainList(SidoGugunCodeDto sidogugun) throws SQLException;
-
+ 
+	int gettotalconquerednum(String userId) throws SQLException;
+ 
+	int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException;
 }

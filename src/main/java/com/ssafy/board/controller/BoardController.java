@@ -68,6 +68,14 @@ public class BoardController {
 		this.boardService = boardService;
 	}
 
+	@PostMapping("/like")
+//	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+	public ResponseEntity<String> toggleLike(@RequestParam("articleNo") int articleNo) throws Exception {
+		boardService.toggleLike(articleNo);
+		return ResponseEntity.ok("like increased");
+
+	}
+
 	@PostMapping("/write")
 //	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
 	public ResponseEntity<String> write(@RequestPart BoardDto boardDto, @RequestPart("upfile") MultipartFile[] files)

@@ -33,7 +33,7 @@ public class BoardServiceImpl implements BoardService {
 		boardMapper.writeArticle(boardDto);
 		System.out.println("글입력 후 dto : " + boardDto);
 		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
-		
+
 		if (fileInfos != null && !fileInfos.isEmpty()) {
 			boardMapper.registerFile(boardDto);
 		}
@@ -133,6 +133,14 @@ public class BoardServiceImpl implements BoardService {
 	public List<FileInfoDto> getfilelist(int articleNo) throws Exception {
 		// TODO Auto-generated method stub
 		return boardMapper.getfilelist(articleNo);
+	}
+
+	@Override
+	public void toggleLike(int articleNo) throws Exception {
+		// TODO Auto-generated method stub
+
+		boardMapper.toggleLike(articleNo);
+
 	}
 
 }

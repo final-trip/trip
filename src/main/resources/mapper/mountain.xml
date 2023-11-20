@@ -165,16 +165,27 @@
 
 	<select id="getGugunInSido" parameterType="string"
 		resultType="sidoGugunCodeDto">
-		select left(gugun_code,5) gugun_code, gugun_name
+ 		select left(gugun_code,5) gugun_code, gugun_name
+ 
 		from gugun
-		where left(sido_code,2) = #{sido}
+		where sido_code = #{sido}
 		order by gugun_code
 	</select>
 
-	<select id="getMountainList" parameterType="com.ssafy.mountain.model.SidoGugunCodeDto"
+ 	<select id="getMountainList" parameterType="com.ssafy.mountain.model.SidoGugunCodeDto"
 	resultMap="mountainResultMap">
 		SELECT * FROM mountain
 		WHERE sido_code=#{sido_code} and gugun_code=#{gugun_code}
-	</select>
+  	</select>
+
+ 	<select id="getmountainnum"
+		parameterType="com.ssafy.mountain.model.MountainDto" resultType="int">
+		select mntilistno
+		from mountain
+		where
+		sido_code=#{sido_code} and
+		gugun_code=#{gugun_code} and
+		mntiname LIKE CONCAT('%',#{word},'%')
+ 	</select>
 
 </mapper>

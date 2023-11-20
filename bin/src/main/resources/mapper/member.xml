@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.member.model.mapper.MemberMapper">
+
+	<resultMap type="memberDto" id="member">
+		<result column="userId" property="userId"/>
+		<result column="userName" property="userName"/>
+	</resultMap>
+	
+	<!-- ADMIN -->
+	<resultMap type="memberDto" id="memberAll" extends="member">
+		<result column="userPwd" property="userPwd"/>
+		<result column="joinDate" property="joinDate"/>
+	</resultMap>
+
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(userId)
+		from members
+		where userId = #{userId}
+	</select>
+
+	<insert id="joinMember" parameterType="memberDto">
+		insert into members (userName, userId, userPwd, address)
+		values (#{userName}, #{userId}, #{userPwd}, #{address})
+	</insert>
+
+	<select id="loginMember" parameterType="map" resultMap="member">
+		select userId, userName
+		from members
+		where userId = #{userId} and userPwd = #{userPwd}
+	</select>
+	
+	<!-- ADMIN -->
+	<select id="listMember" resultMap="memberAll">
+		select userName, userId, userPwd, joinDate, address
+		from members
+		order by joinDate
+	</select>
+	
+	<select id="getMember" parameterType="string" resultMap="member">
+		select *
+		from members
+		where userId = #{userId}
+	</select>
+	
+	<update id="updateMember" parameterType="memberDto">
+		update members
+		<trim prefix="set" suffixOverrides=",">
+			<if test="userPwd != null">userPwd = #{userPwd},</if>
+		</trim>
+		where userId = #{userId}
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from members
+		where userId = #{userId}
+	</delete>
+	
+</mapper>

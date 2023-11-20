@@ -5,40 +5,46 @@
 <mapper namespace="com.ssafy.member.model.mapper.MemberMapper">
 
 	<resultMap type="memberDto" id="member">
-		<result column="userId" property="userId"/>
-		<result column="userName" property="userName"/>
+		<result column="userId" property="userId" />
+		<result column="userName" property="userName" />
 	</resultMap>
-	
+
 	<!-- ADMIN -->
 	<resultMap type="memberDto" id="memberAll" extends="member">
-		<result column="userPwd" property="userPwd"/>
-		<result column="joinDate" property="joinDate"/>
+		<result column="userPwd" property="userPwd" />
+		<result column="joinDate" property="joinDate" />
 	</resultMap>
 
 	<select id="idCheck" parameterType="String" resultType="int">
-		select count(userId)
+		select
+		count(userId)
 		from members
 		where userId = #{userId}
 	</select>
 
 	<insert id="joinMember" parameterType="memberDto">
-		insert into members (userName, userId, userPwd, address)
-		values (#{userName}, #{userId}, #{userPwd}, #{address})
+		insert into members
+		(userName, userId, userPwd, address)
+		values (#{userName}, #{userId},
+		#{userPwd}, #{address})
 	</insert>
 
 	<select id="loginMember" parameterType="map" resultMap="member">
-		select userId, userName
+		select
+		userId, userName
 		from members
-		where userId = #{userId} and userPwd = #{userPwd}
+		where userId = #{userId} and userPwd =
+		#{userPwd}
 	</select>
-	
+
 	<!-- ADMIN -->
 	<select id="listMember" resultMap="memberAll">
-		select userName, userId, userPwd, joinDate, address
+		select userName, userId,
+		userPwd, joinDate, address
 		from members
 		order by joinDate
 	</select>
-	
+
 	<select id="getMember" parameterType="string" resultMap="member">
 		select *
 		from members
@@ -49,13 +55,15 @@
 		update members
 		<trim prefix="set" suffixOverrides=",">
 			<if test="userPwd != null">userPwd = #{userPwd},</if>
+			<if test="userName != null">userName = #{userName},</if>
+			<if test="address != null">address = #{address},</if>
 		</trim>
 		where userId = #{userId}
 	</update>
-	
+
 	<delete id="deleteMember" parameterType="String">
 		delete from members
 		where userId = #{userId}
 	</delete>
-	
+
 </mapper>
