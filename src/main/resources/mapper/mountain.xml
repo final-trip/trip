@@ -174,9 +174,9 @@ LIMIT 5;
 		resultType="sidoGugunCodeDto">
  		select left(gugun_code,5) gugun_code, gugun_name
  
-		from gugun
+		from gugun 
 		where sido_code = #{sido}
-		order by gugun_code
+ 		order by gugun_code
 	</select>
 
  	<select id="getMountainList" parameterType="com.ssafy.mountain.model.SidoGugunCodeDto"

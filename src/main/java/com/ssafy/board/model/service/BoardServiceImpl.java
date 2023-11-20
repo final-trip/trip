@@ -138,9 +138,8 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void toggleLike(int articleNo) throws Exception {
 		// TODO Auto-generated method stub
-
+		System.out.println("articleNo" + articleNo);
 		boardMapper.toggleLike(articleNo);
-
 	}
 
 }

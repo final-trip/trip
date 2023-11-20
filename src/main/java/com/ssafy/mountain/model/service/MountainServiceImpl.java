@@ -121,16 +121,17 @@ public class MountainServiceImpl implements MountainService {
 
 	}
 
- 	@Override
+	@Override
 	public List<MountainDto> getMountainList(SidoGugunCodeDto sidogugun) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getMountainList(sidogugun);
- 
  	}
+
+ 
 	@Override
 	public int getmountainnum(String userId, int sido_code, int gugun_code, String word) throws SQLException {
 		// TODO Auto-generated method stub
 		return mountainMapper.getmountainnum(userId, sido_code, gugun_code, word);
- 	}
+	}
 
 }

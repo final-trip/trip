@@ -38,4 +38,5 @@ public interface BoardMapper {
 
 	void toggleLike(int articleNo) throws Exception;
 
+	
 }
