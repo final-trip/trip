@@ -170,7 +170,10 @@
 		order by gugun_code
 	</select>
 
-	
-
+	<select id="getMountainList" parameterType="com.ssafy.mountain.model.SidoGugunCodeDto"
+	resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE sido_code=#{sido_code} and gugun_code=#{gugun_code}
+	</select>
 
 </mapper>

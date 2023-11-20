@@ -61,9 +61,9 @@ public class WishListcontroller {
 	
 	
 	
-	@PostMapping("/getwishlist")
-	public ResponseEntity<List<WishListDto>> getMembers(@RequestBody WishListDto wishListDto) throws Exception {
-		List<WishListDto> wishlist = wishListService.getwishlist(wishListDto.getUserId());
+	@GetMapping("/getwishlist")
+	public ResponseEntity<List<WishListDto>> getMembers(@RequestParam("userId") String userid) throws Exception {
+		List<WishListDto> wishlist = wishListService.getwishlist(userid);
 		for(WishListDto wish : wishlist) {
 			System.out.println(wish);
 		}
