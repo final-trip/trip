@@ -70,16 +70,23 @@
 
 	<select id="getNearestUnconqueredMountains"
 		parameterType="String" resultMap="mountainResultMap">
-		SELECT * FROM mountain
-		WHERE
-		mntilistno NOT IN (
 		SELECT
-		mm.mntilistno FROM membermountain mm
-		WHERE
-		mm.userId = #{memberid}
-		)
-		ORDER BY
-		desc 
+    m.*,
+    (
+        6371 *
+        ACOS(
+            COS(RADIANS((SELECT lat FROM members WHERE userId = #{memberid}))) * 
+            COS(RADIANS(m.lat)) * 
+            COS(RADIANS(m.lng) - RADIANS((SELECT lng FROM members WHERE userId = #{memberid}))) + 
+            SIN(RADIANS((SELECT lat FROM members WHERE userId = #{memberid}))) * 
+            SIN(RADIANS(m.lat))
+        )
+    ) AS distance
+FROM
+    mountain m
+ORDER BY
+    distance
+LIMIT 5;
 	</select>
 
 	<select id="getAllMountains" resultMap="mountainResultMap">
