@@ -69,8 +69,7 @@ public class BoardController {
 	}
 
 	@PostMapping("/likes")
-//	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
-	public ResponseEntity<String> toggleLike(@RequestParam("articleNo") int articleNo) throws Exception {
+	public ResponseEntity<String> toggleLike(@RequestBody String articleNo) throws Exception {
 		boardService.toggleLike(articleNo);
 		return ResponseEntity.ok("like increased");
 
