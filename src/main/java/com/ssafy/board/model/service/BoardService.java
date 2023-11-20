@@ -26,5 +26,5 @@ public interface BoardService {
 
 	List<FileInfoDto> getfilelist(int articleNo) throws Exception;
 
-	void toggleLike(int articleNo) throws Exception;
+	void toggleLike(String articleNo) throws Exception;
 }
