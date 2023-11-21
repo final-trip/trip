@@ -24,7 +24,7 @@ public class MountainrankingResponseDto {
 	private int memberconquerednum;
 
 	@ApiModelProperty(value = "랭킹")
-	private int rank;
+	private int ranks;
 
 	@ApiModelProperty(value = "최근 산 정복한날짜")
 	private Date conquereddate;

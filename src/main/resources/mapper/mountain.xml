@@ -77,11 +77,14 @@
 		ACOS(
 		COS(RADIANS((SELECT lat FROM members WHERE userId = #{memberid}))) *
 		COS(RADIANS(m.lat)) *
-		COS(RADIANS(m.lng) - RADIANS((SELECT lng FROM members WHERE userId = #{memberid}))) +
-		SIN(RADIANS((SELECT lat FROM members WHERE userId = #{memberid}))) *
+		COS(RADIANS(m.lng) - RADIANS((SELECT lng FROM
+		members WHERE userId = #{memberid}))) +
+		SIN(RADIANS((SELECT lat FROM
+		members WHERE userId = #{memberid}))) *
 		SIN(RADIANS(m.lat))
 		)
-		) AS distance
+		) AS
+		distance
 		FROM
 		mountain m
 		ORDER BY
@@ -173,7 +176,7 @@
 	<select id="getrank3" parameterType="int"
 		resultType="MountainrankingResponseDto">
 		select m.userName,mm.conquereddate,mm.memberconquerednum,
-		ROW_NUMBER() OVER (ORDER BY mm.memberconquerednum DESC) AS rank
+		ROW_NUMBER() OVER (ORDER BY mm.memberconquerednum DESC) AS ranks
 		from
 		membermountain mm join members m on m.userId=mm.userId
 		where
