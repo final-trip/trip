@@ -71,22 +71,25 @@
 	<select id="getNearestUnconqueredMountains"
 		parameterType="String" resultMap="mountainResultMap">
 		SELECT
-    m.*,
-    (
-        6371 *
-        ACOS(
-            COS(RADIANS((SELECT lat FROM members WHERE userId = #{memberid}))) * 
-            COS(RADIANS(m.lat)) * 
-            COS(RADIANS(m.lng) - RADIANS((SELECT lng FROM members WHERE userId = #{memberid}))) + 
-            SIN(RADIANS((SELECT lat FROM members WHERE userId = #{memberid}))) * 
-            SIN(RADIANS(m.lat))
-        )
-    ) AS distance
-FROM
-    mountain m
-ORDER BY
-    distance
-LIMIT 5;
+		m.*,
+		(
+		6371 *
+		ACOS(
+		COS(RADIANS((SELECT lat FROM members WHERE userId = #{memberid}))) *
+		COS(RADIANS(m.lat)) *
+		COS(RADIANS(m.lng) - RADIANS((SELECT lng FROM
+		members WHERE userId = #{memberid}))) +
+		SIN(RADIANS((SELECT lat FROM
+		members WHERE userId = #{memberid}))) *
+		SIN(RADIANS(m.lat))
+		)
+		) AS
+		distance
+		FROM
+		mountain m
+		ORDER BY
+		distance
+		LIMIT 5;
 	</select>
 
 	<select id="getAllMountains" resultMap="mountainResultMap">
@@ -170,22 +173,35 @@ LIMIT 5;
 		order by sido_code
 	</select>
 
-	<select id="getGugunInSido" parameterType="string"
-		resultType="sidoGugunCodeDto">
- 		select left(gugun_code,5) gugun_code, gugun_name
- 
-		from gugun 
-		where sido_code = #{sido}
- 		order by gugun_code
+	<select id="getrank3" parameterType="int"
+		resultType="MountainrankingResponseDto">
+		select m.userName,mm.conquereddate,mm.memberconquerednum,
+		ROW_NUMBER() OVER (ORDER BY mm.memberconquerednum DESC) AS ranks
+		from
+		membermountain mm join members m on m.userId=mm.userId
+		where
+		mm.mntilistno=#{mntilistno}
+		order by mm.memberconquerednum desc
 	</select>
 
- 	<select id="getMountainList" parameterType="com.ssafy.mountain.model.SidoGugunCodeDto"
-	resultMap="mountainResultMap">
-		SELECT * FROM mountain
-		WHERE sido_code=#{sido_code} and gugun_code=#{gugun_code}
-  	</select>
+	<select id="getGugunInSido" parameterType="string"
+		resultType="sidoGugunCodeDto">
+		select left(gugun_code,5) gugun_code, gugun_name
 
- 	<select id="getmountainnum"
+		from gugun
+		where sido_code = #{sido}
+		order by gugun_code
+	</select>
+
+	<select id="getMountainList"
+		parameterType="com.ssafy.mountain.model.SidoGugunCodeDto"
+		resultMap="mountainResultMap">
+		SELECT * FROM mountain
+		WHERE sido_code=#{sido_code} and
+		gugun_code=#{gugun_code}
+	</select>
+
+	<select id="getmountainnum"
 		parameterType="com.ssafy.mountain.model.MountainDto" resultType="int">
 		select mntilistno
 		from mountain
@@ -193,6 +209,6 @@ LIMIT 5;
 		sido_code=#{sido_code} and
 		gugun_code=#{gugun_code} and
 		mntiname LIKE CONCAT('%',#{word},'%')
- 	</select>
+	</select>
 
 </mapper>

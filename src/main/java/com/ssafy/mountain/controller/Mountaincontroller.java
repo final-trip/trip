@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.mountain.model.MountainDto;
 import com.ssafy.mountain.model.MountainRequestDto;
+import com.ssafy.mountain.model.MountainrankingRequestDto;
+import com.ssafy.mountain.model.MountainrankingResponseDto;
 import com.ssafy.mountain.model.SidoGugunCodeDto;
 import com.ssafy.mountain.model.service.MountainService;
 
@@ -207,16 +209,23 @@ public class Mountaincontroller {
 		int cnt = mountainservice.gettotalconquerednum(userId);
 		return ResponseEntity.ok(cnt);
 	}
- 	
+
 	@ApiOperation(value = "시/도, 구/군으로 확인산 산들 ", notes = "select로 선택한 산들을 가져온다.")
 	@GetMapping("/getmountainlist")
-	public ResponseEntity<List<MountainDto>> getMountainList(@ModelAttribute SidoGugunCodeDto sidogugun ) throws SQLException {
+	public ResponseEntity<List<MountainDto>> getMountainList(@ModelAttribute SidoGugunCodeDto sidogugun)
+			throws SQLException {
 		System.out.println(sidogugun);
 		List<MountainDto> mountainlist = mountainservice.getMountainList(sidogugun);
 		return ResponseEntity.ok(mountainlist);
 	}
- 
- 
+
+	@ApiOperation(value = "특정산을 정복한 횟수가 많은 세명 ", notes = " 세명의 데이터 가져온다.")
+	@GetMapping("/getrank3")
+	public ResponseEntity<List<MountainrankingResponseDto>> getrank3(@RequestParam int mntilistno) throws SQLException {
+		List<MountainrankingResponseDto> mountainlist = mountainservice.getrank3(mntilistno);
+		return ResponseEntity.ok(mountainlist);
+	}
+
 //
 //	@PostMapping()
 //	public void addmountain(MountainDto mountainDto) throws SQLException {
