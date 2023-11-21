@@ -50,6 +50,15 @@
 		</foreach>
 	</insert>
 
+	<insert id="registerfile" parameterType="boardDto">
+		insert into file_info
+		(articleNo, save_folder,
+		original_file, save_file)
+		values(#{fileinfo.articleNo},
+		#{fileinfo.save_folder},
+		#{fileinfo.original_file},
+		#{fileinfo.save_file})
+	</insert>
 
 	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
 		( file_info_id , articleNo , save_folder, original_file , save_file ) values 
@@ -115,7 +124,8 @@
 		select b.articleNo, b.userId, b.subjects, b.content,
 		b.registerTime, m.userName,b.likes
 		from board b, members m
-		where b.userId
+		where
+		b.userId
 		=
 		m.userId
 		and b.articleNo =
@@ -142,7 +152,8 @@
 	</update>
 
 	<update id="toggleLike" parameterType="int">
-		update board set likes=likes+1 where articleNo =#{articleNo}
+		update board set
+		likes=likes+1 where articleNo =#{articleNo}
 	</update>
 
 	<delete id="deleteFile" parameterType="int">

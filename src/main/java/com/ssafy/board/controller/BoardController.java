@@ -120,6 +120,11 @@ public class BoardController {
 //		}
 
 		boardService.writeArticle(boardDto);
+		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
+		String filePath = fileInfos.get(0).getSave_file();// 파일 경로를 가져오는 메서드 (예시)
+		File file = new File(filePath);
+
+		boardService.registerfile(file, "mountainfile", boardDto.getArticleNo());
 //		redirectAttributes.addAttribute("pgno", "1");
 //		redirectAttributes.addAttribute("key", "");
 //		redirectAttributes.addAttribute("word", "");
@@ -190,6 +195,14 @@ public class BoardController {
 //		redirectAttributes.addAttribute("key", map.get("key"));
 //		redirectAttributes.addAttribute("word", map.get("word"));
 		return ResponseEntity.ok("successfully deleted");
+	}
+
+	@PostMapping("/registerfile")
+	public ResponseEntity<String> registerfile(@RequestParam(value = "imageFile", required = false) File imageFile,
+			@RequestParam(value = "hospitalId", required = false) int articleNo) throws Exception {
+		String ImageURL = boardService.registerfile(imageFile, "thumbnail", articleNo);
+
+		return ResponseEntity.ok(ImageURL);
 	}
 
 	@GetMapping("/download")
