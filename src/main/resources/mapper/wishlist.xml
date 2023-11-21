@@ -24,7 +24,7 @@
 		where userId = #{userId}
 	</select>
 
-	<delete id="deletewishlist" parameterType="map">
+	<delete id="deletewishlist" parameterType="wishListDto">
 		delete from wish_list where userId=#{userId} and mntilistno=#{mntilistno}
 	</delete>
 
