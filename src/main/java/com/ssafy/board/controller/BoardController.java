@@ -70,59 +70,60 @@ public class BoardController {
 	}
 
 	@PostMapping("/likes")
-	public ResponseEntity<String> toggleLike(@RequestBody ArticleRequest articleRequest) throws Exception {
+	public ResponseEntity<Integer> toggleLike(@RequestBody ArticleRequest articleRequest) throws Exception {
 		boardService.toggleLike(articleRequest.getArticleNo());
-		return ResponseEntity.ok("like increased");
+		int articleno = articleRequest.getArticleNo();
+		int likenum = boardService.getArticle(articleno).getLikes();
+
+		return ResponseEntity.ok(likenum);
 	}
 
 	@PostMapping("/write")
 //	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
-	public ResponseEntity<String> write(@RequestPart BoardDto boardDto, @RequestPart("upfile") MultipartFile[] files)
-			throws Exception {
+	public ResponseEntity<String> write(@RequestBody BoardDto boardDto) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
 
 //		FileUpload 관련 설정.
-		logger.debug("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath,
-				uploadFilePath);
-		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
-
-		if (!files[0].isEmpty()) {
-//			String realPath = servletContext.getRealPath(UPLOAD_PATH);
-//			String realPath = servletContext.getRealPath("/resources/img");
-			String today = new SimpleDateFormat("yyMMdd").format(new Date());
-			String saveFolder = uploadPath + File.separator + today;
-
-			logger.debug("저장 폴더 : {}", saveFolder);
-			File folder = new File(saveFolder);
-			if (!folder.exists())
-				folder.mkdirs();
-
-			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-			for (MultipartFile mfile : files) {
-				FileInfoDto fileInfoDto = new FileInfoDto();
-				String originalFileName = mfile.getOriginalFilename();
-				String file_path = mfile.getOriginalFilename();
-
-				if (!originalFileName.isEmpty()) {
-					String saveFileName = UUID.randomUUID().toString()
-							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-					fileInfoDto.setSave_folder(today);
-					fileInfoDto.setOriginal_file(originalFileName);
-					fileInfoDto.setSave_file(saveFileName);
-					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
-					mfile.transferTo(new File(folder, saveFileName));
-				}
-				fileInfos.add(fileInfoDto);
-			}
-			boardDto.setFileInfos(fileInfos);
-		}
+//		logger.debug("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath,
+//				uploadFilePath);
+//		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
+//
+//		if (!files[0].isEmpty()) {
+////			String realPath = servletContext.getRealPath(UPLOAD_PATH);
+////			String realPath = servletContext.getRealPath("/resources/img");
+//			String today = new SimpleDateFormat("yyMMdd").format(new Date());
+//			String saveFolder = uploadPath + File.separator + today;
+//
+//			logger.debug("저장 폴더 : {}", saveFolder);
+//			File folder = new File(saveFolder);
+//			if (!folder.exists())
+//				folder.mkdirs();
+//
+//			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
+//			for (MultipartFile mfile : files) {
+//				FileInfoDto fileInfoDto = new FileInfoDto();
+//				String originalFileName = mfile.getOriginalFilename();
+//				String file_path = mfile.getOriginalFilename();
+//
+//				if (!originalFileName.isEmpty()) {
+//					String saveFileName = UUID.randomUUID().toString()
+//							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+//					fileInfoDto.setSave_folder(today);
+//					fileInfoDto.setOriginal_file(originalFileName);
+//					fileInfoDto.setSave_file(saveFileName);
+//					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
+//					mfile.transferTo(new File(folder, saveFileName));
+//				}
+//				fileInfos.add(fileInfoDto);
+//			}
+//		boardDto.setFileInfos(fileInfos);
+//		}
 
 		boardService.writeArticle(boardDto);
 //		redirectAttributes.addAttribute("pgno", "1");
 //		redirectAttributes.addAttribute("key", "");
 //		redirectAttributes.addAttribute("word", "");
 		return ResponseEntity.status(HttpStatus.CREATED).body("record added successfully");
-
 	}
 
 	@GetMapping("/list")

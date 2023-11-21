@@ -29,9 +29,9 @@
 	</resultMap>
 
 	<insert id="writeArticle" parameterType="boardDto">
-		insert into board (user_id, subject, content, registerTime)
+		insert into board (userId, subjects, content, registerTime)
 		values
-		(#{userId}, #{subject}, #{content}, now())
+		(#{userId}, #{subjects}, #{content}, now())
 		<selectKey resultType="int" keyProperty="articleNo"
 			order="AFTER">
 			select last_insert_id()
