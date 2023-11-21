@@ -76,9 +76,9 @@ public class WishListcontroller {
 	
 	
 	@PostMapping("/delete")
-	public ResponseEntity<String> login(@RequestBody Map<String, String> map) throws SQLException {
-		log.debug("input values : {}", map);
-		wishListService.deletewishlist(map);
+	public ResponseEntity<String> login(@RequestBody WishListDto wishListDto) throws SQLException {
+		log.debug("input values : {}", wishListDto);
+		wishListService.deletewishlist(wishListDto);
 		return ResponseEntity.ok("delete wishlist item successfully");
 	}
 	
