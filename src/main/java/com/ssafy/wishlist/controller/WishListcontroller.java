@@ -43,9 +43,6 @@ public class WishListcontroller {
 		this.wishListService = wishListService;
 	}
 
-	
-	
-	
 	@PostMapping("/add")
 	public ResponseEntity<String> addWishListr(@RequestBody WishListDto wishListDto) {
 		log.debug("wishListDto info : {}", wishListDto);
@@ -58,31 +55,24 @@ public class WishListcontroller {
 		}
 
 	}
-	
-	
-	
-	
+
 	@GetMapping("/getwishlist")
 	public ResponseEntity<List<WishListDto>> getMembers(@RequestParam("userId") String userid) throws Exception {
 		System.out.println(userid);
 		List<WishListDto> wishlist = wishListService.getwishlist(userid);
-		
+
 		if (wishlist.isEmpty()) {
 			return ResponseEntity.noContent().build();
-			}
-		
+		}
+
 		return new ResponseEntity<List<WishListDto>>(wishlist, HttpStatus.OK);
 	}
-	
-	
+
 	@PostMapping("/delete")
 	public ResponseEntity<String> login(@RequestBody Map<String, String> map) throws SQLException {
 		log.debug("input values : {}", map);
 		wishListService.deletewishlist(map);
 		return ResponseEntity.ok("delete wishlist item successfully");
 	}
-	
-	
-	
-	
+
 }
