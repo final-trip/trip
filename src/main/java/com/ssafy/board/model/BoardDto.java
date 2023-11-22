@@ -48,16 +48,16 @@ public class BoardDto {
  
 	private String save_file;
 
-	public File getFiles() {
-		if (fileInfos != null && !fileInfos.isEmpty()) {
-			String filePath = "C:\\Users\\SSAFY\\Downloads\\" + fileInfos.getOriginalFilename();
-			this.save_file = filePath;
-
-			return new File(filePath);
-		} else {
-			return null; // Or handle the case when no file is uploaded
-		}
-	}
+//	public File getFiles() {
+//		if (fileInfos != null && !fileInfos.isEmpty()) {
+//			String filePath = "C:\\Users\\SSAFY\\Downloads\\" + fileInfos.getOriginalFilename();
+//			this.save_file = filePath;
+//
+//			return new File(filePath);
+//		} else {
+//			return null; // Or handle the case when no file is uploaded
+//		}
+//	}
 
 	private int likes;
 

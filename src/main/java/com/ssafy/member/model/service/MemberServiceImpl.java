@@ -1,6 +1,7 @@
 package com.ssafy.member.model.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.member.model.mapper.MemberMapper;
@@ -73,11 +75,17 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.deleteMember(userId);
 	}
 
-	// S3로 파일 업로드하기
-	public String registerfile(File uploadFile, String dirName, String userId) throws Exception {
+	public File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
+		File file = new File(multipartFile.getOriginalFilename());
+		multipartFile.transferTo(file); // MultipartFile을 File로 변환
+		return file;
+	}
 
-		// 확장자
-		String uploadName = uploadFile.getName();
+	// S3로 파일 업로드하기
+	public String registerfile(MultipartFile uploadFile, String dirName, String userId) throws Exception {
+
+		File file = convertMultipartFileToFile(uploadFile); // 확장자
+		String uploadName = file.getName();
 		String extension = uploadName.substring(uploadName.lastIndexOf(".") + 1);
 		extension = extension.toLowerCase();
 
@@ -90,7 +98,7 @@ public class MemberServiceImpl implements MemberService {
 		}
 
 		String fileName = dirName + "/" + UUID.randomUUID() + "." + extension; // S3에 저장된 파일 이름
-		String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
+		String uploadImageUrl = putS3(file, fileName); // s3로 업로드
 //		removeNewFile(uploadFile);
 		log.debug("lllllllllllllll" + uploadImageUrl);
 		String key = fileName.replace(dirName + "/", ""); // 키 값 저장.

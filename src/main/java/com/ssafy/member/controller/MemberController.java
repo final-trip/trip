@@ -49,10 +49,10 @@ public class MemberController {
 
 	@PutMapping("/modify")
 	public ResponseEntity<String> modify(@ModelAttribute MemberDto memberDto) throws Exception {
-		File fileInfos = memberDto.getFiles();
+//		File fileInfos = memberDto.getFiles();
 		memberService.updateMember(memberDto);
-		log.debug("mmmmmmmmmmm"+memberDto.getFiles());
-		memberService.registerfile(memberDto.getFiles(), "memberfile", memberDto.getUserId());
+//		log.debug("mmmmmmmmmmm"+memberDto.getFiles());
+		memberService.registerfile(memberDto.getImgfile(), "memberfile", memberDto.getUserId());
 //		String url = memberService.modifyimg(fileInfos, "memberfile", memberDto.getUserId());
 		return ResponseEntity.ok("modified successfully");
 	}

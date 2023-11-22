@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.ssafy.member.model.MemberDto;
 
 public interface MemberService {
@@ -23,7 +25,7 @@ public interface MemberService {
 
 	void deleteMember(String userid) throws Exception;
 
-	public String registerfile(File uploadFile, String dirName, String userId) throws Exception;
+	public String registerfile(MultipartFile uploadFile, String dirName, String userId) throws Exception;
 
 //	void updateMember(MemberDto memberDto) throws Exception;
 

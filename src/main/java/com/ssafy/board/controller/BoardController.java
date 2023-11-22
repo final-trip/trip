@@ -90,7 +90,7 @@ public class BoardController {
 		boardService.writeArticle(boardDto);
 
 		log.debug("writeArticleeeeeeeeeeeeeeeeeee");
-		File fileInfos = boardDto.getFiles();
+//		File fileInfos = boardDto.getFiles();
 
 		log.debug("writeArticle afterrrrrrrrrrrrrr");
 //		log.debug("writeArticle afterrrrrrrrrrrrrr" + fileInfos.getPath());

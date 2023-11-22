@@ -43,15 +43,15 @@ public class MemberDto {
 	@ApiModelProperty(value = "이미지파일 이름")
 	private MultipartFile imgfile;
 
-	public File getFiles() {
-		if (imgfile != null && !imgfile.isEmpty()) {
-			String filePath = "C:\\Users\\SSAFY\\Downloads\\" + imgfile.getOriginalFilename();
-			this.imgurl = filePath;
-
-			return new File(filePath);
-		} else {
-			return null; // Or handle the case when no file is uploaded
-		}
-	}
+//	public File getFiles() {
+//		if (imgfile != null && !imgfile.isEmpty()) {
+//			String filePath = "C:\\Users\\SSAFY\\Downloads\\" + imgfile.getOriginalFilename();
+//			this.imgurl = filePath;
+//
+//			return new File(filePath);
+//		} else {
+//			return null; // Or handle the case when no file is uploaded
+//		}
+//	}
 
 }
