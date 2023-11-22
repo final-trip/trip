@@ -1,13 +1,19 @@
 package com.ssafy.board.model.service;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.FileInfoDto;
@@ -15,15 +21,28 @@ import com.ssafy.board.model.mapper.BoardMapper;
 import com.ssafy.util.PageNavigation;
 import com.ssafy.util.SizeConstant;
 
+import lombok.extern.slf4j.Slf4j;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
 @Service
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
 	private BoardMapper boardMapper;
 
+	private S3Client amazonS3Client;
+
+	// S3 버킷 이름
+	@Value("${cloud.aws.s3.bucket}")
+	public String bucket;
+
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper) {
+	public BoardServiceImpl(BoardMapper boardMapper, S3Client amazonS3Client) {
 		super();
 		this.boardMapper = boardMapper;
+		this.amazonS3Client = amazonS3Client;
+
 	}
 
 	@Override
@@ -32,11 +51,12 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println("글입력 전 dto : " + boardDto);
 		boardMapper.writeArticle(boardDto);
 		System.out.println("글입력 후 dto : " + boardDto);
-		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
-
-		if (fileInfos != null && !fileInfos.isEmpty()) {
-			boardMapper.registerFile(boardDto);
-		}
+//		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
+//
+//		if (fileInfos != null && !fileInfos.isEmpty()) {
+//			boardMapper.registerFile(boardDto);
+//		}
+		
 	}
 
 	@Override
@@ -141,5 +161,67 @@ public class BoardServiceImpl implements BoardService {
 		System.out.println("articleNo" + articleNo);
 		boardMapper.toggleLike(articleNo);
 	}
+
+	// 로컬에 파일 업로드 하기
+	private File convert(MultipartFile file) throws Exception {
+		File convertFile = new File(System.getProperty("user.dir") + "/" + file.getOriginalFilename());
+		if (convertFile.createNewFile()) { // 바로 위에서 지정한 경로에 File이 생성됨 (경로가 잘못되었다면 생성 불가능)
+			try (FileOutputStream fos = new FileOutputStream(convertFile)) { // FileOutputStream 데이터를 파일에 바이트 스트림으로 저장하기
+																				// 위함
+				fos.write(file.getBytes());
+			}
+			return convertFile;
+		}
+		return null;
+	}
+	 
+	// S3로 파일 업로드하기
+	public String registerfile(File uploadFile, String dirName, int articleNo) throws Exception {
+
+		// 확장자
+		String uploadName = uploadFile.getName();
+		String extension = uploadName.substring(uploadName.lastIndexOf(".") + 1);
+		extension = extension.toLowerCase();
+
+		// 이미지 파일 확장자가 아닌 경우 exception 발생.
+		if (!extension.equals("bmp") && !extension.equals("rle") && !extension.equals("dib")
+				&& !extension.equals("jpeg") && !extension.equals("jpg") && !extension.equals("png")
+				&& !extension.equals("gif") && !extension.equals("jfif") && !extension.equals("tif")
+				&& !extension.equals("tiff") && !extension.equals("raw")) {
+			throw new IllegalStateException("이미지 확장자가 아닙니다.");
+		}
+
+		String fileName = dirName + "/" + UUID.randomUUID() + "." + extension; // S3에 저장된 파일 이름
+		String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
+//		removeNewFile(uploadFile);
+		log.debug("lllllllllllllll"+uploadImageUrl);
+		String key = fileName.replace(dirName + "/", ""); // 키 값 저장.
+ 
+		
+//		boardMapper.registerfile(uploadFile, dirName, articleNo);
+ 
+		return uploadImageUrl;
+	}
+
+//	public String putS3(File uploadFile, String fileName) {
+//		amazonS3Client.putObject(
+//				new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+//		return amazonS3Client.getUrl(bucket, fileName).toString();
+//	}
+	public String putS3(File uploadFile, String fileName) {
+		PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(fileName).build();
+		amazonS3Client.putObject(request, uploadFile.toPath());
+
+		return amazonS3Client.utilities().getUrl(builder -> builder.bucket(bucket).key(fileName)).toExternalForm();
+	}
+
+	// 로컬에 저장된 이미지 지우기
+//	public void removeNewFile(File targetFile) {
+//		if (targetFile.delete()) {
+//			log.info("File delete success");
+//			return;
+//		}
+//		log.info("File delete fail");
+//	}
 
 }

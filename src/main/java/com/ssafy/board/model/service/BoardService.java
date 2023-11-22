@@ -1,7 +1,10 @@
 package com.ssafy.board.model.service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.FileInfoDto;
@@ -27,4 +30,6 @@ public interface BoardService {
 	List<FileInfoDto> getfilelist(int articleNo) throws Exception;
 
 	void toggleLike(int articleNo) throws Exception;
+
+	String registerfile(File imageFile, String string, int articleNo) throws Exception;
 }

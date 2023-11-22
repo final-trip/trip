@@ -1,10 +1,12 @@
 package com.ssafy.board.model.mapper;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.FileInfoDto;
@@ -38,5 +40,6 @@ public interface BoardMapper {
 
 	void toggleLike(int articleNo) throws Exception;
 
-	
+	String registerfile(File imageFile, String string, int articleNo) throws Exception;
+
 }
