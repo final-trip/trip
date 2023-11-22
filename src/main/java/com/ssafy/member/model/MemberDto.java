@@ -29,11 +29,18 @@ public class MemberDto {
 	@ApiModelProperty(value = "가입일")
 	private String joinDate;
 
-	@ApiModelProperty(value = "가입일")
+	@ApiModelProperty(value = "주소")
 	private String address;
+	
+	@ApiModelProperty(value = "위도")
+	private double lat;
 
+
+	@ApiModelProperty(value = "경도")
+	private double lng;
+@ApiModelProperty(value = "이미지url")
 	private String imgurl;
-
+@ApiModelProperty(value = "이미지파일 이름")
 	private MultipartFile imgfile;
 
 	public File getFiles() {
@@ -46,5 +53,6 @@ public class MemberDto {
 			return null; // Or handle the case when no file is uploaded
 		}
 	}
+
 
 }
