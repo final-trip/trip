@@ -38,7 +38,7 @@
 		</selectKey>
 	</insert>
 
-	<insert id="registerFile" parameterType="boardDto">
+	<!-- <insert id="registerFile" parameterType="boardDto">
 		insert into file_info (file_info_id, articleNo, save_folder,
 		original_file, save_file)
 		values
@@ -48,17 +48,17 @@
 			#{fileinfo.save_folder}, #{fileinfo.original_file},
 			#{fileinfo.save_file})
 		</foreach>
-	</insert>
+	</insert> -->
+ <!-- of,sf,articleno -->
 
-	<insert id="registerfile" parameterType="boardDto">
+	<insert id="registerfile" parameterType="FileInfoDto">
 		insert into file_info
-		(articleNo, save_folder,
-		original_file, save_file)
-		values(#{fileinfo.articleNo},
-		#{fileinfo.save_folder},
-		#{fileinfo.original_file},
-		#{fileinfo.save_file})
-	</insert>
+		(original_file, save_file,
+		 articleNo)
+		values(#{original_file},
+		#{save_file},
+		#{articleNo})
+ 	</insert>
 
 	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
 		( file_info_id , articleNo , save_folder, original_file , save_file ) values 
