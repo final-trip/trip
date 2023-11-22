@@ -12,6 +12,7 @@
 		<result column="subjects" property="subjects" />
 		<result column="content" property="content" />
 		<result column="registerTime" property="registerTime" />
+		<result column="save_file" property="save_file" />
 	</resultMap>
 
 	<resultMap type="boardDto" id="viewArticle" extends="article">
@@ -38,26 +39,20 @@
 		</selectKey>
 	</insert>
 
-	<insert id="registerFile" parameterType="boardDto">
-		insert into file_info (file_info_id, articleNo, save_folder,
-		original_file, save_file)
-		values
+	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
+		(file_info_id, articleNo, save_folder, original_file, save_file) values <foreach 
+		collection="fileInfos" item="fileinfo" separator=","> (#{fileinfo.file_info_id}, 
+		#{fileinfo.articleNo}, #{fileinfo.save_folder}, #{fileinfo.original_file}, 
+		#{fileinfo.save_file}) </foreach> </insert> -->
+	<!-- of,sf,articleno -->
 
-		<foreach collection="fileInfos" item="fileinfo" separator=",">
-			(#{fileinfo.file_info_id}, #{fileinfo.articleNo},
-			#{fileinfo.save_folder}, #{fileinfo.original_file},
-			#{fileinfo.save_file})
-		</foreach>
-	</insert>
-
-	<insert id="registerfile" parameterType="boardDto">
+	<insert id="registerfile" parameterType="FileInfoDto">
 		insert into file_info
-		(articleNo, save_folder,
-		original_file, save_file)
-		values(#{fileinfo.articleNo},
-		#{fileinfo.save_folder},
-		#{fileinfo.original_file},
-		#{fileinfo.save_file})
+		(original_file, save_file,
+		articleNo)
+		values(#{original_file},
+		#{save_file},
+		#{articleNo})
 	</insert>
 
 	<!-- <insert id="registerFile" parameterType="boardDto"> insert into file_info 
@@ -89,24 +84,28 @@
 	</select>
 
 	<select id="alllistArticle" resultMap="article">
-		select b.articleNo, b.userId, b.subjects, b.content, b.registerTime,
-		m.userName
-		from board b, members m
+		<!-- select b.articleNo, b.userId, b.subjects, b.content, b.registerTime, 
+			m.userName from board b, members m where b.userId = m.userId order by b.articleNo -->
+		SELECT
+		b.articleNo, b.userId, b.subjects, b.content, b.registerTime,
+		m.userName,
+		f.save_file
+		FROM
+		board b
+		INNER JOIN
+		members m ON b.userId =
+		m.userId
+		LEFT JOIN
+		file_info f ON b.articleNo = f.articleNo
+		ORDER BY
+		b.articleNo;
 
-		where b.userId = m.userId
-		order by
-		b.articleNo
 		<!-- limit #{start}, #{listsize} -->
 	</select>
 
-	<select id="getfilelist" parameterType="int" resultMap="file">
-		select
-		f.save_folder,f.original_file,f.save_file
-		from board b, file_info f
-		where b.articleNo = f.articleNo
-		and b.articleNo=#{articleNo};
-
-	</select>
+	<!-- <select id="getfilelist" parameterType="int" resultMap="file"> select 
+		f.save_folder,f.original_file,f.save_file from board b, file_info f where 
+		b.articleNo = f.articleNo and b.articleNo=#{articleNo}; </select> -->
 
 
 	<select id="getTotalArticleCount" parameterType="map"
@@ -119,26 +118,22 @@
 	</select>
 
 
-	<select id="getArticle" parameterType="int"
-		resultMap="viewArticle">
-		select b.articleNo, b.userId, b.subjects, b.content,
-		b.registerTime, m.userName,b.likes
+	<select id="getArticle" parameterType="int" resultMap="article">
+		select
+		b.articleNo, b.userId, b.subjects, b.content,
+		b.registerTime,
+		m.userName,b.likes
 		from board b, members m
 		where
-		b.userId
-		=
-		m.userId
-		and b.articleNo =
+		b.userId=m.userId
+		and
+		b.articleNo =
 		#{articleNo}
 
 	</select>
 
-	<select id="fileInfoList" resultMap="file">
-		select save_folder,
-		original_file, save_file
-		from file_info
-		where articleNo = #{articleNo}
-	</select>
+	<!-- <select id="fileInfoList" resultMap="file"> select save_folder, original_file, 
+		save_file from file_info where articleNo = #{articleNo} </select> -->
 
 	<!-- <update id="updateHit" parameterType="int"> update board set hit = 
 		hit + 1 where articleNo = #{articleNo} </update> -->
