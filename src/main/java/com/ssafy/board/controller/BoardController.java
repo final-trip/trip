@@ -130,16 +130,15 @@ public class BoardController {
 		File fileInfos = boardDto.getFiles();
 
 		log.debug("writeArticle afterrrrrrrrrrrrrr");
-		log.debug("writeArticle afterrrrrrrrrrrrrr"+fileInfos.getPath());
- 		
-		boardService.registerfile(fileInfos, "mountainfile", boardDto.getArticleNo());
+		log.debug("writeArticle afterrrrrrrrrrrrrr" + fileInfos.getPath());
+
+		String url = boardService.registerfile(fileInfos, "mountainfile", boardDto.getArticleNo());
 //		redirectAttributes.addAttribute("pgno", "1");
 //		redirectAttributes.addAttribute("key", "");
 //		redirectAttributes.addAttribute("word", "");
-		System.out.println();
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body("record added successfully");
-		
+
+		return ResponseEntity.ok(url);
+
 	}
 
 	@GetMapping("/list")
