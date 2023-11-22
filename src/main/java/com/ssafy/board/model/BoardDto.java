@@ -1,6 +1,10 @@
 package com.ssafy.board.model;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -38,7 +42,22 @@ public class BoardDto {
 	private String registerTime;
 
 	@ApiModelProperty(value = "게시판 파일")
-	private List<FileInfoDto> fileInfos;
+//	private List<FileInfoDto> fileInfos;
+//	private FileInfoDto fileInfos;
+	private MultipartFile fileInfos;
+ 
+	private String save_file;
+
+	public File getFiles() {
+		if (fileInfos != null && !fileInfos.isEmpty()) {
+			String filePath = "C:\\Users\\SSAFY\\Downloads\\" + fileInfos.getOriginalFilename();
+			this.save_file = filePath;
+
+			return new File(filePath);
+		} else {
+			return null; // Or handle the case when no file is uploaded
+		}
+	}
 
 	private int likes;
 

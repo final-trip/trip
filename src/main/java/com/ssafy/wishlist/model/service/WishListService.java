@@ -29,6 +29,6 @@ public interface WishListService {
 
 	List<WishListDto> getwishlist(String userId) throws SQLException;
 
-	void deletewishlist(Map<String, String> map) throws SQLException;
+	void deletewishlist(WishListDto wishListDto) throws SQLException;
 
 }

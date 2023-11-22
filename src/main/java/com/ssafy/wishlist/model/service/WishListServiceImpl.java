@@ -50,9 +50,9 @@ public class WishListServiceImpl implements WishListService {
 	}
 
 	@Override
-	public void deletewishlist(Map<String, String> map) throws SQLException {
+	public void deletewishlist(WishListDto wishListDto) throws SQLException {
 		// TODO Auto-generated method stub
-		wishmapper.deletewishlist(map);
+		wishmapper.deletewishlist(wishListDto);
 	}
 
 }

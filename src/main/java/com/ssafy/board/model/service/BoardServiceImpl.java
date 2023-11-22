@@ -2,6 +2,7 @@ package com.ssafy.board.model.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.model.BoardDto;
@@ -28,7 +31,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 public class BoardServiceImpl implements BoardService {
 
 	private BoardMapper boardMapper;
-	private final S3Uploader s3Uploader;
 
 	private S3Client amazonS3Client;
 
@@ -37,11 +39,10 @@ public class BoardServiceImpl implements BoardService {
 	public String bucket;
 
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper, S3Client amazonS3Client, S3Uploader s3Uploader) {
+	public BoardServiceImpl(BoardMapper boardMapper, S3Client amazonS3Client) {
 		super();
 		this.boardMapper = boardMapper;
 		this.amazonS3Client = amazonS3Client;
-		this.s3Uploader = s3Uploader;
 
 	}
 
@@ -56,6 +57,7 @@ public class BoardServiceImpl implements BoardService {
 //		if (fileInfos != null && !fileInfos.isEmpty()) {
 //			boardMapper.registerFile(boardDto);
 //		}
+
 	}
 
 	@Override
@@ -174,15 +176,26 @@ public class BoardServiceImpl implements BoardService {
 		return null;
 	}
 
+	public static File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
+		File file = new File(multipartFile.getOriginalFilename());
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			fos.write(multipartFile.getBytes());
+		}
+		return file;
+	}
+
 	// S3로 파일 업로드하기
-	public String registerfile(File uploadFile, String dirName, int articleNo) throws Exception {
+	public String registerfile(MultipartFile uploadFile, String dirName, int articleNo) throws Exception {
 
 		// 확장자
-		String uploadName = uploadFile.getName();
-		String extension = uploadName.substring(uploadName.lastIndexOf(".") + 1);
-		extension = extension.toLowerCase();
+		File file = convertMultipartFileToFile(uploadFile);
 
-		// 이미지 파일 확장자가 아닌 경우 exception 발생.
+		String uploadName = file.getName();
+		log.debug("uppppppp" + uploadName);
+		String extension = uploadName.substring(uploadName.lastIndexOf(".") + 1);
+		log.debug("extttttt" + extension);
+		extension = extension.toLowerCase();
+ 		// 이미지 파일 확장자가 아닌 경우 exception 발생.
 		if (!extension.equals("bmp") && !extension.equals("rle") && !extension.equals("dib")
 				&& !extension.equals("jpeg") && !extension.equals("jpg") && !extension.equals("png")
 				&& !extension.equals("gif") && !extension.equals("jfif") && !extension.equals("tif")
@@ -191,18 +204,15 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		String fileName = dirName + "/" + UUID.randomUUID() + "." + extension; // S3에 저장된 파일 이름
-		String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
-		removeNewFile(uploadFile);
-
+		String uploadImageUrl = putS3(file, fileName); // s3로 업로드
+//		removeNewFile(uploadFile);
+		log.debug("lllllllllllllll" + uploadImageUrl);
 		String key = fileName.replace(dirName + "/", ""); // 키 값 저장.
-
-		// DB에 정보 저장.
-//		HospitalThumbnail hospitalThumbnail = HospitalThumbnail.builder().originalName(uploadFile.getName()) // 파일 원본 이름
-//				.imageKey(key).build();
-
-		boardMapper.registerfile(uploadFile, dirName, articleNo);
-
-//		registerHospitalThumbnail(hospitalThumbnail, articleNo);
+// of,sf,articleno
+		log.debug("originalfileeeeeeeeee" + uploadFile.getName());
+		String original_file = uploadFile.getName();
+		String save_file = uploadImageUrl;
+		boardMapper.registerfile(original_file, save_file, articleNo);
 
 		return uploadImageUrl;
 	}
@@ -220,12 +230,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	// 로컬에 저장된 이미지 지우기
-	public void removeNewFile(File targetFile) {
-		if (targetFile.delete()) {
-			log.info("File delete success");
-			return;
-		}
-		log.info("File delete fail");
-	}
+//	public void removeNewFile(File targetFile) {
+//		if (targetFile.delete()) {
+//			log.info("File delete success");
+//			return;
+//		}
+//		log.info("File delete fail");
+//	}
 
 }

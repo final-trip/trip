@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,9 +43,12 @@ import com.ssafy.board.model.service.BoardService;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.util.PageNavigation;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/article")
 @CrossOrigin("*")
+@Slf4j
 public class BoardController {
 
 	private final Logger logger = LoggerFactory.getLogger(BoardController.class);
@@ -80,57 +84,24 @@ public class BoardController {
 
 	@PostMapping("/write")
 //	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
-	public ResponseEntity<String> write(@RequestBody BoardDto boardDto) throws Exception {
+	public ResponseEntity<String> write(@ModelAttribute BoardDto boardDto) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
 
-//		FileUpload 관련 설정.
-//		logger.debug("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath,
-//				uploadFilePath);
-//		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
-//
-//		if (!files[0].isEmpty()) {
-////			String realPath = servletContext.getRealPath(UPLOAD_PATH);
-////			String realPath = servletContext.getRealPath("/resources/img");
-//			String today = new SimpleDateFormat("yyMMdd").format(new Date());
-//			String saveFolder = uploadPath + File.separator + today;
-//
-//			logger.debug("저장 폴더 : {}", saveFolder);
-//			File folder = new File(saveFolder);
-//			if (!folder.exists())
-//				folder.mkdirs();
-//
-//			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-//			for (MultipartFile mfile : files) {
-//				FileInfoDto fileInfoDto = new FileInfoDto();
-//				String originalFileName = mfile.getOriginalFilename();
-//				String file_path = mfile.getOriginalFilename();
-//
-//				if (!originalFileName.isEmpty()) {
-//					String saveFileName = UUID.randomUUID().toString()
-//							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-//					fileInfoDto.setSave_folder(today);
-//					fileInfoDto.setOriginal_file(originalFileName);
-//					fileInfoDto.setSave_file(saveFileName);
-//					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
-//					mfile.transferTo(new File(folder, saveFileName));
-//				}
-//				fileInfos.add(fileInfoDto);
-//			}
-//		boardDto.setFileInfos(fileInfos);
-//		}
-
 		boardService.writeArticle(boardDto);
-		System.out.println("bbbbbbb");
-		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
-		String filePath = fileInfos.get(0).getSave_file();// 파일 경로를 가져오는 메서드 (예시)
-		File file = new File(filePath);
-		System.out.println("aaaaa");
 
-		boardService.registerfile(file, "mountainfile", boardDto.getArticleNo());
+		log.debug("writeArticleeeeeeeeeeeeeeeeeee");
+		File fileInfos = boardDto.getFiles();
+
+		log.debug("writeArticle afterrrrrrrrrrrrrr");
+//		log.debug("writeArticle afterrrrrrrrrrrrrr" + fileInfos.getPath());
+
+		String url = boardService.registerfile(boardDto.getFileInfos(), "mountainfile", boardDto.getArticleNo());
 //		redirectAttributes.addAttribute("pgno", "1");
 //		redirectAttributes.addAttribute("key", "");
 //		redirectAttributes.addAttribute("word", "");
-		return ResponseEntity.status(HttpStatus.CREATED).body("record added successfully");
+
+		return ResponseEntity.ok(url);
+
 	}
 
 	@GetMapping("/list")
@@ -197,14 +168,6 @@ public class BoardController {
 //		redirectAttributes.addAttribute("key", map.get("key"));
 //		redirectAttributes.addAttribute("word", map.get("word"));
 		return ResponseEntity.ok("successfully deleted");
-	}
-
-	@PostMapping("/registerfile")
-	public ResponseEntity<String> registerfile(@RequestParam(value = "imageFile", required = false) File imageFile,
-			@RequestParam(value = "hospitalId", required = false) int articleNo) throws Exception {
-		String ImageURL = boardService.registerfile(imageFile, "thumbnail", articleNo);
-
-		return ResponseEntity.ok(ImageURL);
 	}
 
 	@GetMapping("/download")

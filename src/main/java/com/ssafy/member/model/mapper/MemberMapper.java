@@ -1,5 +1,6 @@
 package com.ssafy.member.model.mapper;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,10 @@ public interface MemberMapper {
 
 	void deleteMember(String userId) throws SQLException;
 
- 
+	String modifyimg(File fileInfos, String string, String userId) throws SQLException;
+
+	void registerfile(String imgurl, String userId) throws SQLException;
+
 //	MemberDto getmemberinfo(String userId) throws SQLException;
 
 }

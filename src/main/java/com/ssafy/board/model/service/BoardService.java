@@ -31,5 +31,5 @@ public interface BoardService {
 
 	void toggleLike(int articleNo) throws Exception;
 
-	String registerfile(File imageFile, String string, int articleNo) throws Exception;
+	String registerfile(MultipartFile imageFile, String string, int articleNo) throws Exception;
 }

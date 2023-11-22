@@ -40,6 +40,6 @@ public interface BoardMapper {
 
 	void toggleLike(int articleNo) throws Exception;
 
-	String registerfile(File imageFile, String string, int articleNo) throws Exception;
+	void registerfile(String original_file, String save_file, int articleNo) throws Exception;
 
 }
