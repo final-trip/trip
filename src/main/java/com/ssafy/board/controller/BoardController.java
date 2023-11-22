@@ -120,9 +120,11 @@ public class BoardController {
 //		}
 
 		boardService.writeArticle(boardDto);
+		System.out.println("bbbbbbb");
 		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
 		String filePath = fileInfos.get(0).getSave_file();// 파일 경로를 가져오는 메서드 (예시)
 		File file = new File(filePath);
+		System.out.println("aaaaa");
 
 		boardService.registerfile(file, "mountainfile", boardDto.getArticleNo());
 //		redirectAttributes.addAttribute("pgno", "1");
