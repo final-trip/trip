@@ -50,7 +50,7 @@
 		from members
 		where userId = #{userId}
 	</select>
-	
+
 	<update id="updateMember" parameterType="memberDto">
 		update members
 		<trim prefix="set" suffixOverrides=",">
@@ -61,6 +61,11 @@
 		where userId = #{userId}
 	</update>
 
+	<update id="registerfile" parameterType="memberDto">
+		update members set
+		imgurl = #{imgurl}
+		where userId = #{userId};
+	</update>
 	<delete id="deleteMember" parameterType="String">
 		delete from members
 		where userId = #{userId}

@@ -1,5 +1,6 @@
 package com.ssafy.member.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -46,9 +48,13 @@ public class MemberController {
 	}
 
 	@PutMapping("/modify")
-	public ResponseEntity<String> modify(@RequestBody MemberDto memberDto) throws Exception {
+	public ResponseEntity<String> modify(@ModelAttribute MemberDto memberDto) throws Exception {
+		File fileInfos = memberDto.getFiles();
 		memberService.updateMember(memberDto);
- 		return ResponseEntity.ok("modified successfully");
+		log.debug("mmmmmmmmmmm"+memberDto.getFiles());
+		memberService.registerfile(memberDto.getFiles(), "memberfile", memberDto.getUserId());
+//		String url = memberService.modifyimg(fileInfos, "memberfile", memberDto.getUserId());
+		return ResponseEntity.ok("modified successfully");
 	}
 
 	@GetMapping("/checkid/{userid}")

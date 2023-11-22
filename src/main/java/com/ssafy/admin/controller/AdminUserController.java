@@ -134,18 +134,18 @@ public class AdminUserController {
 		}
 	}
 
-	@ApiOperation(value = "회원정보수정", notes = "회원정보를 수정합니다.")
-	@PutMapping(value = "/user")
-	public ResponseEntity<?> userModify(@RequestBody MemberDto memberDto) {
-		logger.debug("userModify memberDto : {}", memberDto);
-		try {
-			memberService.updateMember(memberDto);
-			List<MemberDto> list = memberService.listMember();
-			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
+//	@ApiOperation(value = "회원정보수정", notes = "회원정보를 수정합니다.")
+//	@PutMapping(value = "/user")
+//	public ResponseEntity<?> userModify(@RequestBody MemberDto memberDto) {
+//		logger.debug("userModify memberDto : {}", memberDto);
+//		try {
+//			memberService.updateMember(memberDto);
+//			List<MemberDto> list = memberService.listMember();
+//			return new ResponseEntity<List<MemberDto>>(list, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
 
 	@ApiOperation(value = "회원정보삭제", notes = "회원정보를 삭제합니다.")
 	@DeleteMapping(value = "/user/{userid}")

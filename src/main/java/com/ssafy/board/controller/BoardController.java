@@ -86,42 +86,7 @@ public class BoardController {
 //	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
 	public ResponseEntity<String> write(@ModelAttribute BoardDto boardDto) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
-
-//		FileUpload 관련 설정.
-//		logger.debug("uploadPath : {}, uploadImagePath : {}, uploadFilePath : {}", uploadPath, uploadImagePath,
-//				uploadFilePath);
-//		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());
-//
-//		if (!files[0].isEmpty()) {
-////			String realPath = servletContext.getRealPath(UPLOAD_PATH);
-////			String realPath = servletContext.getRealPath("/resources/img");
-//			String today = new SimpleDateFormat("yyMMdd").format(new Date());
-//			String saveFolder = uploadPath + File.separator + today;
-//
-//			logger.debug("저장 폴더 : {}", saveFolder);
-//			File folder = new File(saveFolder);
-//			if (!folder.exists())
-//				folder.mkdirs();
-//
-//			List<FileInfoDto> fileInfos = new ArrayList<FileInfoDto>();
-//			for (MultipartFile mfile : files) {
-//				FileInfoDto fileInfoDto = new FileInfoDto();
-//				String originalFileName = mfile.getOriginalFilename();
-//				String file_path = mfile.getOriginalFilename();
-//
-//				if (!originalFileName.isEmpty()) {
-//					String saveFileName = UUID.randomUUID().toString()
-//							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-//					fileInfoDto.setSave_folder(today);
-//					fileInfoDto.setOriginal_file(originalFileName);
-//					fileInfoDto.setSave_file(saveFileName);
-//					logger.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
-//					mfile.transferTo(new File(folder, saveFileName));
-//				}
-//				fileInfos.add(fileInfoDto);
-//			}
-//		boardDto.setFileInfos(fileInfos);
-//		}
+ 
 
 		boardService.writeArticle(boardDto);
 		log.debug("writeArticleeeeeeeeeeeeeeeeeee");
@@ -130,16 +95,15 @@ public class BoardController {
 		File fileInfos = boardDto.getFiles();
 
 		log.debug("writeArticle afterrrrrrrrrrrrrr");
-		log.debug("writeArticle afterrrrrrrrrrrrrr"+fileInfos.getPath());
- 		
-		boardService.registerfile(fileInfos, "mountainfile", boardDto.getArticleNo());
+		log.debug("writeArticle afterrrrrrrrrrrrrr" + fileInfos.getPath());
+
+		String url = boardService.registerfile(fileInfos, "mountainfile", boardDto.getArticleNo());
 //		redirectAttributes.addAttribute("pgno", "1");
 //		redirectAttributes.addAttribute("key", "");
 //		redirectAttributes.addAttribute("word", "");
-		System.out.println();
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body("record added successfully");
-		
+
+		return ResponseEntity.ok(url);
+
 	}
 
 	@GetMapping("/list")

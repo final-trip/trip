@@ -56,7 +56,7 @@ public class BoardServiceImpl implements BoardService {
 //		if (fileInfos != null && !fileInfos.isEmpty()) {
 //			boardMapper.registerFile(boardDto);
 //		}
-		
+
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return null;
 	}
-	 
+
 	// S3로 파일 업로드하기
 	public String registerfile(File uploadFile, String dirName, int articleNo) throws Exception {
 
@@ -194,12 +194,14 @@ public class BoardServiceImpl implements BoardService {
 		String fileName = dirName + "/" + UUID.randomUUID() + "." + extension; // S3에 저장된 파일 이름
 		String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
 //		removeNewFile(uploadFile);
-		log.debug("lllllllllllllll"+uploadImageUrl);
+		log.debug("lllllllllllllll" + uploadImageUrl);
 		String key = fileName.replace(dirName + "/", ""); // 키 값 저장.
- 
-		
-//		boardMapper.registerfile(uploadFile, dirName, articleNo);
- 
+// of,sf,articleno
+		log.debug("originalfileeeeeeeeee" + uploadFile.getName());
+		String original_file = uploadFile.getName();
+		String save_file = uploadImageUrl;
+		boardMapper.registerfile(original_file, save_file, articleNo);
+
 		return uploadImageUrl;
 	}
 
