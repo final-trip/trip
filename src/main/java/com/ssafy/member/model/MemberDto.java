@@ -1,5 +1,9 @@
 package com.ssafy.member.model;
 
+import java.io.File;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -27,5 +31,20 @@ public class MemberDto {
 
 	@ApiModelProperty(value = "가입일")
 	private String address;
+
+	private String imgurl;
+
+	private MultipartFile imgfile;
+
+	public File getFiles() {
+		if (imgfile != null && !imgfile.isEmpty()) {
+			String filePath = "C:\\Users\\SSAFY\\Downloads\\" + imgfile.getOriginalFilename();
+			this.imgurl = filePath;
+
+			return new File(filePath);
+		} else {
+			return null; // Or handle the case when no file is uploaded
+		}
+	}
 
 }

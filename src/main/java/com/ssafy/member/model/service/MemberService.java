@@ -1,5 +1,6 @@
 package com.ssafy.member.model.service;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,12 @@ public interface MemberService {
 	void updateMember(MemberDto memberDto) throws Exception;
 
 	void deleteMember(String userid) throws Exception;
+
+	public String registerfile(File uploadFile, String dirName, String userId) throws Exception;
+
+//	void updateMember(MemberDto memberDto) throws Exception;
+
+//	String modifyimg(File fileInfos, String string, String userId) throws Exception;
 
 //	MemberDto getmemberinfo(String userId) throws Exception;
 
