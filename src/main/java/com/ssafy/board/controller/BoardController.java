@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,9 +43,12 @@ import com.ssafy.board.model.service.BoardService;
 import com.ssafy.member.model.MemberDto;
 import com.ssafy.util.PageNavigation;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/article")
 @CrossOrigin("*")
+@Slf4j
 public class BoardController {
 
 	private final Logger logger = LoggerFactory.getLogger(BoardController.class);
@@ -80,7 +84,7 @@ public class BoardController {
 
 	@PostMapping("/write")
 //	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
-	public ResponseEntity<String> write(@RequestBody BoardDto boardDto) throws Exception {
+	public ResponseEntity<String> write(@ModelAttribute BoardDto boardDto) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
 
 //		FileUpload 관련 설정.
@@ -120,15 +124,22 @@ public class BoardController {
 //		}
 
 		boardService.writeArticle(boardDto);
-		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
-		String filePath = fileInfos.get(0).getSave_file();// 파일 경로를 가져오는 메서드 (예시)
-		File file = new File(filePath);
+		log.debug("writeArticleeeeeeeeeeeeeeeeeee");
+//		File[] fileInfos = (File[]) files;
+//		List<File> fileInfos = boardDto.getFiles();
+		File fileInfos = boardDto.getFiles();
 
-		boardService.registerfile(file, "mountainfile", boardDto.getArticleNo());
+		log.debug("writeArticle afterrrrrrrrrrrrrr");
+		log.debug("writeArticle afterrrrrrrrrrrrrr"+fileInfos.getPath());
+ 		
+		boardService.registerfile(fileInfos, "mountainfile", boardDto.getArticleNo());
 //		redirectAttributes.addAttribute("pgno", "1");
 //		redirectAttributes.addAttribute("key", "");
 //		redirectAttributes.addAttribute("word", "");
+		System.out.println();
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body("record added successfully");
+		
 	}
 
 	@GetMapping("/list")
@@ -195,14 +206,6 @@ public class BoardController {
 //		redirectAttributes.addAttribute("key", map.get("key"));
 //		redirectAttributes.addAttribute("word", map.get("word"));
 		return ResponseEntity.ok("successfully deleted");
-	}
-
-	@PostMapping("/registerfile")
-	public ResponseEntity<String> registerfile(@RequestParam(value = "imageFile", required = false) File imageFile,
-			@RequestParam(value = "hospitalId", required = false) int articleNo) throws Exception {
-		String ImageURL = boardService.registerfile(imageFile, "thumbnail", articleNo);
-
-		return ResponseEntity.ok(ImageURL);
 	}
 
 	@GetMapping("/download")

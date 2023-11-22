@@ -9,8 +9,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.model.BoardDto;
@@ -28,7 +30,6 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 public class BoardServiceImpl implements BoardService {
 
 	private BoardMapper boardMapper;
-	private final S3Uploader s3Uploader;
 
 	private S3Client amazonS3Client;
 
@@ -37,11 +38,10 @@ public class BoardServiceImpl implements BoardService {
 	public String bucket;
 
 	@Autowired
-	public BoardServiceImpl(BoardMapper boardMapper, S3Client amazonS3Client, S3Uploader s3Uploader) {
+	public BoardServiceImpl(BoardMapper boardMapper, S3Client amazonS3Client) {
 		super();
 		this.boardMapper = boardMapper;
 		this.amazonS3Client = amazonS3Client;
-		this.s3Uploader = s3Uploader;
 
 	}
 
@@ -56,6 +56,7 @@ public class BoardServiceImpl implements BoardService {
 //		if (fileInfos != null && !fileInfos.isEmpty()) {
 //			boardMapper.registerFile(boardDto);
 //		}
+		
 	}
 
 	@Override
@@ -173,7 +174,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		return null;
 	}
-
+	 
 	// S3로 파일 업로드하기
 	public String registerfile(File uploadFile, String dirName, int articleNo) throws Exception {
 
@@ -192,18 +193,13 @@ public class BoardServiceImpl implements BoardService {
 
 		String fileName = dirName + "/" + UUID.randomUUID() + "." + extension; // S3에 저장된 파일 이름
 		String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
-		removeNewFile(uploadFile);
-
+//		removeNewFile(uploadFile);
+		log.debug("lllllllllllllll"+uploadImageUrl);
 		String key = fileName.replace(dirName + "/", ""); // 키 값 저장.
-
-		// DB에 정보 저장.
-//		HospitalThumbnail hospitalThumbnail = HospitalThumbnail.builder().originalName(uploadFile.getName()) // 파일 원본 이름
-//				.imageKey(key).build();
-
-		boardMapper.registerfile(uploadFile, dirName, articleNo);
-
-//		registerHospitalThumbnail(hospitalThumbnail, articleNo);
-
+ 
+		
+//		boardMapper.registerfile(uploadFile, dirName, articleNo);
+ 
 		return uploadImageUrl;
 	}
 
@@ -220,12 +216,12 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	// 로컬에 저장된 이미지 지우기
-	public void removeNewFile(File targetFile) {
-		if (targetFile.delete()) {
-			log.info("File delete success");
-			return;
-		}
-		log.info("File delete fail");
-	}
+//	public void removeNewFile(File targetFile) {
+//		if (targetFile.delete()) {
+//			log.info("File delete success");
+//			return;
+//		}
+//		log.info("File delete fail");
+//	}
 
 }
