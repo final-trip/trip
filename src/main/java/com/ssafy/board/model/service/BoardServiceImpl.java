@@ -195,7 +195,7 @@ public class BoardServiceImpl implements BoardService {
 		String extension = uploadName.substring(uploadName.lastIndexOf(".") + 1);
 		log.debug("extttttt" + extension);
 		extension = extension.toLowerCase();
- 		// 이미지 파일 확장자가 아닌 경우 exception 발생.
+		// 이미지 파일 확장자가 아닌 경우 exception 발생.
 		if (!extension.equals("bmp") && !extension.equals("rle") && !extension.equals("dib")
 				&& !extension.equals("jpeg") && !extension.equals("jpg") && !extension.equals("png")
 				&& !extension.equals("gif") && !extension.equals("jfif") && !extension.equals("tif")
@@ -205,7 +205,7 @@ public class BoardServiceImpl implements BoardService {
 
 		String fileName = dirName + "/" + UUID.randomUUID() + "." + extension; // S3에 저장된 파일 이름
 		String uploadImageUrl = putS3(file, fileName); // s3로 업로드
-//		removeNewFile(uploadFile);
+		removeNewFile(file);
 		log.debug("lllllllllllllll" + uploadImageUrl);
 		String key = fileName.replace(dirName + "/", ""); // 키 값 저장.
 // of,sf,articleno
@@ -229,13 +229,13 @@ public class BoardServiceImpl implements BoardService {
 		return amazonS3Client.utilities().getUrl(builder -> builder.bucket(bucket).key(fileName)).toExternalForm();
 	}
 
-	// 로컬에 저장된 이미지 지우기
-//	public void removeNewFile(File targetFile) {
-//		if (targetFile.delete()) {
-//			log.info("File delete success");
-//			return;
-//		}
-//		log.info("File delete fail");
-//	}
+//	 로컬에 저장된 이미지 지우기
+	public void removeNewFile(File targetFile) {
+		if (targetFile.delete()) {
+			log.info("File delete success");
+			return;
+		}
+		log.info("File delete fail");
+	}
 
 }
