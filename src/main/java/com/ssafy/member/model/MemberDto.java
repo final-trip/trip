@@ -25,7 +25,12 @@ public class MemberDto {
 	@ApiModelProperty(value = "가입일")
 	private String joinDate;
 
-	@ApiModelProperty(value = "가입일")
+	@ApiModelProperty(value = "주소")
 	private String address;
+	
+	@ApiModelProperty(value = "위도")
+	private double lat;
 
+	@ApiModelProperty(value = "경도")
+	private double lng;
 }
