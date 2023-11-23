@@ -61,6 +61,12 @@
 		where userId = #{userId}
 	</update>
 
+	<update id="saveRefreshToken" parameterType="map">
+		update members
+		set token = #{token}
+		where userId = #{userId}
+	</update>
+
 	<update id="registerfile" parameterType="memberDto">
 		update members set
 		imgurl = #{imgurl}
@@ -71,5 +77,23 @@
 		delete from members
 		where userId = #{userId}
 	</delete>
+
+<select id="userInfo" parameterType="string" resultMap="member">
+		select userName, userId,  joinDate, address, lng, lat, imgurl
+		from members
+		where userId = #{userId}
+	</select>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from members
+		where userId = #{userId}
+	</select>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update members
+		set token = #{token, jdbcType=VARCHAR}
+		where userId = #{userId}
+	</update>
 
 </mapper>
