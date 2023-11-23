@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -158,8 +159,8 @@ public class BoardController {
 		return ResponseEntity.ok("successfuly modified");
 	}
 
-	@DeleteMapping("/delete")
-	public ResponseEntity<String> delete(@RequestParam("articleno") int articleNo) throws Exception {
+	@DeleteMapping("/delete/{articleno}")
+	public ResponseEntity<String> delete(@PathVariable("articleno") int articleNo) throws Exception {
 		logger.debug("delete articleNo : {}", articleNo);
 //		boardService.deleteArticle(articleNo, servletContext.getRealPath(UPLOAD_PATH));
 		boardService.deleteArticle(articleNo);
