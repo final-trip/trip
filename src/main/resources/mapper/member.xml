@@ -66,6 +66,7 @@
 		imgurl = #{imgurl}
 		where userId = #{userId};
 	</update>
+	
 	<delete id="deleteMember" parameterType="String">
 		delete from members
 		where userId = #{userId}

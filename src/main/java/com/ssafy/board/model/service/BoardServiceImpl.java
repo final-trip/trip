@@ -134,7 +134,6 @@ public class BoardServiceImpl implements BoardService {
 		// TODO : BoardDaoImpl의 deleteArticle 호출
 		boardMapper.deleteFile(articleNo);
 		boardMapper.deleteArticle(articleNo);
-		
 
 	}
 
@@ -211,7 +210,7 @@ public class BoardServiceImpl implements BoardService {
 
 		return uploadImageUrl;
 	}
- 
+
 	public String putS3(File uploadFile, String fileName) {
 		PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(fileName).build();
 		amazonS3Client.putObject(request, uploadFile.toPath());
