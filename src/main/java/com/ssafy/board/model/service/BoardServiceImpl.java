@@ -145,7 +145,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<FileInfoDto> getfilelist(int articleNo) throws Exception {
+	public String getfilelist(int articleNo) throws Exception {
 		// TODO Auto-generated method stub
 		return boardMapper.getfilelist(articleNo);
 	}
