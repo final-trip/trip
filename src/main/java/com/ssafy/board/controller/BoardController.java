@@ -161,13 +161,12 @@ public class BoardController {
 	}
 
 	@DeleteMapping("/delete")
-	public ResponseEntity<String> delete(@RequestParam("articleno") int articleNo,
-			@RequestParam Map<String, String> map, RedirectAttributes redirectAttributes) throws Exception {
+	public ResponseEntity<String> delete(@RequestParam("articleno") int articleNo) throws Exception {
 		logger.debug("delete articleNo : {}", articleNo);
 //		boardService.deleteArticle(articleNo, servletContext.getRealPath(UPLOAD_PATH));
-		boardService.deleteArticle(articleNo, uploadPath);
+		boardService.deleteArticle(articleNo);
 //		redirectAttributes.addAttribute("pgno", map.get("pgno"));
-//		redirectAttributes.addAttribute("key", map.get("key"));
+//		redirectAttributes.addAttribute("key", map.get("key")); 
 //		redirectAttributes.addAttribute("word", map.get("word"));
 		return ResponseEntity.ok("successfully deleted");
 	}
