@@ -216,12 +216,7 @@ public class BoardServiceImpl implements BoardService {
 
 		return uploadImageUrl;
 	}
-
-//	public String putS3(File uploadFile, String fileName) {
-//		amazonS3Client.putObject(
-//				new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-//		return amazonS3Client.getUrl(bucket, fileName).toString();
-//	}
+ 
 	public String putS3(File uploadFile, String fileName) {
 		PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(fileName).build();
 		amazonS3Client.putObject(request, uploadFile.toPath());
