@@ -14,7 +14,7 @@ public interface MemberService {
 
 	void joinMember(MemberDto memberDto) throws Exception;
 
-	MemberDto loginMember(Map<String, String> map) throws Exception;
+	MemberDto loginMember(MemberDto memberDto) throws Exception;
 
 	/* Admin */
 	List<MemberDto> listMember() throws Exception;
@@ -27,6 +27,14 @@ public interface MemberService {
 
 	public String registerfile(MultipartFile uploadFile, String dirName, String userId) throws Exception;
 
+	void saveRefreshToken(String userId, String refreshToken) throws Exception;
+	
+	MemberDto userInfo(String userId) throws Exception;
+	
+	Object getRefreshToken(String userId) throws Exception;
+	
+	void deleRefreshToken(String userId) throws Exception;
+	
 //	void updateMember(MemberDto memberDto) throws Exception;
 
 //	String modifyimg(File fileInfos, String string, String userId) throws Exception;

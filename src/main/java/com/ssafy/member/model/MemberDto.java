@@ -43,6 +43,9 @@ public class MemberDto {
 	@ApiModelProperty(value = "이미지파일 이름")
 	private MultipartFile imgfile;
 
+	
+	@ApiModelProperty(value = "refreshToken")
+	private String refreshToken;
 //	public File getFiles() {
 //		if (imgfile != null && !imgfile.isEmpty()) {
 //			String filePath = "C:\\Users\\SSAFY\\Downloads\\" + imgfile.getOriginalFilename();

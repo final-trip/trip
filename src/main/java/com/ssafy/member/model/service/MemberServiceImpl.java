@@ -3,6 +3,7 @@ package com.ssafy.member.model.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -50,8 +51,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public MemberDto loginMember(Map<String, String> map) throws Exception {
-		return memberMapper.loginMember(map);
+	public MemberDto loginMember(MemberDto memberDto) throws Exception {
+		return memberMapper.loginMember(memberDto);
 	}
 
 	/* ADMIN */
@@ -151,6 +152,32 @@ public class MemberServiceImpl implements MemberService {
 		amazonS3Client.putObject(request, uploadFile.toPath());
 		log.debug("put " + uploadFile.getAbsolutePath());
 		return amazonS3Client.utilities().getUrl(builder -> builder.bucket(bucket).key(fileName)).toExternalForm();
+	}
+	
+	@Override
+	public void saveRefreshToken(String userId, String refreshToken) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("token", refreshToken);
+		memberMapper.saveRefreshToken(map);
+	}
+	
+	@Override
+	public MemberDto userInfo(String userId) throws Exception {
+		return memberMapper.userInfo(userId);
+	}
+	
+	@Override
+	public Object getRefreshToken(String userId) throws Exception {
+		return memberMapper.getRefreshToken(userId);
+	}
+
+	@Override
+	public void deleRefreshToken(String userId) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("token", null);
+		memberMapper.deleteRefreshToken(map);
 	}
 
 //	@Override
