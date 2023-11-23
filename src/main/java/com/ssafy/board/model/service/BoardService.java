@@ -23,7 +23,7 @@ public interface BoardService {
 
 	void modifyArticle(BoardDto boardDto) throws Exception;
 
-	void deleteArticle(int articleNo, String path) throws Exception;
+	void deleteArticle(int articleNo) throws Exception;
 
 	List<BoardDto> alllistArticle() throws Exception;
 

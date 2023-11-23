@@ -130,16 +130,11 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	@Transactional
-	public void deleteArticle(int articleNo, String path) throws Exception {
+	public void deleteArticle(int articleNo) throws Exception {
 		// TODO : BoardDaoImpl의 deleteArticle 호출
-		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
 		boardMapper.deleteFile(articleNo);
 		boardMapper.deleteArticle(articleNo);
-		for (FileInfoDto fileInfoDto : fileList) {
-			File file = new File(
-					path + File.separator + fileInfoDto.getSave_folder() + File.separator + fileInfoDto.getSave_file());
-			file.delete();
-		}
+		
 
 	}
 
