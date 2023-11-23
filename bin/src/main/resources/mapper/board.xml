@@ -14,10 +14,17 @@
 		<result column="registerTime" property="registerTime" />
 		<result column="save_file" property="save_file" />
 	</resultMap>
- 
+
+	<resultMap type="boardDto" id="viewArticle" extends="article">
+
+		<collection property="fileInfos" ofType="fileInfoDto"
+			javaType="list" select="fileInfoList" column="articleNo" />
+	</resultMap>
 
 	<resultMap type="fileInfoDto" id="file">
 
+		<result column="save_folder" property="save_folder" />
+		<result column="original_file" property="original_file" />
 		<result column="save_file" property="save_file" />
 
 	</resultMap>
@@ -95,14 +102,10 @@
 
 		<!-- limit #{start}, #{listsize} -->
 	</select>
- 
-	<select id="getfilelist" parameterType="int" resultType="String"> select
-		f.save_file
-		from board b, file_info f
-		where
-		b.articleNo = f.articleNo and
-		b.articleNo=#{articleNo};
-	</select>
+
+	<!-- <select id="getfilelist" parameterType="int" resultMap="file"> select 
+		f.save_folder,f.original_file,f.save_file from board b, file_info f where 
+		b.articleNo = f.articleNo and b.articleNo=#{articleNo}; </select> -->
 
 
 	<select id="getTotalArticleCount" parameterType="map"

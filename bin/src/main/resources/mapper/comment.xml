@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.comment.model.mapper.CommentMapper">
+
+	<resultMap type="commentDto" id="comments">
+		<result column="idcomments" property="idcomments" />
+		<result column="userId" property="userId" />
+		<result column="articleNo" property="articleNo" />
+		<result column="content" property="content" />
+	</resultMap>
+
+	<insert id="writeComment" parameterType="CommentDto">
+		insert into comments
+		(userId, articleNo, content )
+		values
+		(#{userId},
+		#{articleNo},
+		#{content})
+	</insert>
+
+
+	<!-- <select id="listcomments" parameterType="map" resultMap="comments"> -->
+	<select id="listComments" resultMap="comments">
+		select b.idcomments,
+		b.userId, b.articleNo, b.content
+		from comments b
+		where
+		b.articleNo=#{articleNo}
+		order by
+		b.idcomments
+	</select>
+
+	<select id="alllistcomments" resultMap="comments">
+		SELECT
+		b.commentsNo,
+		b.userId, b.subjects, b.content, b.registerTime,
+		m.userName,
+		f.save_file
+		FROM
+		comments b
+		INNER JOIN
+		members m ON b.userId =
+		m.userId
+		LEFT JOIN
+		file_info f ON b.commentsNo = f.commentsNo
+		ORDER BY
+		b.commentsNo;
+	</select>
+
+	<select id="getTotalcommentsCount" parameterType="map"
+		resultType="int">
+		select count(commentsNo)
+		from comments
+
+	</select>
+
+
+
+	<update id="modifycomments" parameterType="CommentDto">
+		update comments
+		set
+		subjects = #{subjects}, content = #{content}
+		where commentsNo =
+		#{commentsNo}
+	</update>
+
+	<update id="toggleLike" parameterType="int">
+		update comments set
+		likes=likes+1 where commentsNo =#{commentsNo}
+	</update>
+
+	<delete id="deletecomments" parameterType="int">
+		delete from comments
+		where
+		idcomments = #{idcomments}
+	</delete>
+
+</mapper>
