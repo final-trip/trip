@@ -86,18 +86,16 @@ public class BoardController {
 //	public ResponseEntity<String> write(BoardDto boardDto, @RequestParam("upfile") MultipartFile[] files,	HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
 	public ResponseEntity<String> write(@ModelAttribute BoardDto boardDto) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
- 
 
 		boardService.writeArticle(boardDto);
+
 		log.debug("writeArticleeeeeeeeeeeeeeeeeee");
-//		File[] fileInfos = (File[]) files;
-//		List<File> fileInfos = boardDto.getFiles();
-		File fileInfos = boardDto.getFiles();
+//		File fileInfos = boardDto.getFiles();
 
 		log.debug("writeArticle afterrrrrrrrrrrrrr");
-		log.debug("writeArticle afterrrrrrrrrrrrrr" + fileInfos.getPath());
+//		log.debug("writeArticle afterrrrrrrrrrrrrr" + fileInfos.getPath());
 
-		String url = boardService.registerfile(fileInfos, "mountainfile", boardDto.getArticleNo());
+		String url = boardService.registerfile(boardDto.getFileInfos(), "mountainfile", boardDto.getArticleNo());
 //		redirectAttributes.addAttribute("pgno", "1");
 //		redirectAttributes.addAttribute("key", "");
 //		redirectAttributes.addAttribute("word", "");

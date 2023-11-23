@@ -2,6 +2,7 @@ package com.ssafy.board.model.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -175,14 +176,25 @@ public class BoardServiceImpl implements BoardService {
 		return null;
 	}
 
+	public static File convertMultipartFileToFile(MultipartFile multipartFile) throws IOException {
+		File file = new File(multipartFile.getOriginalFilename());
+		try (FileOutputStream fos = new FileOutputStream(file)) {
+			fos.write(multipartFile.getBytes());
+		}
+		return file;
+	}
+
 	// S3로 파일 업로드하기
-	public String registerfile(File uploadFile, String dirName, int articleNo) throws Exception {
+	public String registerfile(MultipartFile uploadFile, String dirName, int articleNo) throws Exception {
 
 		// 확장자
-		String uploadName = uploadFile.getName();
-		String extension = uploadName.substring(uploadName.lastIndexOf(".") + 1);
-		extension = extension.toLowerCase();
+		File file = convertMultipartFileToFile(uploadFile);
 
+		String uploadName = file.getName();
+		log.debug("uppppppp" + uploadName);
+		String extension = uploadName.substring(uploadName.lastIndexOf(".") + 1);
+		log.debug("extttttt" + extension);
+		extension = extension.toLowerCase();
 		// 이미지 파일 확장자가 아닌 경우 exception 발생.
 		if (!extension.equals("bmp") && !extension.equals("rle") && !extension.equals("dib")
 				&& !extension.equals("jpeg") && !extension.equals("jpg") && !extension.equals("png")
@@ -192,8 +204,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 		String fileName = dirName + "/" + UUID.randomUUID() + "." + extension; // S3에 저장된 파일 이름
-		String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
-//		removeNewFile(uploadFile);
+		String uploadImageUrl = putS3(file, fileName); // s3로 업로드
+		removeNewFile(file);
 		log.debug("lllllllllllllll" + uploadImageUrl);
 		String key = fileName.replace(dirName + "/", ""); // 키 값 저장.
 // of,sf,articleno
@@ -204,12 +216,7 @@ public class BoardServiceImpl implements BoardService {
 
 		return uploadImageUrl;
 	}
-
-//	public String putS3(File uploadFile, String fileName) {
-//		amazonS3Client.putObject(
-//				new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
-//		return amazonS3Client.getUrl(bucket, fileName).toString();
-//	}
+ 
 	public String putS3(File uploadFile, String fileName) {
 		PutObjectRequest request = PutObjectRequest.builder().bucket(bucket).key(fileName).build();
 		amazonS3Client.putObject(request, uploadFile.toPath());
@@ -217,13 +224,13 @@ public class BoardServiceImpl implements BoardService {
 		return amazonS3Client.utilities().getUrl(builder -> builder.bucket(bucket).key(fileName)).toExternalForm();
 	}
 
-	// 로컬에 저장된 이미지 지우기
-//	public void removeNewFile(File targetFile) {
-//		if (targetFile.delete()) {
-//			log.info("File delete success");
-//			return;
-//		}
-//		log.info("File delete fail");
-//	}
+//	 로컬에 저장된 이미지 지우기
+	public void removeNewFile(File targetFile) {
+		if (targetFile.delete()) {
+			log.info("File delete success");
+			return;
+		}
+		log.info("File delete fail");
+	}
 
 }
